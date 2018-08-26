@@ -47,6 +47,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         String imgUrl = "http://statics.zhuishushenqi.com"+book.getCover();
         GlideApp.with(holder.itemView)
                 .load(imgUrl)
+                .centerCrop()
                 .into(holder.imageView);
     }
 
