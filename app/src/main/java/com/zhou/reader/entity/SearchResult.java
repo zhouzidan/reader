@@ -13,15 +13,15 @@ import java.util.List;
  */
 public class SearchResult {
 
-    private List<Books> books;
+    private List<Book> books;
     private int total;
     private boolean ok;
 
-    public void setBooks(List<Books> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 
-    public List<Books> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 

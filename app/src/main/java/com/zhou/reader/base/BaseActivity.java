@@ -6,12 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.zhou.reader.R;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +36,21 @@ public abstract class BaseActivity extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showLoading() {
+        Toast.makeText(this,"loading -- begin",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void hideLoading() {
+        Toast.makeText(this,"loading -- end",Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void showError() {
+
     }
 }

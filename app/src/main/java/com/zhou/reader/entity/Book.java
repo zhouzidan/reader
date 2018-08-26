@@ -9,7 +9,7 @@ package com.zhou.reader.entity;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class Books {
+public class Book {
 
     private String _id;
     private boolean hasCp;
@@ -21,7 +21,7 @@ public class Books {
     private String cover;
     private String shortIntro;
     private String lastChapter;
-    private double retentionRatio;
+//    private double retentionRatio;
     private int banned;
     private boolean allowMonthly;
     private int latelyFollower;
@@ -111,14 +111,6 @@ public class Books {
         return lastChapter;
     }
 
-    public void setRetentionRatio(double retentionRatio) {
-        this.retentionRatio = retentionRatio;
-    }
-
-    public double getRetentionRatio() {
-        return retentionRatio;
-    }
-
     public void setBanned(int banned) {
         this.banned = banned;
     }
@@ -185,7 +177,7 @@ public class Books {
 
     @Override
     public String toString() {
-        return "Books{" +
+        return "Book{" +
                 "_id='" + _id + '\'' +
                 ", hasCp=" + hasCp +
                 ", title='" + title + '\'' +
@@ -196,7 +188,6 @@ public class Books {
                 ", cover='" + cover + '\'' +
                 ", shortIntro='" + shortIntro + '\'' +
                 ", lastChapter='" + lastChapter + '\'' +
-                ", retentionRatio=" + retentionRatio +
                 ", banned=" + banned +
                 ", allowMonthly=" + allowMonthly +
                 ", latelyFollower=" + latelyFollower +

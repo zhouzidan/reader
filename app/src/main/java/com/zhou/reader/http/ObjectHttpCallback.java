@@ -2,6 +2,7 @@ package com.zhou.reader.http;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
+import com.zhou.reader.util.AppExecutor;
 
 import java.io.IOException;
 
@@ -24,14 +25,27 @@ public abstract class ObjectHttpCallback<T> implements Callback {
         String body = response.body().string();
         System.out.println(body);
         final JsonAdapter<T> jsonAdapter = moshi.adapter(aClass);
-        onSuccess(jsonAdapter.fromJson(body));
-        onFinish();
+        final T t = jsonAdapter.fromJson(body);
+        AppExecutor.get().mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                onSuccess(t);
+                onFinish();
+            }
+        });
+
     }
 
     @Override
-    public void onFailure(Call call, IOException e) {
-        onFail(e);
-        onFinish();
+    public void onFailure(Call call, final IOException e) {
+        AppExecutor.get().mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                onFail(e);
+                onFinish();
+            }
+        });
+
     }
 
     public abstract void onSuccess(T t);

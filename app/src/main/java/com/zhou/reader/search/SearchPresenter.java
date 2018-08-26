@@ -1,15 +1,17 @@
 package com.zhou.reader.search;
 
+import com.zhou.reader.entity.Search;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.ObjectHttpCallback;
+
+import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
 
 public class SearchPresenter implements SearchContract.Presenter {
 
     SearchContract.View view;
-
 
     public SearchPresenter(SearchContract.View view) {
         this.view = view;
@@ -22,6 +24,7 @@ public class SearchPresenter implements SearchContract.Presenter {
             return;
         }
         view.showLoading();
+        SearchDBManager.get().save(string);
         String url = "http://novel.juhe.im/search?keyword="+ string;
         HttpUtil.doGet(url, new ObjectHttpCallback<SearchResult>(SearchResult.class) {
 
@@ -42,8 +45,11 @@ public class SearchPresenter implements SearchContract.Presenter {
         });
     }
 
+    @Override
     public void showHistory(){
         view.showLoading();
+        List<Search> searches = SearchDBManager.get().getAll();
+        view.showData(searches);
         view.hideLoading();
     }
 }
