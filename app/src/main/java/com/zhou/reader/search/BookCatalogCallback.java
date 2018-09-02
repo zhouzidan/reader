@@ -1,0 +1,38 @@
+package com.zhou.reader.search;
+
+import com.zhou.reader.entity.Catalog;
+import com.zhou.reader.entity.SearchResult;
+import com.zhou.reader.entity.selector.CatalogSelector;
+import com.zhou.reader.entity.selector.SearchSelector;
+import com.zhou.reader.http.ObjectHttpCallback;
+import com.zhou.reader.util.AppExecutor;
+import com.zhou.reader.util.SelectorManager;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
+
+public abstract class BookCatalogCallback extends ObjectHttpCallback<Catalog> {
+    public BookCatalogCallback() {
+        super(Catalog.class);
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        final String body = response.body().string();
+        CatalogSelector catalogSelector = SelectorManager.get().getSelectSelector().getCatalog();
+//        final List<Catalog> catalogs = BookSearchUtil.getCatalog(body, catalogSelector);
+//        for (Catalog catalog : catalogs) {
+//            System.out.println(catalog.toString());
+//        }
+//        AppExecutor.get().mainThread().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                onSuccess(null);
+//                onFinish();
+//            }
+//        });
+    }
+}

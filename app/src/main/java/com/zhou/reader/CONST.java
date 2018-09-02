@@ -4,7 +4,11 @@ package com.zhou.reader;
  * Created by zhao on 2016/10/20.
  */
 
-public class URLCONST {
+public class CONST {
+
+    public static final String SELECTED_SELECTOR = "SELECT_SELECTOR";
+
+    public static final String EXTRA_DATA = "EXTRA_DATA";
 
     // 命名空间
     public static String nameSpace_tianlai = "http://www.23txt.com";

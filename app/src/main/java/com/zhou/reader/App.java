@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.zhou.reader.entity.MyObjectBox;
+import com.zhou.reader.util.SelectorManager;
 
 import io.objectbox.BoxStore;
 
@@ -16,6 +17,7 @@ public class App extends Application {
         super.onCreate();
         application = this;
         boxStore = MyObjectBox.builder().androidContext(App.this).build();
+        SelectorManager.get().init();
     }
 
     public static Context getAppContext(){

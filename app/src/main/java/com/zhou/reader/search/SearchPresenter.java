@@ -2,8 +2,11 @@ package com.zhou.reader.search;
 
 import com.zhou.reader.entity.Search;
 import com.zhou.reader.entity.SearchResult;
+import com.zhou.reader.entity.selector.Selector;
+import com.zhou.reader.http.HtmlCallback;
 import com.zhou.reader.http.HttpUtil;
-import com.zhou.reader.http.ObjectHttpCallback;
+import com.zhou.reader.http.BookSearchCallback;
+import com.zhou.reader.util.SelectorManager;
 
 import java.util.List;
 
@@ -18,16 +21,14 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void search(String string) {
-        if (isEmpty(string)){
+    public void search(String keyword) {
+        if (isEmpty(keyword)){
             showHistory();
             return;
         }
         view.showLoading();
-        SearchDBManager.get().save(string);
-        String url = "http://novel.juhe.im/search?keyword="+ string;
-        HttpUtil.doGet(url, new ObjectHttpCallback<SearchResult>(SearchResult.class) {
-
+        SearchDBManager.get().save(keyword);
+        BookSearchUtil.search(keyword,new BookSearchCallback() {
             @Override
             public void onSuccess(SearchResult searchResult) {
                 view.showData(searchResult);

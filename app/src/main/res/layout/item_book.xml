@@ -33,7 +33,7 @@
         tools:text="简介" />
 
     <TextView
-        android:id="@+id/author"
+        android:id="@+id/tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img"
@@ -42,14 +42,5 @@
         android:layout_toRightOf="@+id/img"
         tools:text="作者" />
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/img"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        tools:text="玄幻" />
 
 </RelativeLayout>

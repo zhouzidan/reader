@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "baseUrl": "https://www.liewen.cc",
+    "searchUrl": "/search.php?keyword=%s",
+    "search": {
+      "item": "body > div.result-list > div.result-item",
+      "title": "div.result-game-item-detail > h3 > a > span",
+      "link": "div.result-game-item-pic > a",
+      "coverPic": "div.result-game-item-pic > a > img",
+      "desc": "div.result-game-item-detail > p",
+      "tag": "div.result-game-item-detail > div.result-game-item-info > p"
+    },
+    "catalog": {
+      "selector": "body > div#wrapper > div.box_con > div#list > dl > dd > a"
+    }
+  }
+
+]

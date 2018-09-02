@@ -40,6 +40,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.squareup.moshi:moshi:1.6.0'
-
-
+    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }

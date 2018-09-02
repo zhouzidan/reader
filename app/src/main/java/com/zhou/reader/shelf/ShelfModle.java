@@ -1,7 +1,5 @@
 package com.zhou.reader.shelf;
 
-import com.zhou.reader.URLCONST;
-import com.zhou.reader.entity.M;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.ObjectHttpCallback;

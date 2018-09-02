@@ -14,6 +14,7 @@ import com.zhou.reader.R;
 import com.zhou.reader.entity.Book;
 
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,11 +23,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     private List<Book> books;
     private LayoutInflater inflater;
-    private Context context;
+    private ClickCallback clickCallback;
 
     public BookListAdapter(Context context,List<Book> books) {
         this.books = books;
-        this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
@@ -39,21 +39,39 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        Book book = books.get(holder.getAdapterPosition());
+        final Book book = books.get(holder.getAdapterPosition());
         holder.titleTextView.setText(book.getTitle());
-        holder.authorTextView.setText(book.getAuthor());
-        holder.introTextView.setText(book.getShortIntro());
-        holder.typeTextView.setText(book.getCat());
-        String imgUrl = "http://statics.zhuishushenqi.com"+book.getCover();
+        holder.introTextView.setText(book.getDesc());
+        Map<String,String> map = book.getTags();
+        if (map != null && map.size() > 0){
+            for (Map.Entry<String,String> entry : map.entrySet()){
+                String tag = (entry.getKey() +" "+ entry.getValue());
+                holder.tagTextView.setText(tag);
+            }
+        }
+
+        String imgUrl = book.getCoverPic();
         GlideApp.with(holder.itemView)
                 .load(imgUrl)
                 .centerCrop()
                 .into(holder.imageView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickCallback != null){
+                    clickCallback.call(book);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return books.size();
+    }
+
+    public void setClickCallback(ClickCallback clickCallback) {
+        this.clickCallback = clickCallback;
     }
 
     public static class BookViewHolder extends RecyclerView.ViewHolder{
@@ -69,17 +87,18 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         TextView introTextView;
 
 
-        @BindView(R.id.author)
-        TextView authorTextView;
+        @BindView(R.id.tag)
+        TextView tagTextView;
 
-
-        @BindView(R.id.type)
-        TextView typeTextView;
 
 
         public BookViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    public interface ClickCallback{
+        void call(Book book);
     }
 }

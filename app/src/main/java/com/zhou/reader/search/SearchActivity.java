@@ -1,6 +1,7 @@
 package com.zhou.reader.search;
 
 
+import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,16 +9,30 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
+import com.zhou.reader.detail.BookDetailActivity;
 import com.zhou.reader.entity.Book;
 import com.zhou.reader.entity.Search;
 import com.zhou.reader.entity.SearchResult;
+import com.zhou.reader.entity.selector.Selector;
+import com.zhou.reader.http.HtmlCallback;
+import com.zhou.reader.http.HttpUtil;
+import com.zhou.reader.util.SelectorManager;
 import com.zhou.reader.widget.BookListAdapter;
 import com.zhou.reader.widget.FlowLayoutManager;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -42,6 +57,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         presenter = new SearchPresenter(this);
         bookListAdapter = new BookListAdapter(this,books);
+        bookListAdapter.setClickCallback(clickCallback);
     }
 
     @Override
@@ -107,5 +123,13 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         historyAdapter.notifyDataSetChanged();
     }
 
+    private BookListAdapter.ClickCallback clickCallback = new BookListAdapter.ClickCallback() {
+        @Override
+        public void call(Book book) {
+            Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
+            intent.putExtra(CONST.EXTRA_DATA,book);
+            startActivity(intent);
+        }
+    };
 
 }

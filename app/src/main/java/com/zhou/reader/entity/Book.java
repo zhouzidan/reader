@@ -3,199 +3,119 @@
  */
 package com.zhou.reader.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Auto-generated: 2018-08-25 23:41:16
  *
- * @author bejson.com (i@bejson.com)
- * @website http://www.bejson.com/java2pojo/
  */
-public class Book {
+public class Book implements Parcelable {
 
     private String _id;
-    private boolean hasCp;
     private String title;
-    private String aliases;
-    private String cat;
-    private String author;
-    private String site;
-    private String cover;
-    private String shortIntro;
-    private String lastChapter;
-//    private double retentionRatio;
-    private int banned;
-    private boolean allowMonthly;
-    private int latelyFollower;
-    private long wordCount;
-    private String contentType;
-    private String superscript;
-    private int sizetype;
-    private Highlight highlight;
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
+    private String link;
+    private String coverPic;
+    private String desc;
+    private Map<String,String> tags;
 
     public String get_id() {
         return _id;
     }
 
-    public void setHasCp(boolean hasCp) {
-        this.hasCp = hasCp;
-    }
-
-    public boolean getHasCp() {
-        return hasCp;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setAliases(String aliases) {
-        this.aliases = aliases;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAliases() {
-        return aliases;
+    public String getLink() {
+        return link;
     }
 
-    public void setCat(String cat) {
-        this.cat = cat;
+    public void setLink(String link) {
+        this.link = link;
     }
 
-    public String getCat() {
-        return cat;
+    public String getCoverPic() {
+        return coverPic;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCoverPic(String coverPic) {
+        this.coverPic = coverPic;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setSite(String site) {
-        this.site = site;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getSite() {
-        return site;
+    public Map<String, String> getTags() {
+        return tags;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
     }
 
-    public String getCover() {
-        return cover;
-    }
 
-    public void setShortIntro(String shortIntro) {
-        this.shortIntro = shortIntro;
-    }
-
-    public String getShortIntro() {
-        return shortIntro;
-    }
-
-    public void setLastChapter(String lastChapter) {
-        this.lastChapter = lastChapter;
-    }
-
-    public String getLastChapter() {
-        return lastChapter;
-    }
-
-    public void setBanned(int banned) {
-        this.banned = banned;
-    }
-
-    public int getBanned() {
-        return banned;
-    }
-
-    public void setAllowMonthly(boolean allowMonthly) {
-        this.allowMonthly = allowMonthly;
-    }
-
-    public boolean getAllowMonthly() {
-        return allowMonthly;
-    }
-
-    public void setLatelyFollower(int latelyFollower) {
-        this.latelyFollower = latelyFollower;
-    }
-
-    public int getLatelyFollower() {
-        return latelyFollower;
-    }
-
-    public void setWordCount(long wordCount) {
-        this.wordCount = wordCount;
-    }
-
-    public long getWordCount() {
-        return wordCount;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setSuperscript(String superscript) {
-        this.superscript = superscript;
-    }
-
-    public String getSuperscript() {
-        return superscript;
-    }
-
-    public void setSizetype(int sizetype) {
-        this.sizetype = sizetype;
-    }
-
-    public int getSizetype() {
-        return sizetype;
-    }
-
-    public void setHighlight(Highlight highlight) {
-        this.highlight = highlight;
-    }
-
-    public Highlight getHighlight() {
-        return highlight;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public String toString() {
-        return "Book{" +
-                "_id='" + _id + '\'' +
-                ", hasCp=" + hasCp +
-                ", title='" + title + '\'' +
-                ", aliases='" + aliases + '\'' +
-                ", cat='" + cat + '\'' +
-                ", author='" + author + '\'' +
-                ", site='" + site + '\'' +
-                ", cover='" + cover + '\'' +
-                ", shortIntro='" + shortIntro + '\'' +
-                ", lastChapter='" + lastChapter + '\'' +
-                ", banned=" + banned +
-                ", allowMonthly=" + allowMonthly +
-                ", latelyFollower=" + latelyFollower +
-                ", wordCount=" + wordCount +
-                ", contentType='" + contentType + '\'' +
-                ", superscript='" + superscript + '\'' +
-                ", sizetype=" + sizetype +
-                ", highlight=" + highlight +
-                '}';
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this._id);
+        dest.writeString(this.title);
+        dest.writeString(this.link);
+        dest.writeString(this.coverPic);
+        dest.writeString(this.desc);
+        dest.writeInt(this.tags.size());
+        for (Map.Entry<String, String> entry : this.tags.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeString(entry.getValue());
+        }
     }
+
+    public Book() {
+    }
+
+    protected Book(Parcel in) {
+        this._id = in.readString();
+        this.title = in.readString();
+        this.link = in.readString();
+        this.coverPic = in.readString();
+        this.desc = in.readString();
+        int tagsSize = in.readInt();
+        this.tags = new HashMap<String, String>(tagsSize);
+        for (int i = 0; i < tagsSize; i++) {
+            String key = in.readString();
+            String value = in.readString();
+            this.tags.put(key, value);
+        }
+    }
+
+    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel source) {
+            return new Book(source);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }
