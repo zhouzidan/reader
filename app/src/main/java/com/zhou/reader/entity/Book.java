@@ -6,7 +6,9 @@ package com.zhou.reader.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,8 @@ public class Book implements Parcelable {
     private String coverPic;
     private String desc;
     private Map<String,String> tags;
+
+    private List<Catalog> catalogs;
 
     public String get_id() {
         return _id;
@@ -69,6 +73,17 @@ public class Book implements Parcelable {
         this.tags = tags;
     }
 
+    public List<Catalog> getCatalogs() {
+        return catalogs;
+    }
+
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
+    }
+
+    public Book() {
+    }
+
 
     @Override
     public int describeContents() {
@@ -87,9 +102,7 @@ public class Book implements Parcelable {
             dest.writeString(entry.getKey());
             dest.writeString(entry.getValue());
         }
-    }
-
-    public Book() {
+        dest.writeList(this.catalogs);
     }
 
     protected Book(Parcel in) {
@@ -105,9 +118,11 @@ public class Book implements Parcelable {
             String value = in.readString();
             this.tags.put(key, value);
         }
+        this.catalogs = new ArrayList<Catalog>();
+        in.readList(this.catalogs, Catalog.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
         public Book createFromParcel(Parcel source) {
             return new Book(source);
