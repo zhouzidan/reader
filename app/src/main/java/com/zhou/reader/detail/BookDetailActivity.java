@@ -1,11 +1,13 @@
 package com.zhou.reader.detail;
 
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
 import com.zhou.reader.GlideApp;
 import com.zhou.reader.R;
@@ -13,13 +15,11 @@ import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.entity.Book;
 import com.zhou.reader.entity.Catalog;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
-public class BookDetailActivity extends BaseActivity implements BookDetailContract.View , CatalogAdapter.ClickCallback {
+public class BookDetailActivity extends BaseActivity implements BookDetailContract.View, CatalogAdapter.ClickCallback {
 
     @BindView(R.id.img)
     ImageView imageView;
@@ -27,17 +27,18 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @BindView(R.id.title)
     TextView titleTextView;
 
-    @BindView(R.id.tag)
-    TextView tagTextView;
+    @BindView(R.id.author)
+    TextView authorTextView;
+    @BindView(R.id.type)
+    TextView typeTextView;
+    @BindView(R.id.lastUpdateTime)
+    TextView lastUpdateTimeTextView;
 
     @BindView(R.id.desc)
     TextView descTextView;
 
     @BindView(R.id.lastCatalogTextView)
     TextView lastCatalogTextView;
-
-    @BindView(R.id.lastUpdateTextView)
-    TextView lastUpdateTimeTextView;
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -63,26 +64,16 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
                 .load(mBook.getCoverPic())
                 .centerCrop()
                 .into(imageView);
-
-        Map<String,String> map = mBook.getTags();
-        StringBuilder stringBuilder = new StringBuilder();
-        if (map != null && map.size() > 0){
-            for (Map.Entry<String,String> entry : map.entrySet()){
-                String tag = (entry.getKey() +" "+ entry.getValue());
-                stringBuilder.append(tag).append("\n");
-            }
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        }
-        tagTextView.setText(stringBuilder.toString());
         titleTextView.setText(mBook.getTitle());
+        authorTextView.setText(mBook.getAuthor());
+        typeTextView.setText(mBook.getType());
+        lastUpdateTimeTextView.setText(mBook.getUpdateTime() + "");
         descTextView.setText(mBook.getDesc());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         List<Catalog> catalogs = mBook.getCatalogs();
-        if (catalogs == null){
-            catalogs = new ArrayList<>();
-            mBook.setCatalogs(catalogs);
-        }
-        mCatalogAdapter = new CatalogAdapter(this,catalogs);
+        mBook.getCatalogs().addAll(catalogs);
+        mCatalogAdapter = new CatalogAdapter(this, mBook.getCatalogs());
         mCatalogAdapter.setClickCallback(this);
         mRecyclerView.setAdapter(mCatalogAdapter);
 
@@ -93,7 +84,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     public void showData(List<Catalog> catalogs) {
         mBook.getCatalogs().clear();
         mBook.getCatalogs().addAll(catalogs);
-        if (!catalogs.isEmpty()){
+        if (!catalogs.isEmpty()) {
             Catalog leastCatalog = catalogs.get(catalogs.size() - 1);
             lastCatalogTextView.setText(leastCatalog.getTitle());
         }
@@ -104,5 +95,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @Override
     public void call(Catalog catalog) {
         // TODO
+        XLog.d(catalog.toString());
     }
 }

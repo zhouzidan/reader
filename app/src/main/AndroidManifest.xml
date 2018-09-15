@@ -15,14 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".search.SearchActivity">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".detail.BookDetailActivity" />
+        <activity
+            android:name=".detail.BookDetailActivity"
+            android:label="@string/title_book_detail"
+            />
+        <activity android:name=".search.SearchActivity"
+            android:label="@string/title_search"
+            />
     </application>
 
 </manifest>

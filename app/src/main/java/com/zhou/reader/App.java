@@ -3,7 +3,9 @@ package com.zhou.reader;
 import android.app.Application;
 import android.content.Context;
 
-import com.zhou.reader.entity.MyObjectBox;
+import com.elvishew.xlog.LogLevel;
+import com.elvishew.xlog.XLog;
+import com.zhou.reader.db.MyObjectBox;
 import com.zhou.reader.util.SelectorManager;
 
 import io.objectbox.BoxStore;
@@ -18,6 +20,8 @@ public class App extends Application {
         application = this;
         boxStore = MyObjectBox.builder().androidContext(App.this).build();
         SelectorManager.get().init();
+        XLog.init(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE);
+
     }
 
     public static Context getAppContext(){

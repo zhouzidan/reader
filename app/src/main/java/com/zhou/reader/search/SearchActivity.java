@@ -14,25 +14,13 @@ import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.detail.BookDetailActivity;
 import com.zhou.reader.entity.Book;
-import com.zhou.reader.entity.Search;
+import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
-import com.zhou.reader.entity.selector.Selector;
-import com.zhou.reader.http.HtmlCallback;
-import com.zhou.reader.http.HttpUtil;
-import com.zhou.reader.util.SelectorManager;
 import com.zhou.reader.widget.BookListAdapter;
 import com.zhou.reader.widget.FlowLayoutManager;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 

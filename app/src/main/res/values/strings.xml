@@ -3,4 +3,7 @@
     <string name="title_shelf">书架</string>
     <string name="title_shop">书城</string>
     <string name="title_mine">我的</string>
+
+    <string name="title_book_detail">书籍详情</string>
+    <string name="title_search">搜索</string>
 </resources>

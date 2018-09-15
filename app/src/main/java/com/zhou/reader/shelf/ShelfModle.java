@@ -1,5 +1,6 @@
 package com.zhou.reader.shelf;
 
+import com.elvishew.xlog.XLog;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.ObjectHttpCallback;
@@ -24,8 +25,8 @@ public class ShelfModle {
         HttpUtil.doGet(url, new ObjectHttpCallback<SearchResult>(SearchResult.class) {
 
             @Override
-            public void onSuccess(SearchResult o) {
-                System.out.println(o);
+            public void onSuccess(SearchResult searchResult) {
+                XLog.d(searchResult);
             }
 
             @Override

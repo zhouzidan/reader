@@ -1,12 +1,8 @@
 package com.zhou.reader.search;
 
-import com.zhou.reader.entity.Search;
+import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
-import com.zhou.reader.entity.selector.Selector;
-import com.zhou.reader.http.HtmlCallback;
-import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.BookSearchCallback;
-import com.zhou.reader.util.SelectorManager;
 
 import java.util.List;
 

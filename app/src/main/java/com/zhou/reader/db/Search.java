@@ -1,4 +1,4 @@
-package com.zhou.reader.entity;
+package com.zhou.reader.db;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;

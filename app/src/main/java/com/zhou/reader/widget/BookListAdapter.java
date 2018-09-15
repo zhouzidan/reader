@@ -14,7 +14,6 @@ import com.zhou.reader.R;
 import com.zhou.reader.entity.Book;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,25 +41,17 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         final Book book = books.get(holder.getAdapterPosition());
         holder.titleTextView.setText(book.getTitle());
         holder.introTextView.setText(book.getDesc());
-        Map<String,String> map = book.getTags();
-        if (map != null && map.size() > 0){
-            for (Map.Entry<String,String> entry : map.entrySet()){
-                String tag = (entry.getKey() +" "+ entry.getValue());
-                holder.tagTextView.setText(tag);
-            }
-        }
+        holder.authorTextView.setText(book.getAuthor());
+        holder.lastUpdateTimeTextView.setText(book.getUpdateTime()+"");
 
         String imgUrl = book.getCoverPic();
         GlideApp.with(holder.itemView)
                 .load(imgUrl)
                 .centerCrop()
                 .into(holder.imageView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickCallback != null){
-                    clickCallback.call(book);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (clickCallback != null){
+                clickCallback.call(book);
             }
         });
     }
@@ -87,9 +78,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         TextView introTextView;
 
 
-        @BindView(R.id.tag)
-        TextView tagTextView;
+        @BindView(R.id.author)
+        TextView authorTextView;
 
+        @BindView(R.id.lastUpdateTime)
+        TextView lastUpdateTimeTextView;
 
 
         public BookViewHolder(View itemView) {

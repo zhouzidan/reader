@@ -3,34 +3,35 @@
  */
 package com.zhou.reader.entity;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
  */
-public class Book implements Parcelable {
+public class Book implements Serializable {
 
-    private String _id;
-    private String title;
-    private String link;
-    private String coverPic;
-    private String desc;
-    private Map<String,String> tags;
+    public long id;
+    public String title;
+    public String link;
+    public String coverPic;
+    public String desc;
+    public String author ; // 作者
+    public String type ; //类型
+    public long updateTime ; // 更新时间
+    public String leastCatalog ; //最新章节
+    public List<Catalog> catalogs;
 
-    private List<Catalog> catalogs;
-
-    public String get_id() {
-        return _id;
+    public Book() {
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -65,12 +66,36 @@ public class Book implements Parcelable {
         this.desc = desc;
     }
 
-    public Map<String, String> getTags() {
-        return tags;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getLeastCatalog() {
+        return leastCatalog;
+    }
+
+    public void setLeastCatalog(String leastCatalog) {
+        this.leastCatalog = leastCatalog;
     }
 
     public List<Catalog> getCatalogs() {
@@ -80,57 +105,4 @@ public class Book implements Parcelable {
     public void setCatalogs(List<Catalog> catalogs) {
         this.catalogs = catalogs;
     }
-
-    public Book() {
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this._id);
-        dest.writeString(this.title);
-        dest.writeString(this.link);
-        dest.writeString(this.coverPic);
-        dest.writeString(this.desc);
-        dest.writeInt(this.tags.size());
-        for (Map.Entry<String, String> entry : this.tags.entrySet()) {
-            dest.writeString(entry.getKey());
-            dest.writeString(entry.getValue());
-        }
-        dest.writeList(this.catalogs);
-    }
-
-    protected Book(Parcel in) {
-        this._id = in.readString();
-        this.title = in.readString();
-        this.link = in.readString();
-        this.coverPic = in.readString();
-        this.desc = in.readString();
-        int tagsSize = in.readInt();
-        this.tags = new HashMap<String, String>(tagsSize);
-        for (int i = 0; i < tagsSize; i++) {
-            String key = in.readString();
-            String value = in.readString();
-            this.tags.put(key, value);
-        }
-        this.catalogs = new ArrayList<Catalog>();
-        in.readList(this.catalogs, Catalog.class.getClassLoader());
-    }
-
-    public static final Creator<Book> CREATOR = new Creator<Book>() {
-        @Override
-        public Book createFromParcel(Parcel source) {
-            return new Book(source);
-        }
-
-        @Override
-        public Book[] newArray(int size) {
-            return new Book[size];
-        }
-    };
 }

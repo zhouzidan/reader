@@ -10,9 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/img"
-        android:layout_margin="5dp"
+        android:layout_margin="8dp"
         android:layout_toRightOf="@+id/img"
-        android:textColor="@android:color/black"
         android:textSize="16sp"
         tools:text="title" />
 

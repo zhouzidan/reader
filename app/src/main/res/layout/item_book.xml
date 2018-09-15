@@ -33,14 +33,24 @@
         tools:text="简介" />
 
     <TextView
-        android:id="@+id/tag"
+        android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/img"
+        android:layout_below="@+id/intro"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_toRightOf="@+id/img"
         tools:text="作者" />
+
+    <TextView
+        android:id="@+id/lastUpdateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/intro"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        tools:text="更新时间" />
 
 
 </RelativeLayout>

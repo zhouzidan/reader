@@ -18,9 +18,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.text.TextUtils.isEmpty;
 
 public class BookSearchUtil {
 
@@ -65,25 +69,57 @@ public class BookSearchUtil {
             }
 
             Elements tagElements = element.select(selector.getTag());
-            Map<String,String> tags = new HashMap<>();
             for (Element tagElement : tagElements) {
                 List<Element> nameAndValueElement = tagElement.children();
                 if (nameAndValueElement != null && nameAndValueElement.size() == 2){
                     Element nameElement = nameAndValueElement.get(0);
                     Element valueElement = nameAndValueElement.get(1);
-                    tags.put(nameElement.text(),valueElement.text());
-                }else if (nameAndValueElement != null && nameAndValueElement.size() == 1){
-                    Element nameElement = nameAndValueElement.get(0);
-                    tags.put(nameElement.text(),null);
-                }else {
-                    tags.put(tagElement.text(),null);
+                    if (nameElement != null && valueElement != null){
+                        String name = nameElement.text();
+                        String value = valueElement.text();
+                        pickDataForBook(book,name,value);
+                    }
                 }
             }
-            book.setTags(tags);
             books.add(book);
         }
         searchResult.setBooks(books);
         return searchResult;
+    }
+
+    private static final String[] NAME_AUTHOR = {"作者"};
+    private static final String[] NAME_BOOK_TYPE = {"类型"};
+    private static final String[] NAME_UPDATE_TIME = {"更新时间"};
+    private static final String[] NAME_LAST_CATALOG = {"最新章节"};
+
+    private static void pickDataForBook(Book book,String name,String value){
+        if (book != null && !isEmpty(name) && !isEmpty(value)){
+            for (String authorName : NAME_AUTHOR) {
+                if (name.contains(authorName)){
+                    book.setAuthor(value);
+                    return;
+                }
+            }
+            for (String typeName : NAME_BOOK_TYPE) {
+                if (name.contains(typeName)){
+                    book.setType(value);
+                    return;
+                }
+            }
+            for (String updateName : NAME_UPDATE_TIME) {
+                if (name.contains(updateName)){
+                    book.setUpdateTime(new Date(value).getTime());
+                    return;
+                }
+            }
+            for (String catalogName : NAME_LAST_CATALOG) {
+                if (name.contains(catalogName)){
+                    book.setLeastCatalog(value);
+                    return;
+                }
+            }
+
+        }
     }
 
     public static List<Catalog> getCatalog(String url){
@@ -99,10 +135,9 @@ public class BookSearchUtil {
         for (int i = 0; i < elements.size() ; i++) {
             Element element = elements.get(i);
             Catalog catalog = new Catalog();
-            catalog.setId(i);
+            catalog.setIndex(i);
             catalog.setTitle(element.text());
             catalog.setUrl(element.attr("href"));
-            System.out.println(catalog.toString());
             catalogs.add(catalog);
         }
         return catalogs;

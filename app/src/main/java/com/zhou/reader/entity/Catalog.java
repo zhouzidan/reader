@@ -3,19 +3,25 @@ package com.zhou.reader.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+import io.objectbox.relation.ToOne;
+
 public class Catalog implements Parcelable {
-    private int id ;
-    private String title;
-    private String url;
+    public int index;
+    public String title;
+    public String url;
+    public boolean hasRead = false;
 
-    private boolean hasRead = false;
+    public Book book;
 
-    public int getId() {
-        return id;
+
+    public int getIndex() {
+        return index;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public String getTitle() {
@@ -42,16 +48,6 @@ public class Catalog implements Parcelable {
         this.hasRead = hasRead;
     }
 
-    @Override
-    public String toString() {
-        return "Catalog{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", hasRead=" + hasRead +
-                '}';
-    }
-
 
     @Override
     public int describeContents() {
@@ -60,23 +56,25 @@ public class Catalog implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeInt(this.index);
         dest.writeString(this.title);
         dest.writeString(this.url);
         dest.writeByte(this.hasRead ? (byte) 1 : (byte) 0);
+        dest.writeSerializable(this.book);
     }
 
     public Catalog() {
     }
 
     protected Catalog(Parcel in) {
-        this.id = in.readInt();
+        this.index = in.readInt();
         this.title = in.readString();
         this.url = in.readString();
         this.hasRead = in.readByte() != 0;
+        this.book = (Book) in.readSerializable();
     }
 
-    public static final Parcelable.Creator<Catalog> CREATOR = new Parcelable.Creator<Catalog>() {
+    public static final Creator<Catalog> CREATOR = new Creator<Catalog>() {
         @Override
         public Catalog createFromParcel(Parcel source) {
             return new Catalog(source);
