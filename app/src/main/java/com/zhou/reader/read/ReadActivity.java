@@ -1,40 +1,111 @@
 package com.zhou.reader.read;
 
-import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.SeekBar;
 
+import com.elvishew.xlog.XLog;
 import com.zhou.reader.R;
+import com.zhou.reader.base.BaseActivity;
+import com.zhou.reader.detail.CatalogAdapter;
+import com.zhou.reader.entity.Catalog;
 
-public class ReadActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
+public class ReadActivity extends BaseActivity {
+
+    @BindView(R.id.rv_category)
+    RecyclerView mCatalogRecyclerView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.read_sb_chapter_progress)
+    SeekBar mSeekBar; // 当前章的阅读进度
+
+    @BindView(R.id.read_ll_bottom_menu)
+    View bottomMenuView;
+
+    // 小说目录
+    private List<Catalog> catalogList = new ArrayList<>();
+
+
+    // 打开目录
+    @OnClick(R.id.read_tv_category)
+    public void openCatalogPage(){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
+
+    @OnClick(R.id.read_tv_download)
+    public void onDownloadAction(){
+        XLog.d("download");
+    }
+
+    @OnClick(R.id.read_tv_night_mode)
+    public void onLightAction(){
+        XLog.d("日间 - 夜间");
+    }
+
+    @OnClick(R.id.read_tv_setting)
+    public void onSettingAction(){
+        XLog.d("Setting");
+    }
+
+    @OnClick(R.id.read_tv_pre_chapter)
+    public void onReadTvPreChapter(){
+        XLog.d("上一章");
+    }
+
+    @OnClick(R.id.read_tv_next_chapter)
+    public void onReadTvNextChapter(){
+        XLog.d("下一章");
+    }
+
+    @OnClick(R.id.content_read)
+    public void onClickContentRead(){
+        int visibility = bottomMenuView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+        bottomMenuView.setVisibility(visibility);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_read);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    protected int getLayoutId() {
+        return R.layout.activity_read;
+    }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+    @Override
+    protected void initData() {
+        initCatalogPage();
+        mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
+    }
 
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
+    private void initCatalogPage(){
+        mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mCatalogRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        CatalogAdapter catalogAdapter = new CatalogAdapter(this,catalogList);
+        mCatalogRecyclerView.setAdapter(catalogAdapter);
+        catalogAdapter.setClickCallback(catalog -> {
+            XLog.d(catalog.toString());
+        });
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -61,4 +132,22 @@ public class ReadActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    // 当前进度的变化事件
+    public SeekBar.OnSeekBarChangeListener mChapterSeenBarChange = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            XLog.d("修改阅读进度");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
 }

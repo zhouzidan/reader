@@ -25,4 +25,20 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ReadBottomText">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+    </style>
+
+    <style name="ReadBottomText2">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 </resources>

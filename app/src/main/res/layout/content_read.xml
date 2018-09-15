@@ -8,4 +8,12 @@
     tools:context=".read.ReadActivity"
     tools:showIn="@layout/app_bar_read">
 
+    <Button
+        android:text="@string/title_book_detail"
+        android:id="@+id/content_read"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </android.support.constraint.ConstraintLayout>
