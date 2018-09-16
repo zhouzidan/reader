@@ -1,5 +1,6 @@
 package com.zhou.reader.read;
 
+import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,6 +15,7 @@ import com.elvishew.xlog.XLog;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.detail.CatalogAdapter;
+import com.zhou.reader.entity.Book;
 import com.zhou.reader.entity.Catalog;
 
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.support.v4.view.ViewCompat.LAYER_TYPE_SOFTWARE;
 
 public class ReadActivity extends BaseActivity {
 
@@ -35,6 +39,13 @@ public class ReadActivity extends BaseActivity {
 
     @BindView(R.id.read_ll_bottom_menu)
     View bottomMenuView;
+
+    @BindView(R.id.content_read)
+    PageView mPvPage;
+
+    private PageLoader mPageLoader;
+
+    private Book mBook;
 
     // 小说目录
     private List<Catalog> catalogList = new ArrayList<>();
@@ -90,6 +101,18 @@ public class ReadActivity extends BaseActivity {
     protected void initData() {
         initCatalogPage();
         mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
+        // 如果 API < 18 取消硬件加速
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mPvPage.setLayerType(LAYER_TYPE_SOFTWARE, null);
+        }
+
+        //获取页面加载器
+        mPageLoader = mPvPage.getPageLoader(mBook);
+        //禁止滑动展示DrawerLayout
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        //侧边打开后，返回键能够起作用
+        drawerLayout.setFocusableInTouchMode(false);
     }
 
     private void initCatalogPage(){

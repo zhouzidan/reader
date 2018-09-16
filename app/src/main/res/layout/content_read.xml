@@ -8,7 +8,7 @@
     tools:context=".read.ReadActivity"
     tools:showIn="@layout/app_bar_read">
 
-    <Button
+    <com.zhou.reader.read.PageView
         android:text="@string/title_book_detail"
         android:id="@+id/content_read"
         android:clickable="true"
