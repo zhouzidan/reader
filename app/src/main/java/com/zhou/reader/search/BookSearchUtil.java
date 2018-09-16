@@ -1,5 +1,6 @@
 package com.zhou.reader.search;
 
+import com.elvishew.xlog.XLog;
 import com.zhou.reader.entity.Book;
 import com.zhou.reader.entity.Catalog;
 import com.zhou.reader.entity.SearchResult;
@@ -7,6 +8,7 @@ import com.zhou.reader.entity.selector.CatalogSelector;
 import com.zhou.reader.entity.selector.SearchSelector;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.BookSearchCallback;
+import com.zhou.reader.util.DateUtil;
 import com.zhou.reader.util.SelectorManager;
 
 import org.jsoup.Jsoup;
@@ -94,6 +96,7 @@ public class BookSearchUtil {
 
     private static void pickDataForBook(Book book,String name,String value){
         if (book != null && !isEmpty(name) && !isEmpty(value)){
+            XLog.d("name:"+name + " value:"+value);
             for (String authorName : NAME_AUTHOR) {
                 if (name.contains(authorName)){
                     book.setAuthor(value);
@@ -108,7 +111,7 @@ public class BookSearchUtil {
             }
             for (String updateName : NAME_UPDATE_TIME) {
                 if (name.contains(updateName)){
-                    book.setUpdateTime(new Date(value).getTime());
+                    book.setUpdateTime(DateUtil.string2Date(value,DateUtil.DateFormatYYYYMMDD).getTime());
                     return;
                 }
             }

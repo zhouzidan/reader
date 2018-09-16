@@ -16,4 +16,10 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="add_to_shelf">加入书架</string>
+    <string name="remove_from_shelf">移出书架</string>
+
+    <string name="action_success">操作成功</string>
+    <string name="action_failed">操作失败</string>
 </resources>

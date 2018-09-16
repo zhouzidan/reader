@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.zhou.reader.GlideApp;
 import com.zhou.reader.R;
-import com.zhou.reader.entity.Book;
+import com.zhou.reader.db.LBook;
 import com.zhou.reader.util.DateUtil;
 
 import java.util.List;
@@ -19,13 +19,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
+public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdapter.BookViewHolder> {
 
-    private List<Book> books;
+    private List<LBook> books;
     private LayoutInflater inflater;
     private ClickCallback clickCallback;
 
-    public BookListAdapter(Context context,List<Book> books) {
+    public ShelfBookListAdapter(Context context, List<LBook> books) {
         this.books = books;
         inflater = LayoutInflater.from(context);
     }
@@ -39,7 +39,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        final Book book = books.get(holder.getAdapterPosition());
+        final LBook book = books.get(holder.getAdapterPosition());
         holder.titleTextView.setText(book.getTitle());
         holder.introTextView.setText(book.getDesc());
         holder.authorTextView.setText(book.getAuthor());
@@ -52,8 +52,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
                 .into(holder.imageView);
         holder.itemView.setOnClickListener(v -> {
             if (clickCallback != null){
-                clickCallback.call(book);
+                clickCallback.onClick(book);
             }
+        });
+        holder.imageView.setOnLongClickListener(v -> {
+            if (clickCallback != null){
+                clickCallback.onLongClick(book);
+            }
+            return true;
         });
     }
 
@@ -89,10 +95,13 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         public BookViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setLongClickable(true);
+            imageView.setClickable(false);
         }
     }
 
     public interface ClickCallback{
-        void call(Book book);
+        void onClick(LBook book);
+        void onLongClick(LBook book);
     }
 }

@@ -1,6 +1,7 @@
 package com.zhou.reader.shelf;
 
 import com.elvishew.xlog.XLog;
+import com.zhou.reader.entity.Book;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.ObjectHttpCallback;
@@ -8,7 +9,7 @@ import com.zhou.reader.http.ObjectHttpCallback;
 import java.util.List;
 
 public class ShelfModle {
-    public static List getBooks(){
+    public static List<Book> getBooks(){
         System.out.println("getBooks");
 
         return null;

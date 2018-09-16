@@ -60,7 +60,7 @@ public class Catalog implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.url);
         dest.writeByte(this.hasRead ? (byte) 1 : (byte) 0);
-        dest.writeSerializable(this.book);
+        dest.writeParcelable(this.book, flags);
     }
 
     public Catalog() {
@@ -71,7 +71,7 @@ public class Catalog implements Parcelable {
         this.title = in.readString();
         this.url = in.readString();
         this.hasRead = in.readByte() != 0;
-        this.book = (Book) in.readSerializable();
+        this.book = in.readParcelable(Book.class.getClassLoader());
     }
 
     public static final Creator<Catalog> CREATOR = new Creator<Catalog>() {

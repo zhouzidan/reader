@@ -111,13 +111,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         historyAdapter.notifyDataSetChanged();
     }
 
-    private BookListAdapter.ClickCallback clickCallback = new BookListAdapter.ClickCallback() {
-        @Override
-        public void call(Book book) {
-            Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
-            intent.putExtra(CONST.EXTRA_DATA,book);
-            startActivity(intent);
-        }
+    private BookListAdapter.ClickCallback clickCallback = book -> {
+        Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
+        intent.putExtra(CONST.EXTRA_DATA,book);
+        startActivity(intent);
     };
 
 }

@@ -1,5 +1,9 @@
 package com.zhou.reader.shelf;
 
+import com.zhou.reader.db.LBook;
+import com.zhou.reader.entity.Book;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShelfPresenter implements ShelfContact.Presenter {
@@ -11,7 +15,7 @@ public class ShelfPresenter implements ShelfContact.Presenter {
 
     @Override
     public void loadShelfBooks() {
-        ShelfModle.searchBooks("遮天");
-//        view.showBooks(list);
+        List<LBook> books = ShelfDBManager.get().getAll();
+        view.showBooks(books);
     }
 }
