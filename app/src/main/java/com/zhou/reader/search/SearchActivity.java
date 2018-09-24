@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.detail.BookDetailActivity;
-import com.zhou.reader.entity.Book;
 import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.widget.BookListAdapter;
@@ -112,8 +112,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
     }
 
     private BookListAdapter.ClickCallback clickCallback = book -> {
+        presenter.save(book);
         Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
-        intent.putExtra(CONST.EXTRA_DATA,book);
+        intent.putExtra(CONST.EXTRA_BOOK_ID,book.id);
         startActivity(intent);
     };
 

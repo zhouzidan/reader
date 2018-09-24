@@ -3,6 +3,8 @@
  */
 package com.zhou.reader.entity;
 
+import com.zhou.reader.db.Book;
+
 import java.util.List;
 
 /**

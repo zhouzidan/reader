@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.zhou.reader.GlideApp;
 import com.zhou.reader.R;
-import com.zhou.reader.db.LBook;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.util.DateUtil;
 
 import java.util.List;
@@ -21,11 +21,11 @@ import butterknife.ButterKnife;
 
 public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdapter.BookViewHolder> {
 
-    private List<LBook> books;
+    private List<Book> books;
     private LayoutInflater inflater;
     private ClickCallback clickCallback;
 
-    public ShelfBookListAdapter(Context context, List<LBook> books) {
+    public ShelfBookListAdapter(Context context, List<Book> books) {
         this.books = books;
         inflater = LayoutInflater.from(context);
     }
@@ -39,9 +39,10 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        final LBook book = books.get(holder.getAdapterPosition());
+        final Book book = books.get(holder.getAdapterPosition());
         holder.titleTextView.setText(book.getTitle());
-        holder.introTextView.setText(book.getDesc());
+        String desc = book.getDesc().replace("　","");
+        holder.introTextView.setText(desc);
         holder.authorTextView.setText(book.getAuthor());
         holder.lastUpdateTimeTextView.setText(DateUtil.date2String(book.getUpdateTime()));
 
@@ -101,7 +102,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
     }
 
     public interface ClickCallback{
-        void onClick(LBook book);
-        void onLongClick(LBook book);
+        void onClick(Book book);
+        void onLongClick(Book book);
     }
 }

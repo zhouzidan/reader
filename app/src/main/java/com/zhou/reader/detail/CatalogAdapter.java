@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.zhou.reader.R;
-import com.zhou.reader.entity.Catalog;
+import com.zhou.reader.db.Catalog;
 
 import java.util.List;
 

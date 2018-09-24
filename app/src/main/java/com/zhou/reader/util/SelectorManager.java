@@ -50,4 +50,6 @@ public class SelectorManager {
         Selector selector = getSelectSelector();
         return selector.getBaseUrl() + selector.getSearchUrl();
     }
+
+
 }

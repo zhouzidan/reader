@@ -11,9 +11,8 @@ import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseFragment;
-import com.zhou.reader.db.LBook;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.detail.BookDetailActivity;
-import com.zhou.reader.entity.Book;
 import com.zhou.reader.search.SearchActivity;
 import com.zhou.reader.widget.ShelfBookListAdapter;
 
@@ -34,7 +33,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     Button addMoreBookBtn;
 
     ShelfPresenter presenter;
-    List<LBook> mLBooks = new ArrayList<>();
+    List<Book> mBooks = new ArrayList<>();
     ShelfBookListAdapter bookListAdapter ;
 
     @Override
@@ -46,7 +45,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     protected void initView(View view) {
         view.setBackgroundColor(Color.WHITE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        bookListAdapter = new ShelfBookListAdapter(getContext(),mLBooks);
+        bookListAdapter = new ShelfBookListAdapter(getContext(), mBooks);
         bookListAdapter.registerAdapterDataObserver(adapterDataObserver);
         bookListAdapter.setClickCallback(clickCallback);
         recyclerView.setAdapter(bookListAdapter);
@@ -64,9 +63,9 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     }
 
     @Override
-    public void showBooks(List<LBook> books) {
-        mLBooks.clear();
-        mLBooks.addAll(books);
+    public void showBooks(List<Book> books) {
+        mBooks.clear();
+        mBooks.addAll(books);
         bookListAdapter.notifyDataSetChanged();
     }
 
@@ -119,16 +118,15 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
 
     private ShelfBookListAdapter.ClickCallback clickCallback = new ShelfBookListAdapter.ClickCallback() {
         @Override
-        public void onClick(LBook lBook) {
+        public void onClick(Book book) {
             // 点击
             Intent intent = new Intent(getContext(), BookDetailActivity.class);
-            Book book = lBook.toBook();
-            intent.putExtra(CONST.EXTRA_DATA,book);
+            intent.putExtra(CONST.EXTRA_BOOK_ID,book.id);
             startActivity(intent);
         }
 
         @Override
-        public void onLongClick(LBook lBook) {
+        public void onLongClick(Book book) {
             // 长按
         }
     };

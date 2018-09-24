@@ -12,7 +12,7 @@ public class CONST {
 
     public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
 
-    public static final String EXTRA_DATA_CATALOG = "EXTRA_DATA_CATALOG";
+    public static final String EXTRA_BOOK_CATALOG_ID = "EXTRA_BOOK_CATALOG_ID";
 
     // 命名空间
     public static String nameSpace_tianlai = "http://www.23txt.com";

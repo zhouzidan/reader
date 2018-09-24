@@ -1,6 +1,6 @@
 package com.zhou.reader.read;
 
-import android.os.Build;
+import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,13 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.elvishew.xlog.XLog;
+import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
+import com.zhou.reader.db.Book;
+import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
-import com.zhou.reader.entity.Book;
-import com.zhou.reader.entity.Catalog;
+import com.zhou.reader.db.BookContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static android.support.v4.view.ViewCompat.LAYER_TYPE_SOFTWARE;
+public class ReadActivity extends BaseActivity implements ReadContact.View {
 
-public class ReadActivity extends BaseActivity {
+    private static final String TAG = "ReadActivity";
 
     @BindView(R.id.rv_category)
     RecyclerView mCatalogRecyclerView;
@@ -41,15 +44,13 @@ public class ReadActivity extends BaseActivity {
     View bottomMenuView;
 
     @BindView(R.id.content_read)
-    PageView mPvPage;
-
-    private PageLoader mPageLoader;
+    TextView contentTextView;
 
     private Book mBook;
 
-    // 小说目录
-    private List<Catalog> catalogList = new ArrayList<>();
+    private List<Catalog> catalogs = new ArrayList<>();
 
+    private ReadContact.Presenter presenter;
 
     // 打开目录
     @OnClick(R.id.read_tv_category)
@@ -99,29 +100,29 @@ public class ReadActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        Intent intent = getIntent();
+        if (intent != null){
+            long localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
+        }
         initCatalogPage();
         mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
-        // 如果 API < 18 取消硬件加速
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mPvPage.setLayerType(LAYER_TYPE_SOFTWARE, null);
-        }
-
-        //获取页面加载器
-        mPageLoader = mPvPage.getPageLoader(mBook);
         //禁止滑动展示DrawerLayout
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //侧边打开后，返回键能够起作用
         drawerLayout.setFocusableInTouchMode(false);
+        presenter = new ReadPresenter(this);
+        presenter.loadCurrentContent();
     }
 
+    // 初始化目录页面
     private void initCatalogPage(){
         mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCatalogRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        CatalogAdapter catalogAdapter = new CatalogAdapter(this,catalogList);
+        CatalogAdapter catalogAdapter = new CatalogAdapter(this,catalogs);
         mCatalogRecyclerView.setAdapter(catalogAdapter);
         catalogAdapter.setClickCallback(catalog -> {
             XLog.d(catalog.toString());
+            presenter.loadContent(catalog);
         });
     }
 
@@ -173,4 +174,18 @@ public class ReadActivity extends BaseActivity {
 
         }
     };
+
+
+    @Override
+    public void showBookContent(BookContent content) {
+        contentTextView.setText(content.content);
+    }
+
+    @Override
+    public void loadBookAndCatalogs(Book book, List<Catalog> catalogs) {
+        this.mBook = book;
+        this.catalogs.clear();
+        this.catalogs.addAll(catalogs);
+    }
+
 }

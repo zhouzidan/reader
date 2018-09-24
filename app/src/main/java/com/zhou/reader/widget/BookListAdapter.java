@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.zhou.reader.GlideApp;
 import com.zhou.reader.R;
-import com.zhou.reader.entity.Book;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.util.DateUtil;
 
 import java.util.List;

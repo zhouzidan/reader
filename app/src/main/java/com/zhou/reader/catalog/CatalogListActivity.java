@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
+import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
-import com.zhou.reader.entity.Catalog;
 
 import java.util.ArrayList;
 import java.util.List;

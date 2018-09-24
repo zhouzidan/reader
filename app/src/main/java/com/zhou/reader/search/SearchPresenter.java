@@ -1,5 +1,7 @@
 package com.zhou.reader.search;
 
+import com.zhou.reader.db.Book;
+import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.BookSearchCallback;
@@ -48,5 +50,10 @@ public class SearchPresenter implements SearchContract.Presenter {
         List<Search> searches = SearchDBManager.get().getAll();
         view.showData(searches);
         view.hideLoading();
+    }
+
+    @Override
+    public void save(Book book) {
+        BookDBManager.get().save(book);
     }
 }

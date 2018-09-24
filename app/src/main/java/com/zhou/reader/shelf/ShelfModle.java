@@ -1,7 +1,7 @@
 package com.zhou.reader.shelf;
 
 import com.elvishew.xlog.XLog;
-import com.zhou.reader.entity.Book;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.ObjectHttpCallback;

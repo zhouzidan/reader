@@ -1,6 +1,7 @@
 package com.zhou.reader.search;
 
 import com.zhou.reader.base.BaseView;
+import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
 
@@ -18,5 +19,6 @@ public class SearchContract {
 
         void showHistory();
 
+        void save(Book book);
     }
 }

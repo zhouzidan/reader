@@ -1,8 +1,8 @@
 package com.zhou.reader.search;
 
 import com.elvishew.xlog.XLog;
-import com.zhou.reader.entity.Book;
-import com.zhou.reader.entity.Catalog;
+import com.zhou.reader.db.Book;
+import com.zhou.reader.db.Catalog;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.entity.selector.CatalogSelector;
 import com.zhou.reader.entity.selector.SearchSelector;
@@ -18,13 +18,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -94,7 +89,7 @@ public class BookSearchUtil {
     private static final String[] NAME_UPDATE_TIME = {"更新时间"};
     private static final String[] NAME_LAST_CATALOG = {"最新章节"};
 
-    private static void pickDataForBook(Book book,String name,String value){
+    private static void pickDataForBook(Book book, String name, String value){
         if (book != null && !isEmpty(name) && !isEmpty(value)){
             XLog.d("name:"+name + " value:"+value);
             for (String authorName : NAME_AUTHOR) {
@@ -125,7 +120,9 @@ public class BookSearchUtil {
         }
     }
 
-    public static List<Catalog> getCatalog(String url){
+    public static List<Catalog> getCatalog(Book book){
+        String url = book.getLink();
+        long localBookId = book.getId();
         CatalogSelector selector = SelectorManager.get().getSelectSelector().getCatalog();
         List<Catalog> catalogs = new ArrayList<>();
         Document document = null;
@@ -141,6 +138,7 @@ public class BookSearchUtil {
             catalog.setIndex(i);
             catalog.setTitle(element.text());
             catalog.setUrl(element.attr("href"));
+            catalog.setBookId(localBookId);
             catalogs.add(catalog);
         }
         return catalogs;

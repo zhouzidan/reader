@@ -6,6 +6,7 @@ public class Selector {
     private String baseUrl;
     private SearchSelector search;
     private CatalogSelector catalog;
+    private ContentSelector content;
 
     public int getId() {
         return id;
@@ -45,6 +46,14 @@ public class Selector {
 
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public ContentSelector getContent() {
+        return content;
+    }
+
+    public void setContent(ContentSelector content) {
+        this.content = content;
     }
 
     @Override

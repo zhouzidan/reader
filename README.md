@@ -1,2 +1,7 @@
 # reader
-https://xiadd.github.io/zhuishushenqi/#/
+
+搜索列表，分类列表，书架
+
+	=> 书籍详情页
+
+		=> 阅读

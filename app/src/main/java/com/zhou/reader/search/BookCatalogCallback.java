@@ -1,15 +1,11 @@
 package com.zhou.reader.search;
 
-import com.zhou.reader.entity.Catalog;
-import com.zhou.reader.entity.SearchResult;
+import com.zhou.reader.db.Catalog;
 import com.zhou.reader.entity.selector.CatalogSelector;
-import com.zhou.reader.entity.selector.SearchSelector;
 import com.zhou.reader.http.ObjectHttpCallback;
-import com.zhou.reader.util.AppExecutor;
 import com.zhou.reader.util.SelectorManager;
 
 import java.io.IOException;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;
