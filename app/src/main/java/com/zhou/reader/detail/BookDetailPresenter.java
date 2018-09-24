@@ -1,12 +1,11 @@
 package com.zhou.reader.detail;
 
-import com.zhou.reader.App;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
-import com.zhou.reader.search.BookSearchUtil;
 import com.zhou.reader.db.ShelfDBManager;
+import com.zhou.reader.search.BookSearchUtil;
 import com.zhou.reader.util.AppExecutor;
 
 import java.util.List;

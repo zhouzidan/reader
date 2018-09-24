@@ -1,5 +1,6 @@
 package com.zhou.reader.base;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -13,6 +14,9 @@ import com.zhou.reader.R;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
+
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +44,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void showLoading() {
-        Toast.makeText(this,"loading -- begin",Toast.LENGTH_SHORT).show();
+        progressDialog = new ProgressDialog(this);//1.创建一个ProgressDialog的实例
+        progressDialog.setTitle("正在加载中...");//2.设置标题
+        progressDialog.setCancelable(false);//4.设置可否用back键关闭对话框
+        progressDialog.show();//5.将ProgessDialog显示出来
     }
 
     @Override
     public void hideLoading() {
-        Toast.makeText(this,"loading -- end",Toast.LENGTH_SHORT).show();
-
+        try {
+            if (progressDialog != null && progressDialog.isShowing()){
+                progressDialog.hide();
+                progressDialog.cancel();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

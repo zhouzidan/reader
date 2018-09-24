@@ -23,7 +23,7 @@ public class ShelfDBManager {
      * 保存书籍到书架
      */
     public long save(Book book){
-        if (book != null && book.id <= 0){
+        if (book != null){
             long id = lBookBox.put(book);
             book.id = id;
         }

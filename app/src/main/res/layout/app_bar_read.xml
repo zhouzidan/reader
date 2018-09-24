@@ -6,13 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".read.ReadActivity">
 
+    <TextView
+        android:id="@+id/tv_catalog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <include layout="@layout/content_read" />
 
     <!--底部页面-->
     <include
         layout="@layout/activity_read_bottom"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
 </RelativeLayout>

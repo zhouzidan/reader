@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,12 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @BindView(R.id.content_read)
     TextView contentTextView;
 
+    @BindView(R.id.tv_catalog)
+    TextView catalogTextView;
+
+    private long localBookId ;
+    private long localCatalogId ;
+
     private Book mBook;
 
     private List<Catalog> catalogs = new ArrayList<>();
@@ -80,11 +87,13 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @OnClick(R.id.read_tv_pre_chapter)
     public void onReadTvPreChapter(){
         XLog.d("上一章");
+        presenter.loadLastContent();
     }
 
     @OnClick(R.id.read_tv_next_chapter)
     public void onReadTvNextChapter(){
         XLog.d("下一章");
+        presenter.loadNextContent();
     }
 
     @OnClick(R.id.content_read)
@@ -100,10 +109,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @Override
     protected void initData() {
-        Intent intent = getIntent();
-        if (intent != null){
-            long localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
-        }
         initCatalogPage();
         mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
         //禁止滑动展示DrawerLayout
@@ -111,7 +116,15 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         //侧边打开后，返回键能够起作用
         drawerLayout.setFocusableInTouchMode(false);
         presenter = new ReadPresenter(this);
-        presenter.loadCurrentContent();
+        Intent intent = getIntent();
+        if (intent != null){
+            localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
+            localCatalogId = intent.getLongExtra(CONST.EXTRA_BOOK_CATALOG_ID,0);
+            presenter.loadBookAndCatalogs(localBookId);
+            presenter.loadCurrentContent(localCatalogId);
+        }
+
+
     }
 
     // 初始化目录页面
@@ -177,8 +190,8 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
 
     @Override
-    public void showBookContent(BookContent content) {
-        contentTextView.setText(content.content);
+    public void showBookContent(Catalog catalog) {
+        contentTextView.setText(Html.fromHtml(catalog.getContent()));
     }
 
     @Override
@@ -186,6 +199,16 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         this.mBook = book;
         this.catalogs.clear();
         this.catalogs.addAll(catalogs);
+        if (mCatalogRecyclerView != null && mCatalogRecyclerView.getAdapter() != null){
+            mCatalogRecyclerView.getAdapter().notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void showCurrentCatalog(Catalog catalog) {
+        if (catalog != null){
+            catalogTextView.setText(catalog.title);
+        }
     }
 
 }

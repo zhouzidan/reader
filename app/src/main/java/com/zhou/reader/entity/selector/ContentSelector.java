@@ -1,5 +1,13 @@
 package com.zhou.reader.entity.selector;
 
-class ContentSelector {
+public class ContentSelector {
     String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

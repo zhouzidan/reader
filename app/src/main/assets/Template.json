@@ -15,7 +15,7 @@
       "selector": "body > div#wrapper > div.box_con > div#list > dl > dd > a"
     },
     "content": {
-      "content": "body > div#content"
+      "content": "content"
     }
   }
 

@@ -51,5 +51,9 @@ public class SelectorManager {
         return selector.getBaseUrl() + selector.getSearchUrl();
     }
 
+    public String getBaseUrl(){
+        return getSelectSelector().getBaseUrl();
+    }
+
 
 }

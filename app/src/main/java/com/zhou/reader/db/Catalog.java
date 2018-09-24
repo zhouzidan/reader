@@ -72,4 +72,18 @@ public class Catalog {
     public void setContent(String content) {
         this.content = content;
     }
+
+
+    @Override
+    public String toString() {
+        return "Catalog{" +
+                "id=" + id +
+                ", index=" + index +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", hasRead=" + hasRead +
+                ", bookId=" + bookId +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

@@ -131,6 +131,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @Override
     public void call(Catalog catalog) {
         XLog.d(catalog.toString());
+        presenter.saveBookToCache(mBook,catalogs);
         Intent intent = new Intent(this, ReadActivity.class);
         intent.putExtra(CONST.EXTRA_BOOK_ID,catalog.bookId);
         intent.putExtra(CONST.EXTRA_BOOK_CATALOG_ID,catalog.id);

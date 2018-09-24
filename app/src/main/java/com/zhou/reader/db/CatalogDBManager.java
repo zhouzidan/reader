@@ -23,7 +23,7 @@ public class CatalogDBManager {
      * 保存书籍到书架
      */
     public long save(Catalog catalog){
-        if (catalog != null && catalog.id <= 0){
+        if (catalog != null){
             long id = lCatalogBox.put(catalog);
             catalog.id = id;
         }
@@ -80,5 +80,10 @@ public class CatalogDBManager {
                 .equal(Catalog_.bookId,localBookId)
                 .build()
                 .findFirst();
+    }
+
+    public Catalog findNextCatalog(Catalog currentCatalog) {
+        
+        return null;
     }
 }
