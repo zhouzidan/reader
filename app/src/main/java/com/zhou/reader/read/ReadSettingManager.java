@@ -20,7 +20,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_BG = "shared_read_bg";
     public static final String SHARED_READ_BRIGHTNESS = "shared_read_brightness";
     public static final String SHARED_READ_IS_BRIGHTNESS_AUTO = "shared_read_is_brightness_auto";
-    public static final String SHARED_READ_TEXT_SIZE = "shared_read_text_size";
+    public static final String SHARED_READ_TEXT_SIZE = "shared_read_text_size_2";
     public static final String SHARED_READ_IS_TEXT_DEFAULT = "shared_read_text_default";
     public static final String SHARED_READ_PAGE_MODE = "shared_read_mode";
     public static final String SHARED_READ_NIGHT_MODE = "shared_night_mode";
@@ -84,7 +84,7 @@ public class ReadSettingManager {
     }
 
     public int getTextSize() {
-        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(28));
+        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, 20);
     }
 
     public boolean isDefaultTextSize() {
@@ -102,7 +102,7 @@ public class ReadSettingManager {
     }
 
     public boolean isNightMode() {
-        return sharedPreUtils.getBoolean(SHARED_READ_NIGHT_MODE, false);
+        return sharedPreUtils.getBoolean(SHARED_READ_NIGHT_MODE, true);
     }
 
     public void setVolumeTurnPage(boolean isTurn) {

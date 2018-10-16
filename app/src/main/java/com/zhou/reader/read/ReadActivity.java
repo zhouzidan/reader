@@ -1,6 +1,7 @@
 package com.zhou.reader.read;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
@@ -21,6 +22,7 @@ import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
 import com.zhou.reader.db.BookContent;
+import com.zhou.reader.setting.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +79,16 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @OnClick(R.id.read_tv_night_mode)
     public void onLightAction(){
         XLog.d("日间 - 夜间");
+        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
+        ReadSettingManager.getInstance().setNightMode(!isNightMode);
+        initContentView();
     }
 
     @OnClick(R.id.read_tv_setting)
     public void onSettingAction(){
         XLog.d("Setting");
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.read_tv_pre_chapter)
@@ -124,7 +131,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
             presenter.loadCurrentContent(localCatalogId);
         }
 
-
     }
 
     // 初始化目录页面
@@ -137,6 +143,22 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
             XLog.d(catalog.toString());
             presenter.loadContent(catalog);
         });
+    }
+
+    private void initContentView(){
+        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
+        contentTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
+        contentTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
+        catalogTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
+        catalogTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
+        int textSize = ReadSettingManager.getInstance().getTextSize();
+        contentTextView.setTextSize(textSize);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initContentView();
     }
 
     @Override
@@ -168,6 +190,13 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.saveReadRecord();
+        presenter.distachView();
+        super.onDestroy();
     }
 
     // 当前进度的变化事件

@@ -22,4 +22,6 @@
 
     <string name="action_success">操作成功</string>
     <string name="action_failed">操作失败</string>
+
+    <string name="title_setting">阅读页设置</string>
 </resources>

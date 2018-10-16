@@ -34,7 +34,6 @@ public class ReadRecordDBManager {
 
     public void save(ReadRecord readRecord){
         if (readRecord != null
-                && readRecord.id <= 0
                 && readRecord.localBookId > 0
                 && readRecord.localCatalogId > 0){
             remove(readRecord.localBookId);

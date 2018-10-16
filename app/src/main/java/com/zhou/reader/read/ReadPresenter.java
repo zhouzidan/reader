@@ -6,6 +6,8 @@ import com.zhou.reader.db.Book;
 import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
+import com.zhou.reader.db.ReadRecord;
+import com.zhou.reader.db.ReadRecordDBManager;
 import com.zhou.reader.util.AppExecutor;
 
 import java.util.List;
@@ -31,18 +33,15 @@ public class ReadPresenter implements ReadContact.Presenter {
 
     @Override
     public void loadCurrentContent(long localCatalogId) {
-        Catalog catalog = null;
-        if (localCatalogId == 0 && book != null) {
-            catalog = CatalogDBManager.get().getFirst(book.getId());
-        } else {
-            catalog = CatalogDBManager.get().findById(localCatalogId);
-        }
+        Catalog catalog = getDefaultCatalog(localCatalogId);
         loadContent(catalog);
     }
 
 
     @Override
     public void loadNextContent() {
+        this.currentCatalog.setHasRead(true);
+        CatalogDBManager.get().save(this.currentCatalog);
         Catalog catalog = getNextCatalog();
         loadContent(catalog);
     }
@@ -50,12 +49,18 @@ public class ReadPresenter implements ReadContact.Presenter {
     @Override
     public void loadLastContent() {
         Catalog catalog = getLastCatalog() ;
-        loadContent(catalog);
+        if (catalog != null){
+            loadContent(catalog);
+        }else {
+            view.showMessage("未找到上一章节");
+        }
+
     }
 
     @Override
     public void loadContent(Catalog catalog) {
         this.currentCatalog = catalog;
+        view.showCurrentCatalog(catalog);
         view.showLoading();
         AppExecutor.get().networkIO().execute(() -> {
             Catalog tempCatalog = CatalogDBManager.get().findById(catalog.id);
@@ -123,5 +128,34 @@ public class ReadPresenter implements ReadContact.Presenter {
             }
         }
         return lastCatalog;
+    }
+
+    private Catalog getDefaultCatalog(long localCatalogId){
+        Catalog catalog = null;
+        if (localCatalogId > 0){
+            catalog = CatalogDBManager.get().findById(localCatalogId);
+        }
+        if (catalog == null){
+            ReadRecord readRecord = ReadRecordDBManager.get().getLeast(book.getId());
+            if (readRecord != null){
+                catalog = CatalogDBManager.get().findById(readRecord.localCatalogId);
+            }
+        }
+        if (catalog == null){
+            catalog = CatalogDBManager.get().getFirst(book.getId());
+        }
+        return catalog;
+    }
+
+    public void saveReadRecord(){
+        ReadRecord readRecord = new ReadRecord();
+        readRecord.setLocalBookId(this.currentCatalog.getBookId());
+        readRecord.setLocalCatalogId(this.currentCatalog.getId());
+        ReadRecordDBManager.get().save(readRecord);
+    }
+
+    @Override
+    public void distachView() {
+        this.view = null;
     }
 }

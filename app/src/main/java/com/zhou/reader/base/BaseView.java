@@ -16,4 +16,5 @@ public interface BaseView {
      */
     void showError();
 
+    void showMessage(String message);
 }

@@ -28,8 +28,11 @@
         <activity
             android:name=".read.ReadActivity"
             android:label="@string/title_activity_read"
-            android:theme="@style/AppTheme.NoActionBar">
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".setting.SettingsActivity"
+            android:label="@string/title_setting"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

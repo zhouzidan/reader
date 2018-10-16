@@ -1,5 +1,6 @@
 package com.zhou.reader.read;
 
+import com.zhou.reader.base.BasePresenter;
 import com.zhou.reader.base.BaseView;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.BookContent;
@@ -17,7 +18,7 @@ public class ReadContact {
 
     }
 
-    public static interface Presenter{
+    public static interface Presenter extends BasePresenter{
         void loadBookAndCatalogs(long localBookId);
         void loadCurrentContent(long localCatalogId);
         void loadNextContent();
@@ -25,5 +26,6 @@ public class ReadContact {
         public void loadContent(Catalog catalog);
         public void preNextContent();
         public void preLastContent();
+        public void saveReadRecord();
     }
 }

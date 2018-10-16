@@ -1,5 +1,6 @@
 package com.zhou.reader.detail;
 
+import com.zhou.reader.App;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Catalog;
@@ -24,9 +25,9 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
         AppExecutor.get().networkIO().execute(() -> {
             Book book = BookDBManager.get().findById(localBookId);
             List<Catalog> localCatalogList = null;
-            if (book != null){
+            if (book != null) {
                 localCatalogList = CatalogDBManager.get().getAll(book.getId());
-                if (localCatalogList == null || localCatalogList.size() == 0){
+                if (localCatalogList == null || localCatalogList.size() == 0) {
                     localCatalogList = BookSearchUtil.getCatalog(book);
                 }
             }
@@ -40,10 +41,10 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
     @Override
     public void loadBookShelfStatus(Book book) {
         boolean existInShelf = false;
-        if (book != null){
+        if (book != null) {
             Book lBook = ShelfDBManager.get().findOnShelfById(book.getId());
             existInShelf = lBook != null;
-            if (existInShelf && book.getId() <= 0){
+            if (existInShelf && book.getId() <= 0) {
                 book.setId(lBook.getId());
             }
         }
@@ -57,8 +58,8 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
     }
 
     @Override
-    public void addBookToShelf(Book book,List<Catalog> catalogs) {
-        book.id = 0 ;
+    public void addBookToShelf(Book book, List<Catalog> catalogs) {
+        book.id = 0;
         book.onShelf = true;
         long localBookId = ShelfDBManager.get().save(book);
         book.setId(localBookId);
@@ -70,8 +71,18 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
     }
 
     @Override
-    public void saveBookToCache(Book book,List<Catalog> catalogs) {
-        ShelfDBManager.get().save(book);
-        CatalogDBManager.get().save(catalogs);
+    public void saveBookToCache(Book book, List<Catalog> catalogs) {
+        view.showLoading();
+        if (book != null && book.getId() <= 0) {
+            ShelfDBManager.get().save(book);
+        }
+        if (catalogs != null && catalogs.size() > 0) {
+            for (Catalog catalog : catalogs) {
+                if (catalog.getId() <= 0) {
+                    CatalogDBManager.get().save(catalog);
+                }
+            }
+        }
+        view.hideLoading();
     }
 }

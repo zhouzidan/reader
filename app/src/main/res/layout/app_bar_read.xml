@@ -8,10 +8,19 @@
 
     <TextView
         android:id="@+id/tv_catalog"
+        android:textSize="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <include layout="@layout/content_read" />
+    <include
+        layout="@layout/content_read"
+        android:layout_below="@+id/tv_catalog"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
     <!--底部页面-->
     <include
