@@ -1,7 +1,9 @@
 package com.zhou.reader.widget;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
@@ -12,9 +14,11 @@ import com.zhou.reader.R;
  */
 public class MainNavigationItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ViewPager viewPager;
+    private FragmentActivity activity;
 
-    public MainNavigationItemSelectedListener(ViewPager viewPager) {
+    public MainNavigationItemSelectedListener(FragmentActivity activity ,ViewPager viewPager) {
         this.viewPager = viewPager;
+        this.activity = activity;
     }
 
     @Override
@@ -22,14 +26,18 @@ public class MainNavigationItemSelectedListener implements BottomNavigationView.
         switch (item.getItemId()) {
             case R.id.navigation_shelf:
                 viewPager.setCurrentItem(0);
+                activity.setTitle(R.string.title_shelf);
                 return true;
             case R.id.navigation_shop:
                 viewPager.setCurrentItem(1);
+                activity.setTitle(R.string.title_shop);
                 return true;
             case R.id.navigation_mine:
                 viewPager.setCurrentItem(2);
+                activity.setTitle(R.string.title_mine);
                 return true;
         }
         return false;
     }
+
 }
