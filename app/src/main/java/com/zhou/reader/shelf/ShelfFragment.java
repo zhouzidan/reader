@@ -2,8 +2,13 @@ package com.zhou.reader.shelf;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -43,12 +48,18 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
 
     @Override
     protected void initView(View view) {
+        initToolBar();
         view.setBackgroundColor(Color.WHITE);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookListAdapter = new ShelfBookListAdapter(getContext(), mBooks);
         bookListAdapter.registerAdapterDataObserver(adapterDataObserver);
         bookListAdapter.setClickCallback(clickCallback);
         recyclerView.setAdapter(bookListAdapter);
+    }
+
+    private void initToolBar() {
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -60,6 +71,20 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     public void onResume() {
         super.onResume();
         presenter.loadShelfBooks();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.shelf,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_add){
+            onAddMoreBook();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

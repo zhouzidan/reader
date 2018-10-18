@@ -52,6 +52,8 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @BindView(R.id.tv_catalog)
     TextView catalogTextView;
 
+    CatalogAdapter catalogAdapter;
+
     private long localBookId ;
     private long localCatalogId ;
 
@@ -137,11 +139,12 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     private void initCatalogPage(){
         mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCatalogRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        CatalogAdapter catalogAdapter = new CatalogAdapter(this,catalogs);
+        catalogAdapter = new CatalogAdapter(this,catalogs);
         mCatalogRecyclerView.setAdapter(catalogAdapter);
         catalogAdapter.setClickCallback(catalog -> {
             XLog.d(catalog.toString());
             presenter.loadContent(catalog);
+            drawerLayout.closeDrawers();
         });
     }
 
@@ -194,7 +197,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @Override
     protected void onDestroy() {
-        presenter.saveReadRecord();
         presenter.distachView();
         super.onDestroy();
     }
@@ -221,6 +223,8 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @Override
     public void showBookContent(Catalog catalog) {
         contentTextView.setText(Html.fromHtml(catalog.getContent()));
+        int position = catalogAdapter.getPosition(catalog);
+        catalogAdapter.notifyItemChanged(position);
     }
 
     @Override

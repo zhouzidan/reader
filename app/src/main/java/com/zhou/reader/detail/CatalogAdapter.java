@@ -1,6 +1,7 @@
 package com.zhou.reader.detail;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.zhou.reader.R;
 import com.zhou.reader.db.Catalog;
+import com.zhou.reader.db.CatalogDBManager;
+import com.zhou.reader.db.ReadRecord;
+import com.zhou.reader.db.ReadRecordDBManager;
 
 import java.util.List;
 
@@ -37,15 +41,19 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
     @Override
     public void onBindViewHolder(@NonNull CatalogAdapter.CatalogViewHolder holder, int position) {
         final Catalog catalog = catalogs.get(holder.getAdapterPosition());
+        updateHasReadStatusView(catalog.getId(),holder.titleTextView);
         holder.titleTextView.setText(catalog.getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (clickCallback != null){
-                    clickCallback.call(catalog);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (clickCallback != null){
+                clickCallback.call(catalog);
             }
+            updateHasReadStatusView(catalog.getId(),holder.titleTextView);
         });
+    }
+
+    private void updateHasReadStatusView(long localCatalogId , TextView textView){
+        boolean hasRead = ReadRecordDBManager.get().getHasRead(localCatalogId);
+        textView.setTextColor(hasRead ? Color.BLACK : Color.GRAY);
     }
 
     @Override
@@ -55,6 +63,10 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
 
     public void setClickCallback(CatalogAdapter.ClickCallback clickCallback) {
         this.clickCallback = clickCallback;
+    }
+
+    public int getPosition(Catalog catalog) {
+        return catalogs.indexOf(catalog);
     }
 
     public static class CatalogViewHolder extends RecyclerView.ViewHolder{

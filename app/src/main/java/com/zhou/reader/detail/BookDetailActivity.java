@@ -79,8 +79,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         if (localBookId == 0) {
             finish();
         }
-        presenter.loadBookAndCatalog(localBookId);
-
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -88,6 +86,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         mCatalogAdapter.setClickCallback(this);
         mRecyclerView.setAdapter(mCatalogAdapter);
 
+        presenter.loadBookAndCatalog(localBookId);
 
     }
 
@@ -166,4 +165,10 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         // TODO
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCatalogAdapter.notifyDataSetChanged();
+    }
 }

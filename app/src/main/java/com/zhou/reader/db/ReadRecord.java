@@ -8,6 +8,7 @@ public class ReadRecord {
     @Id public long id ;
     public long localCatalogId ;
     public long localBookId;
+    public long updateTime;
 
 
     public long getId() {
@@ -32,5 +33,23 @@ public class ReadRecord {
 
     public void setLocalBookId(long localBookId) {
         this.localBookId = localBookId;
+    }
+
+    public long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ReadRecord{" +
+                "id=" + id +
+                ", localCatalogId=" + localCatalogId +
+                ", localBookId=" + localBookId +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

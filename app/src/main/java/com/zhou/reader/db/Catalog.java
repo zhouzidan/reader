@@ -1,5 +1,10 @@
 package com.zhou.reader.db;
 
+import android.os.Build;
+
+import java.util.Arrays;
+import java.util.Objects;
+
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
@@ -73,6 +78,23 @@ public class Catalog {
         this.content = content;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Catalog catalog = (Catalog) o;
+        return id == catalog.id &&
+                bookId == catalog.bookId;
+    }
+
+    @Override
+    public int hashCode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return Objects.hash(id, bookId);
+        }else {
+            return String.valueOf(id +"" + bookId).hashCode();
+        }
+    }
 
     @Override
     public String toString() {

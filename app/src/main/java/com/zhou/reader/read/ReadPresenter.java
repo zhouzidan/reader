@@ -40,8 +40,6 @@ public class ReadPresenter implements ReadContact.Presenter {
 
     @Override
     public void loadNextContent() {
-        this.currentCatalog.setHasRead(true);
-        CatalogDBManager.get().save(this.currentCatalog);
         Catalog catalog = getNextCatalog();
         loadContent(catalog);
     }
@@ -61,16 +59,21 @@ public class ReadPresenter implements ReadContact.Presenter {
     public void loadContent(Catalog catalog) {
         this.currentCatalog = catalog;
         view.showCurrentCatalog(catalog);
+        saveReadRecord();
         view.showLoading();
         AppExecutor.get().networkIO().execute(() -> {
-            Catalog tempCatalog = CatalogDBManager.get().findById(catalog.id);
-            if (tempCatalog != null && TextUtils.isEmpty(tempCatalog.getContent())){
-                BookContentUtil.loadBookContent(tempCatalog);
-                CatalogDBManager.get().save(tempCatalog);
-                catalog.setContent(tempCatalog.getContent());
+            this.currentCatalog = CatalogDBManager.get().findById(catalog.id);
+            if (this.currentCatalog != null && TextUtils.isEmpty(this.currentCatalog.getContent())){
+                BookContentUtil.loadBookContent(this.currentCatalog);
+                CatalogDBManager.get().save(this.currentCatalog);
+                catalog.setContent(this.currentCatalog.getContent());
+            }
+            if (this.currentCatalog != null) {
+                this.currentCatalog.setHasRead(true);
+                CatalogDBManager.get().save(this.currentCatalog);
             }
             AppExecutor.get().mainThread().execute(() -> {
-                view.showBookContent(tempCatalog);
+                view.showBookContent(this.currentCatalog);
                 view.hideLoading();
             });
             preNextContent();
@@ -151,6 +154,7 @@ public class ReadPresenter implements ReadContact.Presenter {
         ReadRecord readRecord = new ReadRecord();
         readRecord.setLocalBookId(this.currentCatalog.getBookId());
         readRecord.setLocalCatalogId(this.currentCatalog.getId());
+        readRecord.setUpdateTime(System.currentTimeMillis());
         ReadRecordDBManager.get().save(readRecord);
     }
 

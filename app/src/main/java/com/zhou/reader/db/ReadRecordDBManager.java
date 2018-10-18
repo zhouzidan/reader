@@ -1,5 +1,6 @@
 package com.zhou.reader.db;
 
+import com.elvishew.xlog.XLog;
 import com.zhou.reader.App;
 
 import java.util.List;
@@ -20,9 +21,14 @@ public class ReadRecordDBManager {
     }
 
     public ReadRecord getLeast(long localBookId){
-        List<ReadRecord> readRecords = readRecordBox.find(ReadRecord_.localBookId,localBookId);
-        if (readRecords.size() > 0){
-            return readRecords.get(0);
+        ReadRecord result = readRecordBox.query()
+                .equal(ReadRecord_.localBookId,localBookId)
+                .orderDesc(ReadRecord_.updateTime)
+                .build()
+                .findFirst();
+        if (result != null){
+            XLog.d(result);
+            return result;
         }else {
             Catalog catalog =CatalogDBManager.get().getFirst(localBookId);
             ReadRecord readRecord = new ReadRecord();
@@ -36,7 +42,6 @@ public class ReadRecordDBManager {
         if (readRecord != null
                 && readRecord.localBookId > 0
                 && readRecord.localCatalogId > 0){
-            remove(readRecord.localBookId);
             long id = readRecordBox.put(readRecord);
             readRecord.id = id;
         }
@@ -45,5 +50,10 @@ public class ReadRecordDBManager {
     private void remove(long localBookId){
         List<ReadRecord> readRecords = readRecordBox.find(ReadRecord_.localBookId,localBookId);
         readRecordBox.remove(readRecords);
+    }
+
+    public boolean getHasRead(long localCatalogId) {
+        int size = readRecordBox.find(ReadRecord_.localCatalogId,localCatalogId).size();
+        return size > 0;
     }
 }
