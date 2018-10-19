@@ -1,28 +1,28 @@
 package com.zhou.reader.read;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
+import com.zhou.reader.ReadAdapter;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
+import com.zhou.reader.db.ReadRecord;
+import com.zhou.reader.db.ReadRecordDBManager;
 import com.zhou.reader.detail.CatalogAdapter;
-import com.zhou.reader.db.BookContent;
 import com.zhou.reader.setting.SettingsActivity;
 
 import java.util.ArrayList;
@@ -47,16 +47,14 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @BindView(R.id.read_ll_bottom_menu)
     View bottomMenuView;
 
-    @BindView(R.id.content_read)
-    TextView contentTextView;
+    @BindView(R.id.content_recyclerView)
+    RecyclerView contentRecyclerView;
 
     @BindView(R.id.tv_catalog)
     TextView catalogTextView;
 
-    @BindView(R.id.scroll_content)
-    ScrollView contentScrollView;
-
     CatalogAdapter catalogAdapter;
+    ReadAdapter readAdapter;
 
     private long localBookId ;
     private long localCatalogId ;
@@ -87,7 +85,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         XLog.d("日间 - 夜间");
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
         ReadSettingManager.getInstance().setNightMode(!isNightMode);
-        initContentView();
     }
 
     @OnClick(R.id.read_tv_setting)
@@ -109,11 +106,11 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         presenter.loadNextContent();
     }
 
-    @OnClick(R.id.content_read)
-    public void onClickContentRead(){
-        int visibility = bottomMenuView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
-        bottomMenuView.setVisibility(visibility);
-    }
+//    @OnClick(R.id.content_read)
+//    public void onClickContentRead(){
+//        int visibility = bottomMenuView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+//        bottomMenuView.setVisibility(visibility);
+//    }
 
     @Override
     protected int getLayoutId() {
@@ -123,6 +120,7 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @Override
     protected void initData() {
         initCatalogPage();
+        initReadRecyclerView();
         mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
         //禁止滑动展示DrawerLayout
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -134,9 +132,9 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
             localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
             localCatalogId = intent.getLongExtra(CONST.EXTRA_BOOK_CATALOG_ID,0);
             presenter.loadBookAndCatalogs(localBookId);
-            presenter.loadCurrentContent(localCatalogId);
+            readAdapter.setLocalBookId(localBookId);
         }
-
+        presenter.loadCurrentContent(localCatalogId);
     }
 
     // 初始化目录页面
@@ -152,20 +150,26 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         });
     }
 
-    private void initContentView(){
-        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
-        contentTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
-        contentTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
-        catalogTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
-        catalogTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
-        int textSize = ReadSettingManager.getInstance().getTextSize();
-        contentTextView.setTextSize(textSize);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initContentView();
+long lastItemTouchTime = 0 ;
+    private void initReadRecyclerView(){
+        contentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        contentRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        readAdapter = new ReadAdapter(this);
+        contentRecyclerView.setAdapter(readAdapter);
+        contentRecyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                if (System.currentTimeMillis() - lastItemTouchTime > 1000){
+                    View view = rv.findChildViewUnder(e.getX(),e.getY());
+                    int position = rv.getChildAdapterPosition(view);
+                    Catalog catalog = readAdapter.getCatalogByPosition(position);
+                    presenter.saveReadRecord(catalog);
+                    XLog.e(e.getX() + " -- " + e.getY() + " -- " + position + " -- " + catalog.toString());
+                }
+                lastItemTouchTime = System.currentTimeMillis();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -226,10 +230,14 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @Override
     public void showBookContent(Catalog catalog) {
-        contentTextView.setText(Html.fromHtml(catalog.getContent()));
-        int position = catalogAdapter.getPosition(catalog);
-        catalogAdapter.notifyItemChanged(position);
-        contentScrollView.scrollTo(0,0);
+        int catalogPosition = catalogAdapter.getPosition(catalog);
+        catalogAdapter.notifyItemChanged(catalogPosition);
+
+        int contentPosition = readAdapter.getPosition(catalog);
+        contentRecyclerView.scrollToPosition(contentPosition);
+        LinearLayoutManager mLayoutManager =
+                (LinearLayoutManager) contentRecyclerView.getLayoutManager();
+        mLayoutManager.scrollToPositionWithOffset(contentPosition, 0);
     }
 
     @Override
@@ -243,10 +251,11 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     }
 
     @Override
-    public void showCurrentCatalog(Catalog catalog) {
+    public void showCurrentCatalogTitle(Catalog catalog) {
         if (catalog != null){
             catalogTextView.setText(catalog.title);
         }
     }
+
 
 }

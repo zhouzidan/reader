@@ -34,7 +34,7 @@ public class ReadPresenter implements ReadContact.Presenter {
     @Override
     public void loadCurrentContent(long localCatalogId) {
         Catalog catalog = getDefaultCatalog(localCatalogId);
-        loadContent(catalog);
+        view.showBookContent(catalog);
     }
 
 
@@ -58,7 +58,7 @@ public class ReadPresenter implements ReadContact.Presenter {
     @Override
     public void loadContent(Catalog catalog) {
         this.currentCatalog = catalog;
-        view.showCurrentCatalog(catalog);
+        view.showCurrentCatalogTitle(catalog);
         saveReadRecord();
         view.showLoading();
         AppExecutor.get().networkIO().execute(() -> {
@@ -154,6 +154,15 @@ public class ReadPresenter implements ReadContact.Presenter {
         ReadRecord readRecord = new ReadRecord();
         readRecord.setLocalBookId(this.currentCatalog.getBookId());
         readRecord.setLocalCatalogId(this.currentCatalog.getId());
+        readRecord.setUpdateTime(System.currentTimeMillis());
+        ReadRecordDBManager.get().save(readRecord);
+    }
+
+    @Override
+    public void saveReadRecord(Catalog catalog) {
+        ReadRecord readRecord = new ReadRecord();
+        readRecord.setLocalBookId(catalog.getBookId());
+        readRecord.setLocalCatalogId(catalog.getId());
         readRecord.setUpdateTime(System.currentTimeMillis());
         ReadRecordDBManager.get().save(readRecord);
     }

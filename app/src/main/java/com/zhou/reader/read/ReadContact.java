@@ -14,7 +14,7 @@ public class ReadContact {
 
         void loadBookAndCatalogs(Book book,List<Catalog> catalogs);
 
-        void showCurrentCatalog(Catalog catalog);
+        void showCurrentCatalogTitle(Catalog catalog);
 
     }
 
@@ -27,5 +27,6 @@ public class ReadContact {
         public void preNextContent();
         public void preLastContent();
         public void saveReadRecord();
+        public void saveReadRecord(Catalog catalog);
     }
 }
