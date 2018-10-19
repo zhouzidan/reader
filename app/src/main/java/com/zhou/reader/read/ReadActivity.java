@@ -11,6 +11,7 @@ import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -51,6 +52,9 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @BindView(R.id.tv_catalog)
     TextView catalogTextView;
+
+    @BindView(R.id.scroll_content)
+    ScrollView contentScrollView;
 
     CatalogAdapter catalogAdapter;
 
@@ -225,6 +229,7 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         contentTextView.setText(Html.fromHtml(catalog.getContent()));
         int position = catalogAdapter.getPosition(catalog);
         catalogAdapter.notifyItemChanged(position);
+        contentScrollView.scrollTo(0,0);
     }
 
     @Override
