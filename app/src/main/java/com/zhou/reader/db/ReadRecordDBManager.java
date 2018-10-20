@@ -42,8 +42,11 @@ public class ReadRecordDBManager {
         if (readRecord != null
                 && readRecord.localBookId > 0
                 && readRecord.localCatalogId > 0){
-            long id = readRecordBox.put(readRecord);
-            readRecord.id = id;
+            boolean exist = getHasRead(readRecord.localCatalogId);
+            if (!exist){
+                long id = readRecordBox.put(readRecord);
+                readRecord.id = id;
+            }
         }
     }
 

@@ -66,7 +66,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
     }
 
     private void showContent(Catalog catalog , VH holder){
-        String content = "<H1>"+catalog.getTitle()+"</H1>" + catalog.getContent();
+        String content = "<H1>"+catalog.getTitle()+"</H1>" + catalog.getContent() + "<BR/><BR/><BR/><BR/><BR/><BR/><BR/><BR/>";
         holder.contentTextView.setText(Html.fromHtml(content));
     }
 
@@ -80,6 +80,8 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
     }
 
     public Catalog getCatalogByPosition(int position){
+        if (position < 0 && position >= catalogs.size())
+            position = 0;
         return catalogs.get(position);
     }
 

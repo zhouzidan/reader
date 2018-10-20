@@ -105,7 +105,7 @@ public class Catalog {
                 ", url='" + url + '\'' +
                 ", hasRead=" + hasRead +
                 ", bookId=" + bookId +
-                ", content='" + content.substring(0,10) + '\'' +
+                ", content='" + ((content != null) ? content.substring(0,10) : "null") + '\'' +
                 '}';
     }
 }

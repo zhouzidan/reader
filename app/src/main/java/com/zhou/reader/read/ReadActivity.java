@@ -6,24 +6,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.elvishew.xlog.XLog;
+import com.zhou.reader.App;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.ReadAdapter;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
-import com.zhou.reader.db.ReadRecord;
-import com.zhou.reader.db.ReadRecordDBManager;
 import com.zhou.reader.detail.CatalogAdapter;
 import com.zhou.reader.setting.SettingsActivity;
+import com.zhou.reader.util.AppExecutor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,8 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @BindView(R.id.content_recyclerView)
     RecyclerView contentRecyclerView;
 
-    @BindView(R.id.tv_catalog)
-    TextView catalogTextView;
+    @BindView(R.id.read_toolbar)
+    Toolbar toolbar;
 
     CatalogAdapter catalogAdapter;
     ReadAdapter readAdapter;
@@ -106,11 +106,20 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         presenter.loadNextContent();
     }
 
-//    @OnClick(R.id.content_read)
-//    public void onClickContentRead(){
-//        int visibility = bottomMenuView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
-//        bottomMenuView.setVisibility(visibility);
-//    }
+    GestureDetector gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            XLog.d("点击-- onSingleTapConfirmed");
+            int visibility = bottomMenuView.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
+            bottomMenuView.setVisibility(visibility);
+            updateStatusBar(bottomMenuView.getVisibility() == View.VISIBLE);
+            Catalog catalog = getCurrentCatalog(e);
+            presenter.saveReadRecord(catalog);
+            showCurrentCatalogTitle(catalog);
+            return super.onSingleTapConfirmed(e);
+        }
+
+    });
 
     @Override
     protected int getLayoutId() {
@@ -119,6 +128,8 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @Override
     protected void initData() {
+        setSupportActionBar(toolbar);
+        updateStatusBar(false);
         initCatalogPage();
         initReadRecyclerView();
         mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
@@ -153,20 +164,20 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 long lastItemTouchTime = 0 ;
     private void initReadRecyclerView(){
         contentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contentRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//        contentRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         readAdapter = new ReadAdapter(this);
         contentRecyclerView.setAdapter(readAdapter);
         contentRecyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 if (System.currentTimeMillis() - lastItemTouchTime > 1000){
-                    View view = rv.findChildViewUnder(e.getX(),e.getY());
-                    int position = rv.getChildAdapterPosition(view);
-                    Catalog catalog = readAdapter.getCatalogByPosition(position);
+                    Catalog catalog = getCurrentCatalog(e);
                     presenter.saveReadRecord(catalog);
-                    XLog.e(e.getX() + " -- " + e.getY() + " -- " + position + " -- " + catalog.toString());
+                    showCurrentCatalogTitle(catalog);
+//                    XLog.e(e.getX() + " -- " + e.getY() + " -- " + " -- " + catalog.toString());
                 }
                 lastItemTouchTime = System.currentTimeMillis();
+                gestureDetector.onTouchEvent(e);
                 return false;
             }
         });
@@ -179,28 +190,6 @@ long lastItemTouchTime = 0 ;
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.read, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -253,9 +242,23 @@ long lastItemTouchTime = 0 ;
     @Override
     public void showCurrentCatalogTitle(Catalog catalog) {
         if (catalog != null){
-            catalogTextView.setText(catalog.title);
+            setTitle(catalog.title);
         }
     }
 
+    private void updateStatusBar(boolean isShow){
+        if (isShow){
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+        toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    private Catalog getCurrentCatalog(MotionEvent motionEvent){
+        View view = contentRecyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY());
+        int position = contentRecyclerView.getChildAdapterPosition(view);
+        return readAdapter.getCatalogByPosition(position);
+    }
 
 }

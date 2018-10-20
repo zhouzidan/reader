@@ -6,19 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".read.ReadActivity">
 
-    <TextView
-        android:id="@+id/tv_catalog"
-        android:textSize="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/read_toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content_recyclerView"
-        android:layout_below="@+id/tv_catalog"
+        android:layout_below="@+id/read_toolbar"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
@@ -29,6 +27,5 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
 </RelativeLayout>
