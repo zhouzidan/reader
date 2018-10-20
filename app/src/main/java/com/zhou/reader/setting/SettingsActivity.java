@@ -24,10 +24,6 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.textSizeTitle)
     TextView textSizeTitleTextView;
 
-    public void onNightModeChange(){
-        XLog.d(" checked:");
-    }
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_settings;
@@ -38,7 +34,8 @@ public class SettingsActivity extends BaseActivity {
         int textSize = ReadSettingManager.getInstance().getTextSize();
         textSizeTitleTextView.setText("文字大小：" + textSize);
         boolean nightMode = ReadSettingManager.getInstance().isNightMode();
-        radioGroup.check(nightMode ? R.id.radio_day_mode : R.id.radio_night_mode);
+        XLog.e("nightMode:"+nightMode);
+        radioGroup.check(nightMode ? R.id.radio_night_mode : R.id.radio_day_mode);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             XLog.d(checkedId);
             if (checkedId == R.id.radio_day_mode){

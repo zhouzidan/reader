@@ -9,7 +9,9 @@
     <!--页面进度栏-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="72dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -17,32 +19,6 @@
             android:id="@+id/read_tv_pre_chapter"
             style="@style/ReadBottomText2"
             android:text="上一章" />
-
-        <SeekBar
-            android:id="@+id/read_sb_chapter_progress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:max="100"
-            android:maxHeight="3dp"
-            android:minHeight="3dp"
-            android:progressDrawable="@drawable/seekbar_bg"
-            android:thumb="@drawable/seekbar_thumb"
-            android:thumbOffset="10dp" />
-
-        <TextView
-            android:id="@+id/read_tv_next_chapter"
-            style="@style/ReadBottomText2"
-            android:text="下一章" />
-    </LinearLayout>
-
-    <!--菜单栏-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingTop="12dp">
 
         <TextView
             android:id="@+id/read_tv_category"
@@ -56,17 +32,11 @@
             android:drawableTop="@mipmap/ic_read_menu_night"
             android:text="日间" />
 
-        <TextView
-            android:id="@+id/read_tv_download"
-            style="@style/ReadBottomText"
-            android:drawableTop="@mipmap/ic_read_menu_download"
-            android:text="下载" />
 
         <TextView
-            android:id="@+id/read_tv_setting"
-            style="@style/ReadBottomText"
-            android:drawableTop="@mipmap/ic_read_menu_font"
-            android:text="设置" />
+            android:id="@+id/read_tv_next_chapter"
+            style="@style/ReadBottomText2"
+            android:text="下一章" />
     </LinearLayout>
 
 </LinearLayout>

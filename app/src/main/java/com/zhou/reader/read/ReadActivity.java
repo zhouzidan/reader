@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,9 +43,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-    @BindView(R.id.read_sb_chapter_progress)
-    SeekBar mSeekBar; // 当前章的阅读进度
-
     @BindView(R.id.read_ll_bottom_menu)
     View bottomMenuView;
 
@@ -75,23 +74,12 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         }
     }
 
-    @OnClick(R.id.read_tv_download)
-    public void onDownloadAction(){
-        XLog.d("download");
-    }
-
     @OnClick(R.id.read_tv_night_mode)
     public void onLightAction(){
         XLog.d("日间 - 夜间");
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
         ReadSettingManager.getInstance().setNightMode(!isNightMode);
-    }
-
-    @OnClick(R.id.read_tv_setting)
-    public void onSettingAction(){
-        XLog.d("Setting");
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        readAdapter.notifyDataSetChanged();
     }
 
     @OnClick(R.id.read_tv_pre_chapter)
@@ -132,7 +120,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         updateStatusBar(false);
         initCatalogPage();
         initReadRecyclerView();
-        mSeekBar.setOnSeekBarChangeListener(mChapterSeenBarChange);
         //禁止滑动展示DrawerLayout
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //侧边打开后，返回键能够起作用
@@ -184,6 +171,25 @@ long lastItemTouchTime = 0 ;
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.read, menu);
+        MenuItem settingMenu = menu.findItem(R.id.action_settings);
+        View settingView = settingMenu.getActionView();
+        settingView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -197,24 +203,6 @@ long lastItemTouchTime = 0 ;
         presenter.distachView();
         super.onDestroy();
     }
-
-    // 当前进度的变化事件
-    public SeekBar.OnSeekBarChangeListener mChapterSeenBarChange = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            XLog.d("修改阅读进度");
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-    };
 
 
     @Override
@@ -261,4 +249,9 @@ long lastItemTouchTime = 0 ;
         return readAdapter.getCatalogByPosition(position);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        readAdapter.notifyDataSetChanged();
+    }
 }

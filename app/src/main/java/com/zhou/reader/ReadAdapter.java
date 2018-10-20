@@ -1,6 +1,7 @@
 package com.zhou.reader;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -15,6 +16,7 @@ import com.elvishew.xlog.XLog;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
 import com.zhou.reader.read.BookContentUtil;
+import com.zhou.reader.read.ReadSettingManager;
 import com.zhou.reader.util.AppExecutor;
 
 import java.util.List;
@@ -46,6 +48,13 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
+        holder.contentTextView.setBackgroundColor(isNightMode ? Color.BLACK : Color.WHITE);
+        holder.contentTextView.setTextColor(isNightMode ? Color.WHITE : Color.BLACK);
+//            catalogTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
+//            catalogTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
+        int textSize = ReadSettingManager.getInstance().getTextSize();
+        holder.contentTextView.setTextSize(textSize);
         Catalog catalog = catalogs.get(position);
         if (TextUtils.isEmpty(catalog.getContent())){
             AppExecutor.get().networkIO().execute(() -> {
