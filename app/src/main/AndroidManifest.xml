@@ -14,10 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".detail.BookDetailActivity"
@@ -28,11 +24,18 @@
         <activity
             android:name=".read.ReadActivity"
             android:label="@string/title_activity_read"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".setting.SettingsActivity"
             android:label="@string/title_setting"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ShelfActivity"
+            android:label="@string/title_shelf">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
