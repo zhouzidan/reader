@@ -38,6 +38,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        def formattedDate = new Date().format('yyyyMMddHHmm')
+        outputFileName = "read-${variant.name}-${variant.versionName}-${formattedDate}.apk"
+    }
 }
 
 dependencies {
