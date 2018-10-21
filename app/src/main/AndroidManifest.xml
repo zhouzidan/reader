@@ -13,8 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".detail.BookDetailActivity"
             android:label="@string/title_book_detail" />
@@ -28,9 +27,13 @@
         <activity
             android:name=".setting.SettingsActivity"
             android:label="@string/title_setting"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ShelfActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShelfActivity"
             android:label="@string/title_shelf">
+        </activity>
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
