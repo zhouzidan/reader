@@ -10,8 +10,8 @@ android {
         applicationId "com.zhou.reader"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -43,7 +43,7 @@ android {
 
 android.applicationVariants.all { variant ->
     variant.outputs.all {
-        def formattedDate = new Date().format('yyyyMMddHHmm')
+        def formattedDate = new Date().format('yyyyMMdd')
         outputFileName = "read-${variant.name}-${variant.versionName}-${formattedDate}.apk"
     }
 }
