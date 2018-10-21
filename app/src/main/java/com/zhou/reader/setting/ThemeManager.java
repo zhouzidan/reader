@@ -21,7 +21,7 @@ public class ThemeManager {
     @ColorInt
     public int getBackgroundColor() {
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
-        return isNightMode ? Color.parseColor("##1A1A1B") : Color.parseColor("#F5F5F5");
+        return isNightMode ? Color.parseColor("#1A1A1B") : Color.parseColor("#F5F5F5");
     }
 
     @ColorInt
@@ -29,5 +29,14 @@ public class ThemeManager {
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
         return isNightMode ? Color.parseColor("#686868") : Color.parseColor("#333333");
     }
+
+
+    @ColorInt
+    public int getTitleAndBottomColor(){
+        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
+        return isNightMode ? Color.parseColor("#FAFAFA") : Color.parseColor("#101115");
+    }
+
+
 
 }

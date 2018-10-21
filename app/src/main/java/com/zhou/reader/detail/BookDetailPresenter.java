@@ -59,14 +59,16 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
 
     @Override
     public void addBookToShelf(Book book, List<Catalog> catalogs) {
-        book.id = 0;
-        book.onShelf = true;
-        long localBookId = ShelfDBManager.get().save(book);
-        book.setId(localBookId);
-        for (Catalog catalog : catalogs) {
-            catalog.setBookId(localBookId);
+        if (book != null){
+            book.id = 0;
+            book.onShelf = true;
+            long localBookId = ShelfDBManager.get().save(book);
+            book.setId(localBookId);
+            for (Catalog catalog : catalogs) {
+                catalog.setBookId(localBookId);
+            }
+            CatalogDBManager.get().save(catalogs);
         }
-        CatalogDBManager.get().save(catalogs);
         view.showShelfStatus(true);
     }
 

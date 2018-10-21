@@ -24,6 +24,7 @@ import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
 import com.zhou.reader.setting.ReadSettingManager;
 import com.zhou.reader.setting.SettingsActivity;
+import com.zhou.reader.setting.ThemeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,6 +242,12 @@ long lastItemTouchTime = 0 ;
         toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
+    private void initTitleAndBottomColor(){ //TODO
+        int color = ThemeManager.getInstance().getTitleAndBottomColor();
+        toolbar.setBackgroundColor(color);
+        bottomMenuView.setBackgroundColor(color);
+    }
+
     private Catalog getCurrentCatalog(MotionEvent motionEvent){
         View view = contentRecyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY());
         int position = contentRecyclerView.getChildAdapterPosition(view);
@@ -251,5 +258,6 @@ long lastItemTouchTime = 0 ;
     protected void onStart() {
         super.onStart();
         readAdapter.notifyDataSetChanged();
+//        initTitleAndBottomColor();
     }
 }

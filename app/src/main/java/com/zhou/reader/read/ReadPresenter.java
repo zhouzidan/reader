@@ -111,7 +111,8 @@ public class ReadPresenter implements ReadContact.Presenter {
             catalogs = CatalogDBManager.get().getAll(book.getId());
         }
         if (catalogs != null) {
-            int index = catalogs.indexOf(this.currentCatalog);
+            Catalog catalog = getCurrentCatalog();
+            int index = catalogs.indexOf(catalog);
             if ((index + 1) < catalogs.size()) {
                 nextCatalog = catalogs.get(index + 1);
             }
@@ -125,12 +126,19 @@ public class ReadPresenter implements ReadContact.Presenter {
             catalogs = CatalogDBManager.get().getAll(book.getId());
         }
         if (catalogs != null) {
-            int index = catalogs.indexOf(this.currentCatalog);
+            Catalog catalog = getCurrentCatalog();
+            int index = catalogs.indexOf(catalog);
             if ((index - 1) >= 0) {
                 lastCatalog = catalogs.get(index - 1);
             }
         }
         return lastCatalog;
+    }
+
+    // 根据阅读记录，获取当前正在阅读的章节信息
+    private Catalog getCurrentCatalog(){
+        ReadRecord readRecord = ReadRecordDBManager.get().getLeast(book.getId());
+        return CatalogDBManager.get().findById(readRecord.getLocalCatalogId());
     }
 
     private Catalog getDefaultCatalog(long localCatalogId){
