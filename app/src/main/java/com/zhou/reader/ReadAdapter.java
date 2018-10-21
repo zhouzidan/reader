@@ -7,16 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.elvishew.xlog.XLog;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
 import com.zhou.reader.read.BookContentUtil;
-import com.zhou.reader.read.ReadSettingManager;
+import com.zhou.reader.setting.ReadSettingManager;
+import com.zhou.reader.setting.ThemeManager;
 import com.zhou.reader.util.AppExecutor;
 
 import java.util.List;
@@ -48,11 +47,8 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
-        holder.contentTextView.setBackgroundColor(isNightMode ? Color.BLACK : Color.WHITE);
-        holder.contentTextView.setTextColor(isNightMode ? Color.WHITE : Color.BLACK);
-//            catalogTextView.setBackgroundColor(isNightMode ? Color.WHITE : Color.BLACK);
-//            catalogTextView.setTextColor(isNightMode ? Color.BLACK : Color.WHITE);
+        holder.contentTextView.setBackgroundColor(ThemeManager.getInstance().getBackgroundColor());
+        holder.contentTextView.setTextColor(ThemeManager.getInstance().getTextColor());
         int textSize = ReadSettingManager.getInstance().getTextSize();
         holder.contentTextView.setTextSize(textSize);
         Catalog catalog = catalogs.get(position);

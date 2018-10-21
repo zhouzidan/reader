@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.elvishew.xlog.XLog;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
-import com.zhou.reader.read.ReadSettingManager;
 
 import butterknife.BindView;
 

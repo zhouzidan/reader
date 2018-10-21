@@ -13,10 +13,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.SeekBar;
 
 import com.elvishew.xlog.XLog;
-import com.zhou.reader.App;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.ReadAdapter;
@@ -24,8 +22,8 @@ import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
+import com.zhou.reader.setting.ReadSettingManager;
 import com.zhou.reader.setting.SettingsActivity;
-import com.zhou.reader.util.AppExecutor;
 
 import java.util.ArrayList;
 import java.util.List;

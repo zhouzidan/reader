@@ -1,6 +1,7 @@
-package com.zhou.reader.read;
+package com.zhou.reader.setting;
 
-import com.zhou.reader.util.ScreenUtils;
+import com.zhou.reader.read.PageMode;
+import com.zhou.reader.read.PageStyle;
 import com.zhou.reader.util.SharedPreUtils;
 
 /**
@@ -102,7 +103,7 @@ public class ReadSettingManager {
     }
 
     public boolean isNightMode() {
-        return sharedPreUtils.getBoolean(SHARED_READ_NIGHT_MODE, true);
+        return sharedPreUtils.getBoolean(SHARED_READ_NIGHT_MODE, false);
     }
 
     public void setVolumeTurnPage(boolean isTurn) {
