@@ -55,6 +55,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
                 clickCallback.call(book);
             }
         });
+        holder.imageView.setOnClickListener(v->{
+            if (clickCallback != null){
+                clickCallback.call(book);
+            }
+        });
     }
 
     @Override
