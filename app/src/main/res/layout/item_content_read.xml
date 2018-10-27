@@ -13,8 +13,8 @@
         android:id="@+id/content_read"
         android:textSize="18sp"
         tools:text="asasas"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

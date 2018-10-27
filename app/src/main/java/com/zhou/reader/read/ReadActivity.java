@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
@@ -25,6 +26,7 @@ import com.zhou.reader.detail.CatalogAdapter;
 import com.zhou.reader.setting.ReadSettingManager;
 import com.zhou.reader.setting.SettingsActivity;
 import com.zhou.reader.setting.ThemeManager;
+import com.zhou.reader.util.StatusBarManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,9 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
 
     @BindView(R.id.read_toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.header_title_textView)
+    TextView headerTitleTextView;
 
     CatalogAdapter catalogAdapter;
     ReadAdapter readAdapter;
@@ -116,6 +121,7 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @Override
     protected void initData() {
         setSupportActionBar(toolbar);
+        headerTitleTextView.setHeight(StatusBarManager.getStatusBarHeight());
         updateStatusBar(false);
         initCatalogPage();
         initReadRecyclerView();
@@ -229,7 +235,8 @@ long lastItemTouchTime = 0 ;
     @Override
     public void showCurrentCatalogTitle(Catalog catalog) {
         if (catalog != null){
-            setTitle(catalog.title);
+            toolbar.setTitle(catalog.title);
+            headerTitleTextView.setText(catalog.title);
         }
     }
 
@@ -239,6 +246,7 @@ long lastItemTouchTime = 0 ;
         }else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+        headerTitleTextView.setVisibility(isShow ? View.GONE : View.VISIBLE);
         toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 

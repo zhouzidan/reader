@@ -6,17 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".read.ReadActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/read_toolbar"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back"
+    <TextView
+        android:id="@+id/header_title_textView"
+        android:text="@string/app_name"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/content_recyclerView"
-        android:layout_below="@+id/read_toolbar"
+        android:layout_below="@+id/header_title_textView"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />
 
@@ -24,6 +24,15 @@
     <include
         layout="@layout/activity_read_bottom"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/read_toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
