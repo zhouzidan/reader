@@ -1,7 +1,6 @@
 package com.zhou.reader;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -47,8 +46,8 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        holder.contentTextView.setBackgroundColor(ThemeManager.getInstance().getBackgroundColor());
-        holder.contentTextView.setTextColor(ThemeManager.getInstance().getTextColor());
+        holder.contentTextView.setBackgroundColor(ThemeManager.getInstance().getReadContentBackgroundColor());
+        holder.contentTextView.setTextColor(ThemeManager.getInstance().getReadContentTextColor());
         int textSize = ReadSettingManager.getInstance().getTextSize();
         holder.contentTextView.setTextSize(textSize);
         Catalog catalog = catalogs.get(position);

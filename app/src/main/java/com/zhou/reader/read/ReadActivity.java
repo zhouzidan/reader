@@ -84,6 +84,7 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
         ReadSettingManager.getInstance().setNightMode(!isNightMode);
         readAdapter.notifyDataSetChanged();
+        initTitleAndBottomColor();
     }
 
     @OnClick(R.id.read_tv_pre_chapter)
@@ -151,18 +152,19 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
             presenter.loadContent(catalog);
             drawerLayout.closeDrawers();
         });
+        int catalogPosition = 0;
+        mCatalogRecyclerView.scrollToPosition(catalogPosition);
     }
 
 long lastItemTouchTime = 0 ;
     private void initReadRecyclerView(){
         contentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        contentRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         readAdapter = new ReadAdapter(this);
         contentRecyclerView.setAdapter(readAdapter);
         contentRecyclerView.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener(){
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                if (System.currentTimeMillis() - lastItemTouchTime > 1000){
+                if (System.currentTimeMillis() - lastItemTouchTime > 100){
                     Catalog catalog = getCurrentCatalog(e);
                     presenter.saveReadRecord(catalog);
                     showCurrentCatalogTitle(catalog);
@@ -214,6 +216,7 @@ long lastItemTouchTime = 0 ;
     public void showBookContent(Catalog catalog) {
         int catalogPosition = catalogAdapter.getPosition(catalog);
         catalogAdapter.notifyItemChanged(catalogPosition);
+        mCatalogRecyclerView.scrollToPosition(catalogPosition);
 
         int contentPosition = readAdapter.getPosition(catalog);
         contentRecyclerView.scrollToPosition(contentPosition);
@@ -251,9 +254,17 @@ long lastItemTouchTime = 0 ;
     }
 
     private void initTitleAndBottomColor(){ //TODO
-        int color = ThemeManager.getInstance().getTitleAndBottomColor();
-        toolbar.setBackgroundColor(color);
-        bottomMenuView.setBackgroundColor(color);
+        int backgroundColor = ThemeManager.getInstance().getHeadAndBottomBackgroundColor();
+
+        toolbar.setBackgroundColor(backgroundColor);
+        bottomMenuView.setBackgroundColor(backgroundColor);
+        StatusBarManager.setStatusBar(getWindow(),backgroundColor);
+
+        int contentBackgroundColor = ThemeManager.getInstance().getReadContentBackgroundColor();
+        int contentTextColor = ThemeManager.getInstance().getReadContentTextColor();
+
+        headerTitleTextView.setTextColor(contentTextColor);
+        headerTitleTextView.setBackgroundColor(contentBackgroundColor);
     }
 
     private Catalog getCurrentCatalog(MotionEvent motionEvent){
@@ -266,6 +277,6 @@ long lastItemTouchTime = 0 ;
     protected void onStart() {
         super.onStart();
         readAdapter.notifyDataSetChanged();
-//        initTitleAndBottomColor();
+        initTitleAndBottomColor();
     }
 }
