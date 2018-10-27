@@ -65,7 +65,6 @@ public class ReadPresenter implements ReadContact.Presenter {
             this.currentCatalog = CatalogDBManager.get().findById(catalog.id);
             if (this.currentCatalog != null && TextUtils.isEmpty(this.currentCatalog.getContent())){
                 BookContentUtil.loadBookContent(this.currentCatalog);
-                CatalogDBManager.get().save(this.currentCatalog);
                 catalog.setContent(this.currentCatalog.getContent());
             }
             if (this.currentCatalog != null) {
@@ -76,8 +75,6 @@ public class ReadPresenter implements ReadContact.Presenter {
                 view.showBookContent(this.currentCatalog);
                 view.hideLoading();
             });
-            preNextContent();
-            preLastContent();
         });
     }
 

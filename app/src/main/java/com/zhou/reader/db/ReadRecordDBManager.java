@@ -10,27 +10,29 @@ import io.objectbox.Box;
 public class ReadRecordDBManager {
     Box<ReadRecord> readRecordBox;
     private static ReadRecordDBManager recordDBManager;
-    private ReadRecordDBManager(){
+
+    private ReadRecordDBManager() {
         readRecordBox = App.getBoxStore().boxFor(ReadRecord.class);
     }
-    public static ReadRecordDBManager get(){
-        if (recordDBManager == null){
+
+    public static ReadRecordDBManager get() {
+        if (recordDBManager == null) {
             recordDBManager = new ReadRecordDBManager();
         }
         return recordDBManager;
     }
 
-    public ReadRecord getLeast(long localBookId){
+    public ReadRecord getLeast(long localBookId) {
         ReadRecord result = readRecordBox.query()
-                .equal(ReadRecord_.localBookId,localBookId)
+                .equal(ReadRecord_.localBookId, localBookId)
                 .orderDesc(ReadRecord_.updateTime)
                 .build()
                 .findFirst();
-        if (result != null){
+        if (result != null) {
             XLog.d(result);
             return result;
-        }else {
-            Catalog catalog =CatalogDBManager.get().getFirst(localBookId);
+        } else {
+            Catalog catalog = CatalogDBManager.get().getFirst(localBookId);
             ReadRecord readRecord = new ReadRecord();
             readRecord.localCatalogId = catalog.id;
             readRecord.localBookId = catalog.bookId;
@@ -38,25 +40,22 @@ public class ReadRecordDBManager {
         }
     }
 
-    public void save(ReadRecord readRecord){
+    public void save(ReadRecord readRecord) {
         if (readRecord != null
                 && readRecord.localBookId > 0
-                && readRecord.localCatalogId > 0){
-            boolean exist = getHasRead(readRecord.localCatalogId);
-            if (!exist){
-                long id = readRecordBox.put(readRecord);
-                readRecord.id = id;
-            }
+                && readRecord.localCatalogId > 0) {
+            long id = readRecordBox.put(readRecord);
+            readRecord.id = id;
         }
     }
 
-    private void remove(long localBookId){
-        List<ReadRecord> readRecords = readRecordBox.find(ReadRecord_.localBookId,localBookId);
+    private void remove(long localBookId) {
+        List<ReadRecord> readRecords = readRecordBox.find(ReadRecord_.localBookId, localBookId);
         readRecordBox.remove(readRecords);
     }
 
     public boolean getHasRead(long localCatalogId) {
-        int size = readRecordBox.find(ReadRecord_.localCatalogId,localCatalogId).size();
+        int size = readRecordBox.find(ReadRecord_.localCatalogId, localCatalogId).size();
         return size > 0;
     }
 }
