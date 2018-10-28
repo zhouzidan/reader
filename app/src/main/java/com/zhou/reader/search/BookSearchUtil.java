@@ -28,6 +28,9 @@ public class BookSearchUtil {
     public static void search(String keyword,BookSearchCallback searchCallback){
         String selectorUrl = SelectorManager.get().getSelectSearchUrl();
         String searchUrl = String.format(selectorUrl,keyword);
+        if (searchCallback != null){
+            searchCallback.setKeyword(keyword);
+        }
         HttpUtil.doGet(searchUrl,searchCallback);
     }
 

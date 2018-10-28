@@ -11,7 +11,9 @@ public class SearchContract {
     public static interface View extends BaseView {
         void showData(SearchResult searchResult);
 
-        void showData(List<Search> searches);
+        void clearSearchResult();
+
+        void showData(List<String> searches);
     }
 
     public static interface Presenter{

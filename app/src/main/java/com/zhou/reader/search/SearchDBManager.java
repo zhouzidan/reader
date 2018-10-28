@@ -57,7 +57,7 @@ public class SearchDBManager {
      */
     public List<Search> getAll(){
         if (searchBox != null){
-           return searchBox.getAll();
+           return searchBox.query().orderDesc(Search_.updateTime).build().find();
         }
         return null;
     }

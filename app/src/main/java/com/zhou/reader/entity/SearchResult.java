@@ -16,6 +16,7 @@ import java.util.List;
 public class SearchResult {
 
     private List<Book> books;
+    private String keyword;
     private int total;
     private boolean ok;
 
@@ -43,10 +44,19 @@ public class SearchResult {
         return ok;
     }
 
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
     @Override
     public String toString() {
         return "SearchResult{" +
                 "books=" + books +
+                ", keyword='" + keyword + '\'' +
                 ", total=" + total +
                 ", ok=" + ok +
                 '}';

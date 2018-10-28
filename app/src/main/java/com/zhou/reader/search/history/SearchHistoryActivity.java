@@ -1,8 +1,6 @@
 package com.zhou.reader.search.history;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;

@@ -6,6 +6,7 @@ import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.BookSearchCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
@@ -29,6 +30,7 @@ public class SearchPresenter implements SearchContract.Presenter {
         BookSearchUtil.search(keyword,new BookSearchCallback() {
             @Override
             public void onSuccess(SearchResult searchResult) {
+                view.clearSearchResult();
                 view.showData(searchResult);
             }
 
@@ -48,7 +50,11 @@ public class SearchPresenter implements SearchContract.Presenter {
     public void showHistory(){
         view.showLoading();
         List<Search> searches = SearchDBManager.get().getAll();
-        view.showData(searches);
+        List<String> keywords = new ArrayList<>();
+        for (Search search : searches) {
+            keywords.add(search.content);
+        }
+        view.showData(keywords);
         view.hideLoading();
     }
 

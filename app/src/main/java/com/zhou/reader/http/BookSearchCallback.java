@@ -12,6 +12,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public abstract class BookSearchCallback extends ObjectHttpCallback<SearchResult> {
+    private String keyword ;
     public BookSearchCallback() {
         super(SearchResult.class);
     }
@@ -21,6 +22,7 @@ public abstract class BookSearchCallback extends ObjectHttpCallback<SearchResult
         final String body = response.body().string();
         SearchSelector searchSelector = SelectorManager.get().getSelectSelector().getSearch();
         final SearchResult searchResult = BookSearchUtil.getSearchResult(body, searchSelector);
+        searchResult.setKeyword(keyword);
         AppExecutor.get().mainThread().execute(new Runnable() {
             @Override
             public void run() {
@@ -28,5 +30,9 @@ public abstract class BookSearchCallback extends ObjectHttpCallback<SearchResult
                 onFinish();
             }
         });
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 
 public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookViewHolder> {
 
+    private String keyword;
     private List<Book> books;
     private LayoutInflater inflater;
     private ClickCallback clickCallback;
@@ -28,6 +29,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     public BookListAdapter(Context context,List<Book> books) {
         this.books = books;
         inflater = LayoutInflater.from(context);
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public String getKeyword() {
+        return keyword;
     }
 
     @NonNull
