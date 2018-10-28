@@ -7,6 +7,8 @@
     <color name="colorLine">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="black">#000000</color>
+
 
     <!--read-->
     <color name="nb.read.bg_1">#CEC29C</color>

@@ -12,7 +12,7 @@ import com.zhou.reader.base.BaseActivity;
 
 import butterknife.BindView;
 
-public class SettingsActivity extends BaseActivity {
+public class ReadSettingsActivity extends BaseActivity {
 
     @BindView(R.id.radio_group_night_mode)
     RadioGroup radioGroup;

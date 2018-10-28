@@ -23,5 +23,9 @@
     <string name="action_success">操作成功</string>
     <string name="action_failed">操作失败</string>
 
-    <string name="title_setting">阅读页设置</string>
+    <string name="title_read_setting">阅读设置</string>
+    <string name="title_about">关于</string>
+    <string name="title_search_history">搜索历史</string>
+    <string name="title_read_history">阅读历史</string>
+
 </resources>

@@ -24,7 +24,7 @@ import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.detail.CatalogAdapter;
 import com.zhou.reader.setting.ReadSettingManager;
-import com.zhou.reader.setting.SettingsActivity;
+import com.zhou.reader.setting.ReadSettingsActivity;
 import com.zhou.reader.setting.ThemeManager;
 import com.zhou.reader.util.StatusBarManager;
 
@@ -184,7 +184,7 @@ long lastItemTouchTime = 0 ;
         MenuItem settingMenu = menu.findItem(R.id.action_settings);
         View settingView = settingMenu.getActionView();
         settingView.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SettingsActivity.class);
+            Intent intent = new Intent(this, ReadSettingsActivity.class);
             startActivity(intent);
         });
         return true;

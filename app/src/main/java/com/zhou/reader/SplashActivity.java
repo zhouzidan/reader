@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
     };
 
     private void go2ShelfActivity() {
-        Intent intent = new Intent(this,ShelfActivity.class);
+        Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
         finish();
     }
