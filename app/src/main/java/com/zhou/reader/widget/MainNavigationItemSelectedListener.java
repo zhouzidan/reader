@@ -28,10 +28,10 @@ public class MainNavigationItemSelectedListener implements BottomNavigationView.
                 viewPager.setCurrentItem(0);
                 activity.setTitle(R.string.title_shelf);
                 return true;
-            case R.id.navigation_shop:
-                viewPager.setCurrentItem(1);
-                activity.setTitle(R.string.title_shop);
-                return true;
+//            case R.id.navigation_shop:
+//                viewPager.setCurrentItem(1);
+//                activity.setTitle(R.string.title_shop);
+//                return true;
             case R.id.navigation_mine:
                 viewPager.setCurrentItem(2);
                 activity.setTitle(R.string.title_mine);

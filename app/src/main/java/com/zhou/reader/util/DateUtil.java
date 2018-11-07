@@ -13,6 +13,9 @@ public class DateUtil {
     //2018-09-16
     public static final String DateFormatYYYYMMDD = "yyyy-MM-dd";
 
+
+    public static final String DateFormatYYYYMMDDHHMMSS = "yyyy-MM-dd  HH:mm:ss";
+
     private static final long ONE_SECOND = 1000;
     private static final long ONE_MINUTE = ONE_SECOND * 60;
     private static final long ONE_HOUR = ONE_MINUTE * 60;

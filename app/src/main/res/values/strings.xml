@@ -16,6 +16,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">设置</string>
+    <string name="action_clear">清空</string>
 
     <string name="add_to_shelf">加入书架</string>
     <string name="remove_from_shelf">移出书架</string>
@@ -27,5 +28,8 @@
     <string name="title_about">关于</string>
     <string name="title_search_history">搜索历史</string>
     <string name="title_read_history">阅读历史</string>
+
+    <string name="btn_ok">确定</string>
+    <string name="btn_cancel">取消</string>
 
 </resources>

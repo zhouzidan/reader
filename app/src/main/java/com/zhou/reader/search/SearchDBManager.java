@@ -61,4 +61,9 @@ public class SearchDBManager {
         }
         return null;
     }
+
+    public void clear() {
+        searchBox.removeAll();
+    }
+
 }

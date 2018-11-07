@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.widget.Toast;
 
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.shelf.ShelfFragment;
@@ -24,9 +25,10 @@ public class MainActivity extends BaseActivity {
 
     private Fragment[] fragments = {
             new ShelfFragment(),
-            new ShopFragment(),
+//            new ShopFragment(),
             new MineFragment()
     };
+    private long firstTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,5 +53,14 @@ public class MainActivity extends BaseActivity {
         navigation.setSelectedItemId(R.id.navigation_shelf);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            firstTime = secondTime;
+        } else {
+            System.exit(0);
+        }
+    }
 }
