@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
-import com.zhou.reader.read.BookContentUtil;
-import com.zhou.reader.setting.ReadSettingManager;
-import com.zhou.reader.setting.ThemeManager;
+import com.zhou.reader.ui.read.BookContentUtil;
+import com.zhou.reader.ui.setting.ReadSettingManager;
+import com.zhou.reader.ui.setting.ThemeManager;
 import com.zhou.reader.util.AppExecutor;
 
 import java.util.List;

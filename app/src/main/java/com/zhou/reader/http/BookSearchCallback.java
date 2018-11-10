@@ -2,7 +2,7 @@ package com.zhou.reader.http;
 
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.entity.selector.SearchSelector;
-import com.zhou.reader.search.BookSearchUtil;
+import com.zhou.reader.ui.search.BookSearchUtil;
 import com.zhou.reader.util.AppExecutor;
 import com.zhou.reader.util.SelectorManager;
 

@@ -15,17 +15,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".detail.BookDetailActivity"
+            android:name=".ui.detail.BookDetailActivity"
             android:label="@string/title_book_detail" />
         <activity
-            android:name=".search.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:label="@string/title_search" />
         <activity
-            android:name=".read.ReadActivity"
+            android:name=".ui.read.ReadActivity"
             android:label="@string/title_activity_read"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".setting.ReadSettingsActivity"
+            android:name=".ui.setting.ReadSettingsActivity"
             android:label="@string/title_read_setting"
             android:screenOrientation="portrait" />
         <activity
@@ -49,10 +49,10 @@
             android:name=".AboutActivity"
             android:label="@string/title_about"></activity>
         <activity
-            android:name=".search.history.SearchHistoryActivity"
+            android:name=".ui.search.history.SearchHistoryActivity"
             android:label="@string/title_search_history"/>
         <activity
-            android:name=".read.history.ReadHistoryActivity"
+            android:name=".ui.read.history.ReadHistoryActivity"
             android:label="@string/title_read_history"/>
 
     </application>

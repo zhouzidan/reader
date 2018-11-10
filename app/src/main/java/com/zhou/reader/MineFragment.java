@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.view.View;
 
 import com.zhou.reader.base.BaseFragment;
-import com.zhou.reader.read.history.ReadHistoryActivity;
-import com.zhou.reader.search.history.SearchHistoryActivity;
-import com.zhou.reader.setting.ReadSettingsActivity;
+import com.zhou.reader.ui.read.history.ReadHistoryActivity;
+import com.zhou.reader.ui.search.history.SearchHistoryActivity;
+import com.zhou.reader.ui.setting.ReadSettingsActivity;
 
 import butterknife.OnClick;
 
