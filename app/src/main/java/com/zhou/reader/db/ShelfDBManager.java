@@ -47,6 +47,7 @@ public class ShelfDBManager {
         return lBookBox
                 .query()
                 .equal(Book_.onShelf,true)
+                .orderDesc(Book_.updateTime)
                 .build()
                 .find();
     }
