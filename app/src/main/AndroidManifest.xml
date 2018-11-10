@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.MainActivity" />
         <activity
             android:name=".ui.detail.BookDetailActivity"
             android:label="@string/title_book_detail" />
@@ -29,10 +29,10 @@
             android:label="@string/title_read_setting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShelfActivity"
+            android:name=".ui.ShelfActivity"
             android:label="@string/title_shelf" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,15 +46,15 @@
             android:value="a22ccf23c707edc51f62cbb47a7ce27fe8669e9f" />
 
         <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_about"></activity>
+            android:name=".ui.AboutActivity"
+            android:label="@string/title_about" />
         <activity
             android:name=".ui.search.history.SearchHistoryActivity"
-            android:label="@string/title_search_history"/>
+            android:label="@string/title_search_history" />
         <activity
             android:name=".ui.read.history.ReadHistoryActivity"
-            android:label="@string/title_read_history"/>
-
+            android:label="@string/title_read_history" />
+        <activity android:name=".widget.WebViewActivity"></activity>
     </application>
 
 </manifest>

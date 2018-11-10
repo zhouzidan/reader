@@ -1,4 +1,4 @@
-package com.zhou.reader;
+package com.zhou.reader.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.os.Message;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.zhou.reader.BuildConfig;
+import com.zhou.reader.R;
 
 import io.fabric.sdk.android.Fabric;
 

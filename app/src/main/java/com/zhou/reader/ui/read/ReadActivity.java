@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
-import com.zhou.reader.ReadAdapter;
+import com.zhou.reader.widget.ReadAdapter;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;

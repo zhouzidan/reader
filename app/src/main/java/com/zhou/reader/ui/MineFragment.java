@@ -1,8 +1,9 @@
-package com.zhou.reader;
+package com.zhou.reader.ui;
 
 import android.content.Intent;
 import android.view.View;
 
+import com.zhou.reader.R;
 import com.zhou.reader.base.BaseFragment;
 import com.zhou.reader.ui.read.history.ReadHistoryActivity;
 import com.zhou.reader.ui.search.history.SearchHistoryActivity;

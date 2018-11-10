@@ -1,9 +1,10 @@
-package com.zhou.reader;
+package com.zhou.reader.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.zhou.reader.R;
 import com.zhou.reader.ui.shelf.ShelfFragment;
 
 public class ShelfActivity extends AppCompatActivity {

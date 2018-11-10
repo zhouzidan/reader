@@ -1,10 +1,11 @@
-package com.zhou.reader;
+package com.zhou.reader.ui;
 
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.zhou.reader.R;
 import com.zhou.reader.base.BaseFragment;
 
 import butterknife.BindView;

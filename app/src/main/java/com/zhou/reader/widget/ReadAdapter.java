@@ -1,4 +1,4 @@
-package com.zhou.reader;
+package com.zhou.reader.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zhou.reader.R;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
 import com.zhou.reader.ui.read.BookContentUtil;

@@ -1,4 +1,4 @@
-package com.zhou.reader;
+package com.zhou.reader.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.widget.Toast;
 
+import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.ui.shelf.ShelfFragment;
 import com.zhou.reader.widget.MainFragmentAdapter;
