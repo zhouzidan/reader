@@ -25,21 +25,22 @@ import static android.text.TextUtils.isEmpty;
 
 public class BookSearchUtil {
 
-    public static void search(String keyword,BookSearchCallback searchCallback){
+    public static void search(String keyword, int page, BookSearchCallback searchCallback) {
         String selectorUrl = SelectorManager.get().getSelectSearchUrl();
-        String searchUrl = String.format(selectorUrl,keyword);
-        if (searchCallback != null){
+        String searchUrl = String.format(selectorUrl, keyword,page);
+        XLog.e(searchUrl);
+        if (searchCallback != null) {
             searchCallback.setKeyword(keyword);
         }
-        HttpUtil.doGet(searchUrl,searchCallback);
+        HttpUtil.doGet(searchUrl, searchCallback);
     }
 
-    public static void getCatalog(String url,BookCatalogCallback bookCatalogCallback){
-        HttpUtil.doGet(url,bookCatalogCallback);
+    public static void getCatalog(String url, BookCatalogCallback bookCatalogCallback) {
+        HttpUtil.doGet(url, bookCatalogCallback);
     }
 
 
-    public static SearchResult getSearchResult(String html,SearchSelector selector){
+    public static SearchResult getSearchResult(String html, SearchSelector selector) {
         SearchResult searchResult = new SearchResult();
         Document document = Jsoup.parse(html);
         Elements elements = document.select(selector.getItem());
@@ -47,37 +48,37 @@ public class BookSearchUtil {
         for (Element element : elements) {
             Book book = new Book();
             Element linkElement = element.selectFirst(selector.getLink());
-            if (linkElement != null){
+            if (linkElement != null) {
                 String link = linkElement.attr("abs:href");
                 book.setLink(link);
             }
 
             Element picElement = element.selectFirst(selector.getCoverPic());
-            if (picElement != null){
+            if (picElement != null) {
                 String coverPic = picElement.attr("abs:src");
                 book.setCoverPic(coverPic);
             }
 
             Element titleElement = element.selectFirst(selector.getTitle());
-            if (titleElement != null){
+            if (titleElement != null) {
                 book.setTitle(titleElement.text());
             }
 
             Element descElement = element.selectFirst(selector.getDesc());
-            if (descElement != null){
+            if (descElement != null) {
                 book.setDesc(descElement.text());
             }
 
             Elements tagElements = element.select(selector.getTag());
             for (Element tagElement : tagElements) {
                 List<Element> nameAndValueElement = tagElement.children();
-                if (nameAndValueElement != null && nameAndValueElement.size() == 2){
+                if (nameAndValueElement != null && nameAndValueElement.size() == 2) {
                     Element nameElement = nameAndValueElement.get(0);
                     Element valueElement = nameAndValueElement.get(1);
-                    if (nameElement != null && valueElement != null){
+                    if (nameElement != null && valueElement != null) {
                         String name = nameElement.text();
                         String value = valueElement.text();
-                        pickDataForBook(book,name,value);
+                        pickDataForBook(book, name, value);
                     }
                 }
             }
@@ -92,29 +93,29 @@ public class BookSearchUtil {
     private static final String[] NAME_UPDATE_TIME = {"更新时间"};
     private static final String[] NAME_LAST_CATALOG = {"最新章节"};
 
-    private static void pickDataForBook(Book book, String name, String value){
-        if (book != null && !isEmpty(name) && !isEmpty(value)){
-            XLog.d("name:"+name + " value:"+value);
+    private static void pickDataForBook(Book book, String name, String value) {
+        if (book != null && !isEmpty(name) && !isEmpty(value)) {
+            XLog.d("name:" + name + " value:" + value);
             for (String authorName : NAME_AUTHOR) {
-                if (name.contains(authorName)){
+                if (name.contains(authorName)) {
                     book.setAuthor(value);
                     return;
                 }
             }
             for (String typeName : NAME_BOOK_TYPE) {
-                if (name.contains(typeName)){
+                if (name.contains(typeName)) {
                     book.setType(value);
                     return;
                 }
             }
             for (String updateName : NAME_UPDATE_TIME) {
-                if (name.contains(updateName)){
-                    book.setUpdateTime(DateUtil.string2Date(value,DateUtil.DateFormatYYYYMMDD).getTime());
+                if (name.contains(updateName)) {
+                    book.setUpdateTime(DateUtil.string2Date(value, DateUtil.DateFormatYYYYMMDD).getTime());
                     return;
                 }
             }
             for (String catalogName : NAME_LAST_CATALOG) {
-                if (name.contains(catalogName)){
+                if (name.contains(catalogName)) {
                     book.setLeastCatalog(value);
                     return;
                 }
@@ -123,19 +124,19 @@ public class BookSearchUtil {
         }
     }
 
-    public static List<Catalog> getCatalog(Book book){
+    public static List<Catalog> getCatalog(Book book) {
         String url = book.getLink();
         long localBookId = book.getId();
         CatalogSelector selector = SelectorManager.get().getSelectSelector().getCatalog();
         List<Catalog> catalogs = new ArrayList<>();
         Document document = null;
         try {
-            document = Jsoup.parse(new URL(url).openStream(),"GBK","");
+            document = Jsoup.parse(new URL(url).openStream(), "GBK", "");
         } catch (IOException e) {
             e.printStackTrace();
         }
         Elements elements = document.select(selector.getSelector());
-        for (int i = 0; i < elements.size() ; i++) {
+        for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             Catalog catalog = new Catalog();
             catalog.setIndex(i);

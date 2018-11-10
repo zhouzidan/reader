@@ -14,6 +14,9 @@ import static android.text.TextUtils.isEmpty;
 
 public class SearchPresenter implements SearchContract.Presenter {
 
+    private int page = 1;
+    private String keyword ;
+
     SearchContract.View view;
 
     public SearchPresenter(SearchContract.View view) {
@@ -22,17 +25,23 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void search(String keyword) {
-        if (isEmpty(keyword)){
+        this.keyword = keyword;
+        this.page = 1;
+        if (isEmpty(keyword)) {
             showHistory();
             return;
         }
         view.showLoading();
         SearchDBManager.get().save(keyword);
-        BookSearchUtil.search(keyword,new BookSearchCallback() {
+        BookSearchUtil.search(keyword, page, new BookSearchCallback() {
             @Override
             public void onSuccess(SearchResult searchResult) {
-                view.clearSearchResult();
-                view.showData(searchResult);
+                if (searchResult.getBooks().size() == 0){
+                    view.showMessage("没有搜索到结果");
+                    showHistory();
+                }else {
+                    view.showData(searchResult);
+                }
             }
 
             @Override
@@ -48,15 +57,40 @@ public class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void showHistory(){
-        view.showLoading();
+    public void loadMore() {
+        page ++ ;
+        BookSearchUtil.search(keyword, page, new BookSearchCallback() {
+            @Override
+            public void onSuccess(SearchResult searchResult) {
+                if (searchResult.getBooks().size() == 0){
+                    view.showMessage("已经没有更多了");
+                }else {
+                    view.showMessage("已经完成更多加载");
+                    view.showData(searchResult);
+                }
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                view.showError();
+            }
+
+            @Override
+            public void onFinish() {
+                view.hideLoading();
+            }
+        });
+
+    }
+
+    @Override
+    public void showHistory() {
         List<Search> searches = SearchDBManager.get().getAll();
         List<String> keywords = new ArrayList<>();
         for (Search search : searches) {
             keywords.add(search.content);
         }
-        view.showData(keywords);
-        view.hideLoading();
+        view.showHistory(keywords);
     }
 
     @Override

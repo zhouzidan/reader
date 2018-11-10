@@ -1,5 +1,6 @@
 package com.zhou.reader.util;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 public class RecyclerViewUtil {
@@ -14,5 +15,14 @@ public class RecyclerViewUtil {
                 >= recyclerView.computeVerticalScrollRange())
             return true;
         return false;
+    }
+
+    public static int findFirstVisibleItemPosition(RecyclerView recyclerView){
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof LinearLayoutManager){
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+            return linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+        }
+        return 0;
     }
 }

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "baseUrl": "https://www.liewen.cc",
-    "searchUrl": "/search.php?keyword=%s",
+    "searchUrl": "/search.php?keyword=%s&page=%d",
     "search": {
       "item": "body > div.result-list > div.result-item",
       "title": "div.result-game-item-detail > h3 > a > span",

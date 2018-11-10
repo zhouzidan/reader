@@ -12,11 +12,13 @@ public class SearchContract {
 
         void clearSearchResult();
 
-        void showData(List<String> searches);
+        void showHistory(List<String> searches);
     }
 
     public static interface Presenter{
         void search(String string);
+
+        void loadMore();
 
         void showHistory();
 

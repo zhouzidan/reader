@@ -19,8 +19,11 @@ import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.ui.detail.BookDetailActivity;
+import com.zhou.reader.util.RecyclerViewUtil;
 import com.zhou.reader.util.StringUtils;
 import com.zhou.reader.widget.BookListAdapter;
+import com.zhou.reader.widget.CallBack;
+import com.zhou.reader.widget.RecyclerViewOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
     private final String TAG = SearchActivity.class.getCanonicalName();
     private SearchContract.Presenter presenter;
     private BookListAdapter bookListAdapter;
+    private RecyclerViewOnScrollListener mLoadMoreScrollListener ;
     private List<Book> books = new ArrayList<>();
 
     @BindView(R.id.recyclerView)
@@ -55,9 +59,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
     @Override
     protected void initData() {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mLoadMoreScrollListener = new RecyclerViewOnScrollListener();
+        mLoadMoreScrollListener.setCallBack(loadMoreCallBack);
+        recyclerView.addOnScrollListener(mLoadMoreScrollListener);
         presenter = new SearchPresenter(this);
         bookListAdapter = new BookListAdapter(this,books);
         bookListAdapter.setClickCallback(clickCallback);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(bookListAdapter);
         tagLayout.setOnTagClickListener(onTagClickListener);
         presenter.showHistory();
     }
@@ -99,9 +108,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         System.out.println(searchResult.getTotal() + "---" + searchResult.getBooks().size());
         recyclerView.setVisibility(View.VISIBLE);
         tagLinearLayout.setVisibility(View.GONE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(bookListAdapter);
-
         if (StringUtils.isEqual(searchResult.getKeyword() , bookListAdapter.getKeyword())){
             books.addAll(searchResult.getBooks());
         }else {
@@ -114,7 +120,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         }else {
             int positionStart = books.size() - searchResult.getBooks().size();
             int itemCount = searchResult.getBooks().size();
+            int visiablePosition = RecyclerViewUtil.findFirstVisibleItemPosition(recyclerView);
+            visiablePosition = visiablePosition > 0 ? visiablePosition : positionStart;
             bookListAdapter.notifyItemRangeInserted(positionStart,itemCount);
+            recyclerView.scrollToPosition(visiablePosition);
         }
     }
 
@@ -128,7 +137,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
 
 
     @Override
-    public void showData(List<String> searches) {
+    public void showHistory(List<String> searches) {
         XLog.e("搜索历史："+searches.size()); // TODO
         recyclerView.setVisibility(View.GONE);
         tagLinearLayout.setVisibility(View.VISIBLE);
@@ -156,6 +165,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         @Override
         public void onTagCrossClick(int position) {
 
+        }
+    };
+
+    // 滑动监听中的加载更多
+    private CallBack loadMoreCallBack = new CallBack() {
+        @Override
+        public void call(Object o) {
+            presenter.loadMore();
         }
     };
 
