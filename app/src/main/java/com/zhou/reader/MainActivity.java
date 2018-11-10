@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.ui.shelf.ShelfFragment;
-import com.zhou.reader.ui.shelf.ShelfModle;
 import com.zhou.reader.widget.MainFragmentAdapter;
 import com.zhou.reader.widget.MainNavigationItemSelectedListener;
 import com.zhou.reader.widget.MainPageChangeListener;

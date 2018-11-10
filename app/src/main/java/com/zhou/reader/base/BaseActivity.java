@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.zhou.reader.R;
-
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {

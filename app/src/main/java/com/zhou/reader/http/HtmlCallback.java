@@ -1,6 +1,5 @@
 package com.zhou.reader.http;
 
-import com.squareup.moshi.JsonAdapter;
 import com.zhou.reader.util.AppExecutor;
 
 import java.io.IOException;

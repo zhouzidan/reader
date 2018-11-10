@@ -3,7 +3,6 @@ package com.zhou.reader.ui.read;
 import com.zhou.reader.base.BasePresenter;
 import com.zhou.reader.base.BaseView;
 import com.zhou.reader.db.Book;
-import com.zhou.reader.db.BookContent;
 import com.zhou.reader.db.Catalog;
 
 import java.util.List;

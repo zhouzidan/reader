@@ -2,7 +2,6 @@ package com.zhou.reader.db;
 
 import android.os.Build;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import io.objectbox.annotation.Entity;

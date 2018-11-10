@@ -2,7 +2,6 @@ package com.zhou.reader.ui.search;
 
 import com.zhou.reader.base.BaseView;
 import com.zhou.reader.db.Book;
-import com.zhou.reader.db.Search;
 import com.zhou.reader.entity.SearchResult;
 
 import java.util.List;

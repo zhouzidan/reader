@@ -17,8 +17,8 @@ import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
-import com.zhou.reader.ui.detail.BookDetailActivity;
 import com.zhou.reader.entity.SearchResult;
+import com.zhou.reader.ui.detail.BookDetailActivity;
 import com.zhou.reader.util.StringUtils;
 import com.zhou.reader.widget.BookListAdapter;
 

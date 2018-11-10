@@ -1,16 +1,13 @@
 package com.zhou.reader.ui.read;
 
 import com.elvishew.xlog.XLog;
-import com.zhou.reader.db.BookContent;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.entity.selector.ContentSelector;
-import com.zhou.reader.entity.selector.Selector;
 import com.zhou.reader.util.SelectorManager;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;

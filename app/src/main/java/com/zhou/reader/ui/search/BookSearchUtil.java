@@ -6,8 +6,8 @@ import com.zhou.reader.db.Catalog;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.entity.selector.CatalogSelector;
 import com.zhou.reader.entity.selector.SearchSelector;
-import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.http.BookSearchCallback;
+import com.zhou.reader.http.HttpUtil;
 import com.zhou.reader.util.DateUtil;
 import com.zhou.reader.util.SelectorManager;
 
