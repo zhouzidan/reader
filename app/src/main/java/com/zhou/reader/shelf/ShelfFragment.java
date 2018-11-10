@@ -2,10 +2,13 @@ package com.zhou.reader.shelf;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,6 +31,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ShelfFragment extends BaseFragment implements ShelfContact.View{
+
+    private String TAG = "ShelfFragment";
 
     private final int REQUEST_CODE_ADD_MORE_BOOK = 111;
 
@@ -153,6 +158,15 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
         @Override
         public void onLongClick(Book book) {
             // 长按
+            AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                    .setTitle(book.getTitle())
+                    .setMessage("确认将本书移除书架吗？")
+                    .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
+                        presenter.removeBookFromShelf(book);
+                    })
+                    .setNegativeButton(R.string.btn_cancel, null)
+                    .create();
+            alertDialog.show();
         }
     };
 }

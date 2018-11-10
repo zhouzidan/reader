@@ -56,7 +56,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
                 clickCallback.onClick(book);
             }
         });
-        holder.imageView.setOnLongClickListener(v -> {
+        holder.itemView.setOnLongClickListener(v -> {
             if (clickCallback != null){
                 clickCallback.onLongClick(book);
             }
