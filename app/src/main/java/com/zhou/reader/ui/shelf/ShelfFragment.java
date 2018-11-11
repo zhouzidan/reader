@@ -27,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ShelfFragment extends BaseFragment implements ShelfContact.View{
+public class ShelfFragment extends BaseFragment implements ShelfContact.View {
 
     private String TAG = "ShelfFragment";
 
@@ -41,7 +41,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
 
     ShelfPresenter presenter;
     List<Book> mBooks = new ArrayList<>();
-    ShelfBookListAdapter bookListAdapter ;
+    ShelfBookListAdapter bookListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -78,12 +78,12 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.shelf,menu);
+        inflater.inflate(R.menu.shelf, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_add){
+        if (item.getItemId() == R.id.action_add) {
             onAddMoreBook();
         }
         return super.onOptionsItemSelected(item);
@@ -102,8 +102,8 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
         bookListAdapter.unregisterAdapterDataObserver(adapterDataObserver);
     }
 
-    private void changeEmptyViewVisiblity(){
-        XLog.d("bookListAdapter.getItemCount:"+bookListAdapter.getItemCount());
+    private void changeEmptyViewVisiblity() {
+        XLog.d("bookListAdapter.getItemCount:" + bookListAdapter.getItemCount());
         int visiblity = bookListAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE;
         addMoreBookBtn.setVisibility(visiblity);
     }
@@ -130,15 +130,15 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
     };
 
     @OnClick(R.id.btn_add_more)
-    public void onAddMoreBook(){
+    public void onAddMoreBook() {
         Intent intent = new Intent(getActivity(), SearchActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_ADD_MORE_BOOK);
+        startActivityForResult(intent, REQUEST_CODE_ADD_MORE_BOOK);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_MORE_BOOK){
+        if (requestCode == REQUEST_CODE_ADD_MORE_BOOK) {
             presenter.loadShelfBooks();
         }
     }
@@ -148,7 +148,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View{
         public void onClick(Book book) {
             // 点击
             Intent intent = new Intent(getContext(), BookDetailActivity.class);
-            intent.putExtra(CONST.EXTRA_BOOK_ID,book.id);
+            intent.putExtra(CONST.EXTRA_BOOK_ID, book.id);
             startActivity(intent);
         }
 

@@ -9,7 +9,7 @@ import com.zhou.reader.http.ObjectHttpCallback;
 import java.util.List;
 
 public class ShelfModle {
-    public static List<Book> getBooks(){
+    public static List<Book> getBooks() {
         System.out.println("getBooks");
 
         return null;
@@ -18,10 +18,11 @@ public class ShelfModle {
     /**
      * https://xiadd.github.io/zhuishushenqi/#/?id=获取搜索结果
      * http://novel.juhe.im/search?keyword=遮天
+     *
      * @param name
      */
-    public static void searchBooks(String name){
-        String url = "http://novel.juhe.im/search?keyword="+ name;
+    public static void searchBooks(String name) {
+        String url = "http://novel.juhe.im/search?keyword=" + name;
         System.out.println(url);
         HttpUtil.doGet(url, new ObjectHttpCallback<SearchResult>(SearchResult.class) {
 

@@ -8,8 +8,8 @@ import okhttp3.Request;
 public class HttpUtil {
     private static OkHttpClient okHttpClient;
 
-    private static OkHttpClient getOkHttpClient(){
-        if (okHttpClient == null){
+    private static OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(60, TimeUnit.SECONDS)
                     .writeTimeout(60, TimeUnit.SECONDS)
@@ -21,7 +21,7 @@ public class HttpUtil {
         return okHttpClient;
     }
 
-    public static void doGet(String url , final ObjectHttpCallback callback){
+    public static void doGet(String url, final ObjectHttpCallback callback) {
         OkHttpClient okHttpClient = getOkHttpClient();
         Request request = new Request.Builder()
                 .url(url)

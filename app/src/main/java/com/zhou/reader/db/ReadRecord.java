@@ -5,8 +5,9 @@ import io.objectbox.annotation.Id;
 
 @Entity
 public class ReadRecord {
-    @Id public long id ;
-    public long localCatalogId ;
+    @Id
+    public long id;
+    public long localCatalogId;
     public String bookName;
     public String catalogName;
     public long localBookId;

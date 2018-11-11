@@ -5,10 +5,11 @@ import io.objectbox.annotation.Id;
 
 @Entity
 public class BookContent {
-    @Id public long id ;
+    @Id
+    public long id;
     public String content;
-    public long localCatalogId ;
-    public long localBookId ;
+    public long localCatalogId;
+    public long localBookId;
 
     public long getId() {
         return id;

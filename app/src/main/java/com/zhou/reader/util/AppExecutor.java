@@ -26,12 +26,12 @@ public class AppExecutor {
     }
 
     private AppExecutor() {
-         this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT),
-                 new MainThreadExecutor());
+        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT),
+                new MainThreadExecutor());
     }
 
-    public static AppExecutor get(){
-        if (instance == null){
+    public static AppExecutor get() {
+        if (instance == null) {
             instance = new AppExecutor();
         }
         return instance;
@@ -49,9 +49,9 @@ public class AppExecutor {
         return mainThread;
     }
 
-    public static class MainThreadExecutor implements Executor{
+    public static class MainThreadExecutor implements Executor {
 
-         private final Handler mainHandler = new Handler(Looper.getMainLooper());
+        private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
         @Override
         public void execute(@NonNull Runnable command) {

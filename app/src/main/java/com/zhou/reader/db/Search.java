@@ -5,7 +5,8 @@ import io.objectbox.annotation.Id;
 
 @Entity
 public class Search {
-    @Id public long id;
+    @Id
+    public long id;
     public String content;
     public long updateTime;
 

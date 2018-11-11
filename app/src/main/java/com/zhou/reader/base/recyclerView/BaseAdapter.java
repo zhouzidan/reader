@@ -25,7 +25,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         int adapterPosition = holder.getAdapterPosition();
-        if (adapterPosition > 0 && adapterPosition < getItemCount()){
+        if (adapterPosition > 0 && adapterPosition < getItemCount()) {
             T t = datas.get(holder.getAdapterPosition());
             holder.bindViewHolder(t);
         }

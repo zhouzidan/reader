@@ -29,8 +29,7 @@
     <TextView
         android:id="@+id/tv_read_setting"
         style="@style/SettingItemStyle"
-        android:text="@string/title_read_setting"
-    />
+        android:text="@string/title_read_setting" />
 
     <View
         android:layout_width="match_parent"
@@ -41,8 +40,7 @@
         android:id="@+id/tv_about"
         style="@style/SettingItemStyle"
         android:gravity="center_vertical"
-        android:text="@string/title_about"
-    />
+        android:text="@string/title_about" />
 
     <View
         android:layout_width="match_parent"

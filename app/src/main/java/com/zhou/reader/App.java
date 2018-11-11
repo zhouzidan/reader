@@ -24,11 +24,11 @@ public class App extends Application {
 
     }
 
-    public static Context getAppContext(){
+    public static Context getAppContext() {
         return application.getApplicationContext();
     }
 
-    public static BoxStore getBoxStore(){
+    public static BoxStore getBoxStore() {
         return boxStore;
     }
 

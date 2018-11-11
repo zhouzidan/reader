@@ -1,7 +1,8 @@
 /**
-  * Copyright 2018 bejson.com 
-  */
+ * Copyright 2018 bejson.com
+ */
 package com.zhou.reader.entity;
+
 import java.util.List;
 
 /**
@@ -14,13 +15,13 @@ public class Highlight {
 
     private List<String> title;
 
-     public List<String> getTitle() {
-         return title;
-     }
+    public List<String> getTitle() {
+        return title;
+    }
 
     public void setTitle(List<String> title) {
-         this.title = title;
-     }
+        this.title = title;
+    }
 
     @Override
     public String toString() {

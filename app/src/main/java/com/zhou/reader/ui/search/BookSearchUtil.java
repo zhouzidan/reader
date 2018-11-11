@@ -27,7 +27,7 @@ public class BookSearchUtil {
 
     public static void search(String keyword, int page, BookSearchCallback searchCallback) {
         String selectorUrl = SelectorManager.get().getSelectSearchUrl();
-        String searchUrl = String.format(selectorUrl, keyword,page);
+        String searchUrl = String.format(selectorUrl, keyword, page);
         XLog.e(searchUrl);
         if (searchCallback != null) {
             searchCallback.setKeyword(keyword);

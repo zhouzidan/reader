@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.net.URL;
 
 public class BookContentUtil {
-    public static void loadBookContent(Catalog catalog){
+    public static void loadBookContent(Catalog catalog) {
         XLog.d(catalog.toString());
         ContentSelector selector = SelectorManager.get().getSelectSelector().getContent();
         XLog.d(SelectorManager.get().getBaseUrl());
         String url = SelectorManager.get().getBaseUrl() + catalog.getUrl();
         Document document = null;
         try {
-            document = Jsoup.parse(new URL(url).openStream(),"GBK","");
+            document = Jsoup.parse(new URL(url).openStream(), "GBK", "");
         } catch (IOException e) {
             e.printStackTrace();
         }

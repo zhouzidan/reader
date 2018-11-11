@@ -14,12 +14,14 @@ import java.util.List;
 
 public class SelectorManager {
     private static SelectorManager INSTANCE;
-    private SelectorManager(){}
+
+    private SelectorManager() {
+    }
 
     private List<Selector> selectors;
 
-    public static SelectorManager get(){
-        if (INSTANCE == null){
+    public static SelectorManager get() {
+        if (INSTANCE == null) {
             INSTANCE = new SelectorManager();
         }
         return INSTANCE;
@@ -37,21 +39,21 @@ public class SelectorManager {
         }
     }
 
-    public Selector getSelectSelector(){
+    public Selector getSelectSelector() {
         int selectIndex = SPUtil.getInt(CONST.SELECTED_SELECTOR);
         return selectors.get(selectIndex);
     }
 
-    public void setSelectSeletor(SelectorEnum selectorEnum){
-        SPUtil.put(CONST.SELECTED_SELECTOR,selectorEnum.getValue());
+    public void setSelectSeletor(SelectorEnum selectorEnum) {
+        SPUtil.put(CONST.SELECTED_SELECTOR, selectorEnum.getValue());
     }
 
-    public String getSelectSearchUrl(){
+    public String getSelectSearchUrl() {
         Selector selector = getSelectSelector();
         return selector.getBaseUrl() + selector.getSearchUrl();
     }
 
-    public String getBaseUrl(){
+    public String getBaseUrl() {
         return getSelectSelector().getBaseUrl();
     }
 

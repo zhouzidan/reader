@@ -18,14 +18,14 @@ public class JsonUtil {
         return jsonAdapter.toJson(t);
     }
 
-    public static <T> String toJson(List<T> tList , Class<T> tClass){
-        Type type = Types.newParameterizedType(List.class,tClass);
+    public static <T> String toJson(List<T> tList, Class<T> tClass) {
+        Type type = Types.newParameterizedType(List.class, tClass);
         JsonAdapter<List<T>> jsonAdapter = moshi.adapter(type);
         return jsonAdapter.toJson(tList);
     }
 
     public static <T> T fromJson(String json, Class<T> aClass) {
-        if (!TextUtils.isEmpty(json)){
+        if (!TextUtils.isEmpty(json)) {
             final JsonAdapter<T> jsonAdapter = moshi.adapter(aClass);
             try {
                 return jsonAdapter.fromJson(json);
@@ -36,9 +36,9 @@ public class JsonUtil {
         return null;
     }
 
-    public static <T> List<T> fromJsonToList(String json , Class<T> tClass){
-        if (!TextUtils.isEmpty(json)){
-            Type type = Types.newParameterizedType(List.class,tClass);
+    public static <T> List<T> fromJsonToList(String json, Class<T> tClass) {
+        if (!TextUtils.isEmpty(json)) {
+            Type type = Types.newParameterizedType(List.class, tClass);
             final JsonAdapter<List<T>> jsonAdapter = moshi.adapter(type);
             try {
                 return jsonAdapter.fromJson(json);

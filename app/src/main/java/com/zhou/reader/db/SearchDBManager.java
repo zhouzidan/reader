@@ -11,11 +11,13 @@ import static android.text.TextUtils.isEmpty;
 public class SearchDBManager {
     Box<Search> searchBox;
     private static SearchDBManager searchDBManager;
-    private SearchDBManager(){
+
+    private SearchDBManager() {
         searchBox = App.getBoxStore().boxFor(Search.class);
     }
-    public static SearchDBManager get(){
-        if (searchDBManager == null){
+
+    public static SearchDBManager get() {
+        if (searchDBManager == null) {
             searchDBManager = new SearchDBManager();
         }
         return searchDBManager;
@@ -24,11 +26,12 @@ public class SearchDBManager {
 
     /**
      * 保存搜索记录
+     *
      * @param str
      */
-    public void save(String str){
+    public void save(String str) {
         delete(str);
-        if (!isEmpty(str) && searchBox != null){
+        if (!isEmpty(str) && searchBox != null) {
             Search search = new Search();
             search.content = str;
             search.updateTime = System.currentTimeMillis();
@@ -38,11 +41,12 @@ public class SearchDBManager {
 
     /**
      * 删除记录
+     *
      * @param str
      */
-    public void delete(String str){
-        if (!isEmpty(str) && searchBox != null){
-            List<Search> searches = searchBox.query().equal(Search_.content,str).build().find();
+    public void delete(String str) {
+        if (!isEmpty(str) && searchBox != null) {
+            List<Search> searches = searchBox.query().equal(Search_.content, str).build().find();
             for (Search search : searches) {
                 searchBox.remove(search);
             }
@@ -51,11 +55,12 @@ public class SearchDBManager {
 
     /**
      * 获取所有的搜索记录
+     *
      * @return
      */
-    public List<Search> getAll(){
-        if (searchBox != null){
-           return searchBox.query().orderDesc(Search_.updateTime).build().find();
+    public List<Search> getAll() {
+        if (searchBox != null) {
+            return searchBox.query().orderDesc(Search_.updateTime).build().find();
         }
         return null;
     }

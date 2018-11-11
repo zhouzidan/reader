@@ -33,7 +33,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_book,parent,false);
+        View view = inflater.inflate(R.layout.item_book, parent, false);
         return new BookViewHolder(view);
     }
 
@@ -41,7 +41,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         final Book book = books.get(holder.getAdapterPosition());
         holder.titleTextView.setText(book.getTitle());
-        String desc = book.getDesc().replace("　","");
+        String desc = book.getDesc().replace("　", "");
         holder.introTextView.setText(desc);
         holder.authorTextView.setText(book.getAuthor());
         holder.lastUpdateTimeTextView.setText(DateUtil.date2String(book.getUpdateTime()));
@@ -52,12 +52,12 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
                 .centerCrop()
                 .into(holder.imageView);
         holder.itemView.setOnClickListener(v -> {
-            if (clickCallback != null){
+            if (clickCallback != null) {
                 clickCallback.onClick(book);
             }
         });
         holder.itemView.setOnLongClickListener(v -> {
-            if (clickCallback != null){
+            if (clickCallback != null) {
                 clickCallback.onLongClick(book);
             }
             return true;
@@ -73,7 +73,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
         this.clickCallback = clickCallback;
     }
 
-    public static class BookViewHolder extends RecyclerView.ViewHolder{
+    public static class BookViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.img)
         ImageView imageView;
@@ -95,14 +95,15 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
 
         public BookViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             itemView.setLongClickable(true);
             imageView.setClickable(false);
         }
     }
 
-    public interface ClickCallback{
+    public interface ClickCallback {
         void onClick(Book book);
+
         void onLongClick(Book book);
     }
 }

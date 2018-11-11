@@ -19,14 +19,21 @@ public class ReadContact {
 
     }
 
-    public static interface Presenter extends BasePresenter{
+    public static interface Presenter extends BasePresenter {
         void loadData(Intent intent);
+
         Book getBook();
+
         List<Catalog> getCatalogs();
+
         Catalog getCurrentCatalog();
+
         void loadNextContent();
+
         void loadLastContent();
+
         void loadContent(Catalog catalog);
+
         void saveReadRecord(Catalog catalog);
     }
 }

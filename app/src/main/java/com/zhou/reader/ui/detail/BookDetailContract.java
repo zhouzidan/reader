@@ -14,12 +14,16 @@ public class BookDetailContract {
         void loadBookAndCatalogs(Book book, List<Catalog> localCatalogList);
     }
 
-    public static interface Presenter{
+    public static interface Presenter {
         void loadBookAndCatalog(Book book);
+
         void loadBookShelfStatus(Book book);
+
         void removeBookShelf(Book book);
-        void addBookToShelf(Book book,List<Catalog> catalogs);
-        void saveBookToCache(Book book,List<Catalog> catalogs);
+
+        void addBookToShelf(Book book, List<Catalog> catalogs);
+
+        void saveBookToCache(Book book, List<Catalog> catalogs);
     }
 
 }

@@ -5,18 +5,19 @@ import io.objectbox.annotation.Id;
 
 @Entity
 public class Book {
-    @Id public long id;
+    @Id
+    public long id;
     public String title;
     public String link;
     public String coverPic;
     public String desc;
-    public String author ; // 作者
-    public String type ; //类型
-    public long updateTime ; // 更新时间
-    public String leastCatalog ; //最新章节
-    public boolean onShelf ; // 在书架上
-    public String updateTo ; // 更新至
-    public int defaultSource ; //默认来源 编号
+    public String author; // 作者
+    public String type; //类型
+    public long updateTime; // 更新时间
+    public String leastCatalog; //最新章节
+    public boolean onShelf; // 在书架上
+    public String updateTo; // 更新至
+    public int defaultSource; //默认来源 编号
 
 
     public long getId() {

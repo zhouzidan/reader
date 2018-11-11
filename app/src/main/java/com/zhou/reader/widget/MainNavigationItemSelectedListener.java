@@ -15,7 +15,7 @@ public class MainNavigationItemSelectedListener implements BottomNavigationView.
     private ViewPager viewPager;
     private FragmentActivity activity;
 
-    public MainNavigationItemSelectedListener(FragmentActivity activity ,ViewPager viewPager) {
+    public MainNavigationItemSelectedListener(FragmentActivity activity, ViewPager viewPager) {
         this.viewPager = viewPager;
         this.activity = activity;
     }

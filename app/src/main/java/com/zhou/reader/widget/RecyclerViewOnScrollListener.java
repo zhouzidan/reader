@@ -24,13 +24,14 @@ public class RecyclerViewOnScrollListener extends RecyclerView.OnScrollListener 
             // 判断是否滑动到了最后一个item，并且是向上滑动
             if (lastItemPosition == (itemCount - 1) && isSlidingUpward) {
                 //加载更多
-                if (callBack != null){
+                if (callBack != null) {
                     callBack.call(null);
                 }
             }
         }
 
     }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);

@@ -33,14 +33,14 @@ public class ReadSettingsActivity extends BaseActivity {
         int textSize = ReadSettingManager.getInstance().getTextSize();
         textSizeTitleTextView.setText("文字大小：" + textSize);
         boolean nightMode = ReadSettingManager.getInstance().isNightMode();
-        XLog.e("nightMode:"+nightMode);
+        XLog.e("nightMode:" + nightMode);
         radioGroup.check(nightMode ? R.id.radio_night_mode : R.id.radio_day_mode);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             XLog.d(checkedId);
-            if (checkedId == R.id.radio_day_mode){
+            if (checkedId == R.id.radio_day_mode) {
                 XLog.d("白天");
                 ReadSettingManager.getInstance().setNightMode(false);
-            }else if (checkedId == R.id.radio_night_mode){
+            } else if (checkedId == R.id.radio_night_mode) {
                 XLog.d("夜间模式");
                 ReadSettingManager.getInstance().setNightMode(true);
             }
@@ -54,8 +54,8 @@ public class ReadSettingsActivity extends BaseActivity {
         textSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                XLog.d("progress:"+progress);
-                int textSize = progress ;
+                XLog.d("progress:" + progress);
+                int textSize = progress;
                 ReadSettingManager.getInstance().setTextSize(textSize);
                 textSizeTitleTextView.setText("文字大小：" + textSize);
             }

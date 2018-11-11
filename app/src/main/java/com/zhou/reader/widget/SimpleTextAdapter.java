@@ -23,7 +23,7 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.VH
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_text, null);
         return new VH(view);
     }
 
@@ -37,8 +37,9 @@ public class SimpleTextAdapter extends RecyclerView.Adapter<SimpleTextAdapter.VH
         return strings.size();
     }
 
-    public static class VH extends RecyclerView.ViewHolder{
+    public static class VH extends RecyclerView.ViewHolder {
         public TextView textView;
+
         public VH(View itemView) {
             super(itemView);
             textView = (TextView) itemView;

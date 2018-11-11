@@ -15,7 +15,7 @@ public class SearchContract {
         void showHistory(List<String> searches);
     }
 
-    public static interface Presenter{
+    public static interface Presenter {
         void search(String string);
 
         void loadMore();

@@ -9,7 +9,8 @@ import io.objectbox.annotation.Id;
 
 @Entity
 public class Catalog {
-    @Id public long id ;
+    @Id
+    public long id;
     public int index;
     public String title;
     public String url;
@@ -18,7 +19,6 @@ public class Catalog {
     public long bookId;
 
     public String content;
-
 
 
     public long getId() {
@@ -90,8 +90,8 @@ public class Catalog {
     public int hashCode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             return Objects.hash(id, bookId);
-        }else {
-            return String.valueOf(id +"" + bookId).hashCode();
+        } else {
+            return String.valueOf(id + "" + bookId).hashCode();
         }
     }
 
@@ -104,7 +104,7 @@ public class Catalog {
                 ", url='" + url + '\'' +
                 ", hasRead=" + hasRead +
                 ", bookId=" + bookId +
-                ", content='" + ((content != null) ? content.substring(0,10) : "null") + '\'' +
+                ", content='" + ((content != null) ? content.substring(0, 10) : "null") + '\'' +
                 '}';
     }
 }

@@ -19,9 +19,11 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.viewpager) ViewPager viewPager;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
 
-    @BindView(R.id.navigation) BottomNavigationView navigation ;
+    @BindView(R.id.navigation)
+    BottomNavigationView navigation;
 
     private Fragment[] fragments = {
             new ShelfFragment(),
@@ -34,7 +36,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
@@ -47,8 +49,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        navigation.setOnNavigationItemSelectedListener(new MainNavigationItemSelectedListener(this,viewPager));
-        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager(),fragments));
+        navigation.setOnNavigationItemSelectedListener(new MainNavigationItemSelectedListener(this, viewPager));
+        viewPager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager(), fragments));
         viewPager.addOnPageChangeListener(new MainPageChangeListener(navigation));
         navigation.setSelectedItemId(R.id.navigation_shelf);
     }

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 public class RecyclerViewUtil {
     /**
      * 是否滑动的底部
+     *
      * @param recyclerView
      * @return
      */
@@ -17,9 +18,9 @@ public class RecyclerViewUtil {
         return false;
     }
 
-    public static int findFirstVisibleItemPosition(RecyclerView recyclerView){
+    public static int findFirstVisibleItemPosition(RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        if (layoutManager instanceof LinearLayoutManager){
+        if (layoutManager instanceof LinearLayoutManager) {
             LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
             return linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         }

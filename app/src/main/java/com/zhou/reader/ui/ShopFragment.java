@@ -27,7 +27,7 @@ public class ShopFragment extends BaseFragment {
     @Override
     protected void initData(View view) {
         webView.loadUrl("https://m.liewen.cc/");
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 super.shouldOverrideUrlLoading(view, request);

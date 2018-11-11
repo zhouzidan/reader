@@ -26,7 +26,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     private LayoutInflater inflater;
     private ClickCallback clickCallback;
 
-    public BookListAdapter(Context context,List<Book> books) {
+    public BookListAdapter(Context context, List<Book> books) {
         this.books = books;
         inflater = LayoutInflater.from(context);
     }
@@ -42,7 +42,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_book,parent,false);
+        View view = inflater.inflate(R.layout.item_book, parent, false);
         return new BookViewHolder(view);
     }
 
@@ -60,12 +60,12 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
                 .centerCrop()
                 .into(holder.imageView);
         holder.itemView.setOnClickListener(v -> {
-            if (clickCallback != null){
+            if (clickCallback != null) {
                 clickCallback.call(book);
             }
         });
-        holder.imageView.setOnClickListener(v->{
-            if (clickCallback != null){
+        holder.imageView.setOnClickListener(v -> {
+            if (clickCallback != null) {
                 clickCallback.call(book);
             }
         });
@@ -80,7 +80,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         this.clickCallback = clickCallback;
     }
 
-    public static class BookViewHolder extends RecyclerView.ViewHolder{
+    public static class BookViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.img)
         ImageView imageView;
@@ -102,11 +102,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
 
         public BookViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public interface ClickCallback{
+    public interface ClickCallback {
         void call(Book book);
     }
 }

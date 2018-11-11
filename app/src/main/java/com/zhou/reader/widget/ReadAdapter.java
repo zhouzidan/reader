@@ -41,7 +41,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VH(inflater.inflate(R.layout.item_content_read,null));
+        return new VH(inflater.inflate(R.layout.item_content_read, null));
     }
 
     @Override
@@ -51,31 +51,31 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
         int textSize = ReadSettingManager.getInstance().getTextSize();
         holder.contentTextView.setTextSize(textSize);
         Catalog catalog = catalogs.get(position);
-        if (TextUtils.isEmpty(catalog.getContent())){
+        if (TextUtils.isEmpty(catalog.getContent())) {
             AppExecutor.get().networkIO().execute(() -> {
-                if (catalog.getId() > 0){
+                if (catalog.getId() > 0) {
                     Catalog tempCatalog = CatalogDBManager.get().findById(catalog.id);
-                    if (!TextUtils.isEmpty(tempCatalog.getContent())){
+                    if (!TextUtils.isEmpty(tempCatalog.getContent())) {
                         catalog.setContent(tempCatalog.getContent());
                     }
                 }
-                if (TextUtils.isEmpty(catalog.getContent())){
+                if (TextUtils.isEmpty(catalog.getContent())) {
                     BookContentUtil.loadBookContent(catalog);
-                    if (catalog.getId() > 0){
+                    if (catalog.getId() > 0) {
                         CatalogDBManager.get().save(catalog);
                     }
                 }
                 AppExecutor.get().mainThread().execute(() -> {
-                    showContent(catalog,holder);
+                    showContent(catalog, holder);
                 });
             });
-        }else {
-            showContent(catalog,holder);
+        } else {
+            showContent(catalog, holder);
         }
     }
 
-    private void showContent(Catalog catalog , VH holder){
-        String content = "<H1>"+catalog.getTitle()+"</H1>" + catalog.getContent() + "<BR/><BR/><BR/><BR/><BR/><BR/><BR/><BR/>";
+    private void showContent(Catalog catalog, VH holder) {
+        String content = "<H1>" + catalog.getTitle() + "</H1>" + catalog.getContent() + "<BR/><BR/><BR/><BR/><BR/><BR/><BR/><BR/>";
         holder.contentTextView.setText(Html.fromHtml(content));
     }
 
@@ -84,24 +84,24 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
         return catalogs != null ? catalogs.size() : 0;
     }
 
-    public int getPosition(Catalog catalog){
+    public int getPosition(Catalog catalog) {
         return catalogs != null ? catalogs.indexOf(catalog) : -1;
     }
 
-    public Catalog getCatalogByPosition(int position){
+    public Catalog getCatalogByPosition(int position) {
         if (position < 0 && catalogs != null && position >= catalogs.size())
             position = 0;
         return catalogs.get(position);
     }
 
-    public static class VH extends RecyclerView.ViewHolder{
+    public static class VH extends RecyclerView.ViewHolder {
 
         @BindView(R.id.content_read)
         TextView contentTextView;
 
         public VH(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -11,7 +11,7 @@ import android.widget.Scroller;
 public abstract class AnimationProvider {
 
     public enum Direction {
-        NONE(true),NEXT(true), PRE(true), UP(false), DOWN(false);
+        NONE(true), NEXT(true), PRE(true), UP(false), DOWN(false);
 
         public final boolean isHorizontal;
 
@@ -20,7 +20,7 @@ public abstract class AnimationProvider {
         }
     }
 
-    protected Bitmap mCurPageBitmap,mNextPageBitmap;
+    protected Bitmap mCurPageBitmap, mNextPageBitmap;
     protected float myStartX;
     protected float myStartY;
     protected int myEndX;
@@ -34,7 +34,7 @@ public abstract class AnimationProvider {
     private Direction direction = Direction.NONE;
     private boolean isCancel = false;
 
-    public AnimationProvider(int width,int height) {
+    public AnimationProvider(int width, int height) {
         mCurPageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         mNextPageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 
@@ -49,27 +49,27 @@ public abstract class AnimationProvider {
     public abstract void drawStatic(Canvas canvas);
 
     //设置开始拖拽点
-    public void setStartPoint(float x,float y){
+    public void setStartPoint(float x, float y) {
         myStartX = x;
         myStartY = y;
     }
 
     //设置拖拽点
-    public void setTouchPoint(float x,float y){
+    public void setTouchPoint(float x, float y) {
         mTouch.x = x;
         mTouch.y = y;
     }
 
     //设置方向
-    public void setDirection(Direction direction){
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
-    public Direction getDirection(){
+    public Direction getDirection() {
         return direction;
     }
 
-    public void setCancel(boolean isCancel){
+    public void setCancel(boolean isCancel) {
         this.isCancel = isCancel;
     }
 
@@ -78,21 +78,21 @@ public abstract class AnimationProvider {
     /**
      * 转换页面，在显示下一章的时候，必须首先调用此方法
      */
-    public void changePage(){
+    public void changePage() {
         Bitmap bitmap = mCurPageBitmap;
         mCurPageBitmap = mNextPageBitmap;
         mNextPageBitmap = bitmap;
     }
 
-    public Bitmap getNextBitmap(){
+    public Bitmap getNextBitmap() {
         return mNextPageBitmap;
     }
 
-    public Bitmap getBgBitmap(){
+    public Bitmap getBgBitmap() {
         return mNextPageBitmap;
     }
 
-    public boolean getCancel(){
+    public boolean getCancel() {
         return isCancel;
     }
 }

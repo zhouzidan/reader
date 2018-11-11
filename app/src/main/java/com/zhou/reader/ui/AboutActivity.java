@@ -28,9 +28,9 @@ public class AboutActivity extends AppCompatActivity {
                 .addItem(new Element().setTitle("更新时间：" + BuildConfig.TIME))
                 .addItem(new Element().setTitle("更新日志").setOnClickListener(v -> {
                     String webUrl = "https://raw.githubusercontent.com/zhouzidan/reader/V1/Update";
-                    WebViewActivity.start(AboutActivity.this,webUrl);
+                    WebViewActivity.start(AboutActivity.this, webUrl);
                 }))
-                .addEmail(email,"电子邮箱：" + email)//邮箱
+                .addEmail(email, "电子邮箱：" + email)//邮箱
                 .addWebsite("https://github.com/zhouzidan/reader")//网站
                 .addPlayStore(BuildConfig.APPLICATION_ID)//应用商店
                 .addGitHub("zhouzidan")//github
@@ -40,9 +40,9 @@ public class AboutActivity extends AppCompatActivity {
         initActionBar();
     }
 
-    private void initActionBar(){
+    private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -50,7 +50,7 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);

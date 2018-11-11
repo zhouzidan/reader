@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder> {
+public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder> {
 
     private List<Catalog> catalogs = new ArrayList<>();
     private LayoutInflater inflater;
@@ -36,24 +36,24 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
     @NonNull
     @Override
     public CatalogAdapter.CatalogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_catalog,parent,false);
+        View view = inflater.inflate(R.layout.item_catalog, parent, false);
         return new CatalogAdapter.CatalogViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CatalogAdapter.CatalogViewHolder holder, int position) {
         final Catalog catalog = catalogs.get(holder.getAdapterPosition());
-        updateHasReadStatusView(catalog.getId(),holder.titleTextView);
+        updateHasReadStatusView(catalog.getId(), holder.titleTextView);
         holder.titleTextView.setText(catalog.getTitle());
         holder.itemView.setOnClickListener(v -> {
-            if (clickCallback != null){
+            if (clickCallback != null) {
                 clickCallback.call(catalog);
             }
-            updateHasReadStatusView(catalog.getId(),holder.titleTextView);
+            updateHasReadStatusView(catalog.getId(), holder.titleTextView);
         });
     }
 
-    private void updateHasReadStatusView(long localCatalogId , TextView textView){
+    private void updateHasReadStatusView(long localCatalogId, TextView textView) {
         boolean hasRead = ReadRecordDBManager.get().getHasRead(localCatalogId);
         textView.setTextColor(hasRead ? Color.BLACK : Color.GRAY);
     }
@@ -71,18 +71,18 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
         return catalogs != null ? catalogs.indexOf(catalog) : -1;
     }
 
-    public static class CatalogViewHolder extends RecyclerView.ViewHolder{
+    public static class CatalogViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.title)
         TextView titleTextView;
 
         public CatalogViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public interface ClickCallback{
+    public interface ClickCallback {
         void call(Catalog catalog);
     }
 }

@@ -37,11 +37,11 @@ public class SafeToast extends Toast {
     }
 
     public static Toast makeText(CharSequence text) {
-        return makeText(App.getAppContext(),text,Toast.LENGTH_SHORT);
+        return makeText(App.getAppContext(), text, Toast.LENGTH_SHORT);
     }
 
     public static Toast makeText(@StringRes int resId) {
-        return makeText(App.getAppContext(),resId,Toast.LENGTH_SHORT);
+        return makeText(App.getAppContext(), resId, Toast.LENGTH_SHORT);
     }
 
     public static Toast makeText(Context context, int resId, int duration) throws Resources.NotFoundException {

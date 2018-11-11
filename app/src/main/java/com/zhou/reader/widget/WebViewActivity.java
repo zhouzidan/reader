@@ -39,15 +39,15 @@ public class WebViewActivity extends BaseActivity {
         webView.setWebChromeClient(webChromeClient);
         webView.getSettings().setJavaScriptEnabled(true);
         String webUrl = getIntent().getStringExtra(EXTRA_URL);
-        if (TextUtils.isEmpty(webUrl)){
+        if (TextUtils.isEmpty(webUrl)) {
             SafeToast.makeText("参数异常").show();
             finish();
-        }else {
+        } else {
             webView.loadUrl(webUrl);
         }
     }
 
-    private WebViewClient webViewClient = new WebViewClient(){
+    private WebViewClient webViewClient = new WebViewClient() {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
 //            return super.shouldOverrideUrlLoading(view, request);
@@ -59,15 +59,15 @@ public class WebViewActivity extends BaseActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            if (newProgress == 0){
+            if (newProgress == 0) {
                 progressBar.setProgress(0);
                 progressBar.setVisibility(View.VISIBLE);
-            }else if (newProgress > 0 && newProgress < 100) {
+            } else if (newProgress > 0 && newProgress < 100) {
                 progressBar.setProgress(newProgress);
-            }else if (newProgress == 100){
+            } else if (newProgress == 100) {
                 progressBar.setProgress(100);
                 progressBar.setVisibility(View.GONE);
-            }else {
+            } else {
                 progressBar.setVisibility(View.GONE);
             }
         }
@@ -82,9 +82,9 @@ public class WebViewActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public static void start(Context context , String webUrl){
-        Intent intent = new Intent(context,WebViewActivity.class);
-        intent.putExtra(EXTRA_URL,webUrl);
+    public static void start(Context context, String webUrl) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra(EXTRA_URL, webUrl);
         context.startActivity(intent);
     }
 

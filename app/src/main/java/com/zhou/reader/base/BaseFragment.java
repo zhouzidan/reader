@@ -15,8 +15,8 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(),container,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.bind(this, view);
         initView(view);
         initData(view);
         return view;
@@ -30,12 +30,12 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void showLoading() {
-        Toast.makeText(getContext(),"loading -- begin",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "loading -- begin", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void hideLoading() {
-        Toast.makeText(getContext(),"loading -- end",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "loading -- end", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -46,6 +46,6 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(getContext(),message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

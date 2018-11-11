@@ -9,7 +9,7 @@ public class ShelfContact {
         void showBooks(List<Book> books);
     }
 
-    public static interface Presenter{
+    public static interface Presenter {
         void loadShelfBooks();
     }
 }

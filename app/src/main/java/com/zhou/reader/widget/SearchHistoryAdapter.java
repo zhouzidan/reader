@@ -32,7 +32,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_history,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_history, null);
         return new VH(view);
     }
 
@@ -40,9 +40,9 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
     public void onBindViewHolder(@NonNull VH holder, int position) {
         Search search = searches.get(position);
         holder.titleView.setText(search.content);
-        holder.lastUpdateTimeTextView.setText(DateUtil.date2String(search.updateTime,DateFormatYYYYMMDDHHMMSS));
+        holder.lastUpdateTimeTextView.setText(DateUtil.date2String(search.updateTime, DateFormatYYYYMMDDHHMMSS));
         holder.itemView.setOnLongClickListener(v -> {
-            if (callBack != null){
+            if (callBack != null) {
                 callBack.call(search.content);
             }
             return false;
@@ -58,7 +58,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
         this.callBack = callBack;
     }
 
-    public static class VH extends RecyclerView.ViewHolder{
+    public static class VH extends RecyclerView.ViewHolder {
         @BindView(R.id.title)
         public TextView titleView;
 
@@ -67,7 +67,7 @@ public class SearchHistoryAdapter extends RecyclerView.Adapter<SearchHistoryAdap
 
         public VH(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

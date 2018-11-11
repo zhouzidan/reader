@@ -20,8 +20,6 @@ import android.widget.TextView;
 import com.elvishew.xlog.XLog;
 import com.zhou.reader.CONST;
 import com.zhou.reader.R;
-import com.zhou.reader.util.JsonUtil;
-import com.zhou.reader.widget.ReadAdapter;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
@@ -29,9 +27,10 @@ import com.zhou.reader.ui.detail.CatalogAdapter;
 import com.zhou.reader.ui.setting.ReadSettingManager;
 import com.zhou.reader.ui.setting.ReadSettingsActivity;
 import com.zhou.reader.ui.setting.ThemeManager;
+import com.zhou.reader.util.JsonUtil;
 import com.zhou.reader.util.StatusBarManager;
+import com.zhou.reader.widget.ReadAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -222,12 +221,12 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     @Override
     public void showBookContent(Catalog catalog) {
         int catalogPosition = catalogAdapter.getPosition(catalog);
-        if (catalogPosition >= 0){
+        if (catalogPosition >= 0) {
             catalogAdapter.notifyItemChanged(catalogPosition);
             mCatalogRecyclerView.scrollToPosition(catalogPosition);
         }
         int contentPosition = readAdapter.getPosition(catalog);
-        if (contentPosition >= 0){
+        if (contentPosition >= 0) {
             contentRecyclerView.scrollToPosition(contentPosition);
             LinearLayoutManager mLayoutManager =
                     (LinearLayoutManager) contentRecyclerView.getLayoutManager();

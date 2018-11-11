@@ -9,11 +9,13 @@ import io.objectbox.Box;
 public class BookDBManager {
     Box<Book> lBookBox;
     private static BookDBManager bookDBManager;
-    private BookDBManager(){
+
+    private BookDBManager() {
         lBookBox = App.getBoxStore().boxFor(Book.class);
     }
-    public static BookDBManager get(){
-        if (bookDBManager == null){
+
+    public static BookDBManager get() {
+        if (bookDBManager == null) {
             bookDBManager = new BookDBManager();
         }
         return bookDBManager;
@@ -22,8 +24,8 @@ public class BookDBManager {
     /**
      * 保存书籍到书架
      */
-    public long save(Book book){
-        if (book != null && book.id <= 0){
+    public long save(Book book) {
+        if (book != null && book.id <= 0) {
             long id = lBookBox.put(book);
             book.setId(id);
         }
@@ -33,18 +35,19 @@ public class BookDBManager {
     /**
      * 删除
      */
-    public void delete(Book book){
-        if (book != null && book.id > 0){
+    public void delete(Book book) {
+        if (book != null && book.id > 0) {
             lBookBox.remove(book.id);
         }
     }
 
     /**
      * 获取书架上的所有书籍 onshelf = true
+     *
      * @return
      */
-    public List<Book> getAll(long localBookId){
-        return lBookBox.find(Book_.id,localBookId);
+    public List<Book> getAll(long localBookId) {
+        return lBookBox.find(Book_.id, localBookId);
     }
 
     public Book findById(long localBookId) {
@@ -52,7 +55,7 @@ public class BookDBManager {
     }
 
     public Book findByBookName(String title) {
-        return lBookBox.query().equal(Book_.title,title).build().findFirst();
+        return lBookBox.query().equal(Book_.title, title).build().findFirst();
     }
 
     public void deleteById(long localBookId) {
@@ -63,7 +66,7 @@ public class BookDBManager {
     public Book getFirst(long localBookId) {
         return lBookBox
                 .query()
-                .equal(Book_.id,localBookId)
+                .equal(Book_.id, localBookId)
                 .build()
                 .findFirst();
     }

@@ -76,12 +76,12 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     protected void initData() {
         presenter = new BookDetailPresenter(this);
         Intent intent = getIntent();
-        long localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
+        long localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID, 0);
         mBook = ShelfDBManager.get().findById(localBookId);
-        if (mBook == null){
+        if (mBook == null) {
             String bookJson = intent.getStringExtra(CONST.EXTRA_BOOK);
-            if (!TextUtils.isEmpty(bookJson)){
-                mBook = JsonUtil.fromJson(bookJson,Book.class);
+            if (!TextUtils.isEmpty(bookJson)) {
+                mBook = JsonUtil.fromJson(bookJson, Book.class);
             }
         }
         if (localBookId == 0 && mBook == null) {
@@ -99,8 +99,8 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
 
     }
 
-    private void loadBookDetail(){
-        if (mBook != null){
+    private void loadBookDetail() {
+        if (mBook != null) {
             GlideApp.with(this)
                     .load(mBook.getCoverPic())
                     .centerCrop()
@@ -139,32 +139,32 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @Override
     public void call(Catalog catalog) {
         XLog.d(catalog.toString());
-        ReadActivity.start(this,mBook,catalogs,catalog);
+        ReadActivity.start(this, mBook, catalogs, catalog);
     }
 
     // 加入到书架，或者移除
     @OnClick(R.id.tv_modify_shelf)
-    public void onModifyShelfAction(){
+    public void onModifyShelfAction() {
         String toastText = null;
-        if (existInShelf){
+        if (existInShelf) {
             presenter.removeBookShelf(mBook);
             toastText = getString(R.string.remove_from_shelf) + " " + getString(R.string.action_success);
-        }else {
-            presenter.addBookToShelf(mBook,catalogs);
+        } else {
+            presenter.addBookToShelf(mBook, catalogs);
             toastText = getString(R.string.add_to_shelf) + " " + getString(R.string.action_success);
         }
         SafeToast.makeText(toastText).show();
     }
 
     @OnClick(R.id.tv_start_read)
-    public void onStartReadAction(){
+    public void onStartReadAction() {
         Log.d(TAG, "onStartReadAction: " + mBook.toString());
-        ReadActivity.start(this,mBook,catalogs,null);
+        ReadActivity.start(this, mBook, catalogs, null);
     }
 
     @OnClick(R.id.tv_download_all)
-    public void onDownloadAllAction(){
-        presenter.addBookToShelf(mBook,catalogs);
+    public void onDownloadAllAction() {
+        presenter.addBookToShelf(mBook, catalogs);
         // TODO
     }
 

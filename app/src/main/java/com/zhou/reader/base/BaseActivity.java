@@ -22,19 +22,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         ButterKnife.bind(this);
         initData();
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    protected abstract @LayoutRes int getLayoutId();
+    protected abstract @LayoutRes
+    int getLayoutId();
 
     protected abstract void initData();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
@@ -51,11 +52,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     public void hideLoading() {
         try {
-            if (progressDialog != null && progressDialog.isShowing()){
+            if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.hide();
                 progressDialog.cancel();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -67,6 +68,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

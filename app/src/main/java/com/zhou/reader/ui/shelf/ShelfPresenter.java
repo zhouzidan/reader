@@ -18,7 +18,7 @@ public class ShelfPresenter implements ShelfContact.Presenter {
         view.showBooks(books);
     }
 
-    public void removeBookFromShelf(Book book){
+    public void removeBookFromShelf(Book book) {
         ShelfDBManager.get().delete(book);
         loadShelfBooks();
     }

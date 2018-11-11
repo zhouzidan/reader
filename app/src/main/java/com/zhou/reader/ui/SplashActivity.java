@@ -19,18 +19,18 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mHandler.sendEmptyMessageDelayed(0,1000);
+        mHandler.sendEmptyMessageDelayed(0, 1000);
         initFabric();
     }
 
-    private void initFabric(){
+    private void initFabric() {
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
                 .build();
         Fabric.with(this, crashlyticsKit);
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -39,7 +39,7 @@ public class SplashActivity extends Activity {
     };
 
     private void go2ShelfActivity() {
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

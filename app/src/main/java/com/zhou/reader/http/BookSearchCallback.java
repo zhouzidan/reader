@@ -12,7 +12,8 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public abstract class BookSearchCallback extends ObjectHttpCallback<SearchResult> {
-    private String keyword ;
+    private String keyword;
+
     public BookSearchCallback() {
         super(SearchResult.class);
     }

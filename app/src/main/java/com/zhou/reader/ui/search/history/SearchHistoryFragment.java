@@ -57,25 +57,25 @@ public class SearchHistoryFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.clear,menu);
+        inflater.inflate(R.menu.clear, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_clear){
+        if (item.getItemId() == R.id.action_clear) {
             clearHistoryConfirmDialog(null);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void clearHistoryConfirmDialog(String string){
+    private void clearHistoryConfirmDialog(String string) {
         String message = TextUtils.isEmpty(string) ? "是否清空所有的搜索记录？" : "是否删除所选记录";
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                 .setMessage(message)
                 .setPositiveButton(R.string.btn_ok, (dialog, which) -> {
-                    if (TextUtils.isEmpty(string)){
+                    if (TextUtils.isEmpty(string)) {
                         clear();
-                    }else {
+                    } else {
                         delete(string);
                     }
                 })
@@ -86,12 +86,12 @@ public class SearchHistoryFragment extends BaseFragment {
 
     private CallBack<String> longItemClick = s -> clearHistoryConfirmDialog(s);
 
-    private void delete(String str){
+    private void delete(String str) {
         SearchDBManager.get().delete(str);
         initData(null);
     }
 
-    private void clear(){
+    private void clear() {
         SearchDBManager.get().clear();
         initData(null);
     }

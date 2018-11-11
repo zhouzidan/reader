@@ -21,7 +21,7 @@ public abstract class ObjectHttpCallback<T> implements Callback {
     public void onResponse(Call call, Response response) throws IOException {
         String body = response.body().string();
         System.out.println(body);
-        final T t = JsonUtil.fromJson(body,aClass);
+        final T t = JsonUtil.fromJson(body, aClass);
         AppExecutor.get().mainThread().execute(() -> {
             onSuccess(t);
             onFinish();
