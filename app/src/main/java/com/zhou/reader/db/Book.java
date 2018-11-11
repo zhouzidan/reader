@@ -15,6 +15,8 @@ public class Book {
     public long updateTime ; // 更新时间
     public String leastCatalog ; //最新章节
     public boolean onShelf ; // 在书架上
+    public String updateTo ; // 更新至
+    public int defaultSource ; //默认来源 编号
 
 
     public long getId() {
@@ -95,5 +97,21 @@ public class Book {
 
     public void setOnShelf(boolean onShelf) {
         this.onShelf = onShelf;
+    }
+
+    public String getUpdateTo() {
+        return updateTo;
+    }
+
+    public void setUpdateTo(String updateTo) {
+        this.updateTo = updateTo;
+    }
+
+    public int getDefaultSource() {
+        return defaultSource;
+    }
+
+    public void setDefaultSource(int defaultSource) {
+        this.defaultSource = defaultSource;
     }
 }

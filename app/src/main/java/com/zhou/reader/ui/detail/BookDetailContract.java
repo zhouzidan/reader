@@ -15,7 +15,7 @@ public class BookDetailContract {
     }
 
     public static interface Presenter{
-        void loadBookAndCatalog(long localBookId);
+        void loadBookAndCatalog(Book book);
         void loadBookShelfStatus(Book book);
         void removeBookShelf(Book book);
         void addBookToShelf(Book book,List<Catalog> catalogs);

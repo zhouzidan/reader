@@ -17,8 +17,10 @@ import com.zhou.reader.CONST;
 import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
+import com.zhou.reader.db.ShelfDBManager;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.ui.detail.BookDetailActivity;
+import com.zhou.reader.util.JsonUtil;
 import com.zhou.reader.util.RecyclerViewUtil;
 import com.zhou.reader.util.StringUtils;
 import com.zhou.reader.widget.BookListAdapter;
@@ -32,12 +34,12 @@ import butterknife.BindView;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
 
-public class SearchActivity extends BaseActivity implements SearchContract.View{
+public class SearchActivity extends BaseActivity implements SearchContract.View {
 
     private final String TAG = SearchActivity.class.getCanonicalName();
     private SearchContract.Presenter presenter;
     private BookListAdapter bookListAdapter;
-    private RecyclerViewOnScrollListener mLoadMoreScrollListener ;
+    private RecyclerViewOnScrollListener mLoadMoreScrollListener;
     private List<Book> books = new ArrayList<>();
 
     @BindView(R.id.recyclerView)
@@ -63,7 +65,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         mLoadMoreScrollListener.setCallBack(loadMoreCallBack);
         recyclerView.addOnScrollListener(mLoadMoreScrollListener);
         presenter = new SearchPresenter(this);
-        bookListAdapter = new BookListAdapter(this,books);
+        bookListAdapter = new BookListAdapter(this, books);
         bookListAdapter.setClickCallback(clickCallback);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(bookListAdapter);
@@ -96,7 +98,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
 
         @Override
         public boolean onQueryTextChange(String newText) {
-            if (TextUtils.isEmpty(newText)){
+            if (TextUtils.isEmpty(newText)) {
                 presenter.showHistory();
             }
             return false;
@@ -108,21 +110,21 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
         System.out.println(searchResult.getTotal() + "---" + searchResult.getBooks().size());
         recyclerView.setVisibility(View.VISIBLE);
         tagLinearLayout.setVisibility(View.GONE);
-        if (StringUtils.isEqual(searchResult.getKeyword() , bookListAdapter.getKeyword())){
+        if (StringUtils.isEqual(searchResult.getKeyword(), bookListAdapter.getKeyword())) {
             books.addAll(searchResult.getBooks());
-        }else {
+        } else {
             books.clear();
             books.addAll(searchResult.getBooks());
         }
         bookListAdapter.setKeyword(searchResult.getKeyword());
-        if (books.size() == searchResult.getBooks().size()){
+        if (books.size() == searchResult.getBooks().size()) {
             bookListAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             int positionStart = books.size() - searchResult.getBooks().size();
             int itemCount = searchResult.getBooks().size();
             int visiablePosition = RecyclerViewUtil.findFirstVisibleItemPosition(recyclerView);
             visiablePosition = visiablePosition > 0 ? visiablePosition : positionStart;
-            bookListAdapter.notifyItemRangeInserted(positionStart,itemCount);
+            bookListAdapter.notifyItemRangeInserted(positionStart, itemCount);
             recyclerView.scrollToPosition(visiablePosition);
         }
     }
@@ -130,7 +132,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
     @Override
     public void clearSearchResult() {
         books.clear();
-        if (bookListAdapter.getItemCount() > 0){
+        if (bookListAdapter.getItemCount() > 0) {
             bookListAdapter.notifyItemRemoved(0);
         }
     }
@@ -138,23 +140,27 @@ public class SearchActivity extends BaseActivity implements SearchContract.View{
 
     @Override
     public void showHistory(List<String> searches) {
-        XLog.e("搜索历史："+searches.size()); // TODO
+        XLog.e("搜索历史：" + searches.size()); // TODO
         recyclerView.setVisibility(View.GONE);
         tagLinearLayout.setVisibility(View.VISIBLE);
         tagLayout.setTags(searches);
     }
 
     private BookListAdapter.ClickCallback clickCallback = book -> {
-        presenter.save(book);
         Intent intent = new Intent(SearchActivity.this, BookDetailActivity.class);
-        intent.putExtra(CONST.EXTRA_BOOK_ID,book.id);
+        Book tempBook = ShelfDBManager.get().find(book.title);
+        if (tempBook != null) {
+            book.setId(tempBook.getId());
+        }
+        String bookJson = JsonUtil.toJson(book, Book.class);
+        intent.putExtra(CONST.EXTRA_BOOK, bookJson);
         startActivity(intent);
     };
 
     private TagView.OnTagClickListener onTagClickListener = new TagView.OnTagClickListener() {
         @Override
         public void onTagClick(int position, String text) {
-            searchView.setQuery(text,true);
+            searchView.setQuery(text, true);
         }
 
         @Override

@@ -1,5 +1,7 @@
 package com.zhou.reader.ui.read;
 
+import android.content.Intent;
+
 import com.zhou.reader.base.BasePresenter;
 import com.zhou.reader.base.BaseView;
 import com.zhou.reader.db.Book;
@@ -11,21 +13,20 @@ public class ReadContact {
     public static interface View extends BaseView {
         void showBookContent(Catalog catalog);
 
-        void loadBookAndCatalogs(Book book,List<Catalog> catalogs);
+        void loadBookAndCatalogs();
 
         void showCurrentCatalogTitle(Catalog catalog);
 
     }
 
     public static interface Presenter extends BasePresenter{
-        void loadBookAndCatalogs(long localBookId);
-        void loadCurrentContent(long localCatalogId);
+        void loadData(Intent intent);
+        Book getBook();
+        List<Catalog> getCatalogs();
+        Catalog getCurrentCatalog();
         void loadNextContent();
         void loadLastContent();
-        public void loadContent(Catalog catalog);
-        public void preNextContent();
-        public void preLastContent();
-        public void saveReadRecord();
-        public void saveReadRecord(Catalog catalog);
+        void loadContent(Catalog catalog);
+        void saveReadRecord(Catalog catalog);
     }
 }

@@ -18,6 +18,7 @@ import com.zhou.reader.ui.setting.ReadSettingManager;
 import com.zhou.reader.ui.setting.ThemeManager;
 import com.zhou.reader.util.AppExecutor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,16 +28,14 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
 
     private LayoutInflater inflater;
 
-    private long localBookId;
-    private List<Catalog> catalogs ;
+    private List<Catalog> catalogs = new ArrayList<>();
 
     public ReadAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void setLocalBookId(long bookId) {
-        this.localBookId = bookId;
-        catalogs = CatalogDBManager.get().getAll(localBookId);
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
     }
 
     @NonNull
@@ -54,12 +53,17 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
         Catalog catalog = catalogs.get(position);
         if (TextUtils.isEmpty(catalog.getContent())){
             AppExecutor.get().networkIO().execute(() -> {
-                Catalog tempCatalog = CatalogDBManager.get().findById(catalog.id);
-                if (!TextUtils.isEmpty(tempCatalog.getContent())){
-                    catalog.setContent(tempCatalog.getContent());
-                }else {
+                if (catalog.getId() > 0){
+                    Catalog tempCatalog = CatalogDBManager.get().findById(catalog.id);
+                    if (!TextUtils.isEmpty(tempCatalog.getContent())){
+                        catalog.setContent(tempCatalog.getContent());
+                    }
+                }
+                if (TextUtils.isEmpty(catalog.getContent())){
                     BookContentUtil.loadBookContent(catalog);
-                    CatalogDBManager.get().save(catalog);
+                    if (catalog.getId() > 0){
+                        CatalogDBManager.get().save(catalog);
+                    }
                 }
                 AppExecutor.get().mainThread().execute(() -> {
                     showContent(catalog,holder);
@@ -77,15 +81,15 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.VH> {
 
     @Override
     public int getItemCount() {
-        return catalogs.size();
+        return catalogs != null ? catalogs.size() : 0;
     }
 
     public int getPosition(Catalog catalog){
-        return catalogs.indexOf(catalog);
+        return catalogs != null ? catalogs.indexOf(catalog) : -1;
     }
 
     public Catalog getCatalogByPosition(int position){
-        if (position < 0 && position >= catalogs.size())
+        if (position < 0 && catalogs != null && position >= catalogs.size())
             position = 0;
         return catalogs.get(position);
     }

@@ -20,12 +20,13 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
 
 
     @Override
-    public void loadBookAndCatalog(long localBookId) {
+    public void loadBookAndCatalog(Book book) {
         AppExecutor.get().networkIO().execute(() -> {
-            Book book = BookDBManager.get().findById(localBookId);
             List<Catalog> localCatalogList = null;
             if (book != null) {
-                localCatalogList = CatalogDBManager.get().getAll(book.getId());
+                if (book.getId() > 0){
+                    localCatalogList = CatalogDBManager.get().getAll(book.getId());
+                }
                 if (localCatalogList == null || localCatalogList.size() == 0) {
                     localCatalogList = BookSearchUtil.getCatalog(book);
                 }
@@ -53,16 +54,15 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
     @Override
     public void removeBookShelf(Book book) {
         ShelfDBManager.get().deleteById(book.getId());
+        CatalogDBManager.get().deleteByBookId(book.getId());
         view.showShelfStatus(false);
     }
 
     @Override
     public void addBookToShelf(Book book, List<Catalog> catalogs) {
         if (book != null){
-            book.id = 0;
             book.onShelf = true;
             long localBookId = ShelfDBManager.get().save(book);
-            book.setId(localBookId);
             for (Catalog catalog : catalogs) {
                 catalog.setBookId(localBookId);
             }

@@ -7,6 +7,8 @@ import io.objectbox.annotation.Id;
 public class ReadRecord {
     @Id public long id ;
     public long localCatalogId ;
+    public String bookName;
+    public String catalogName;
     public long localBookId;
     public long updateTime;
 
@@ -43,11 +45,29 @@ public class ReadRecord {
         this.updateTime = updateTime;
     }
 
+    public String getCatalogName() {
+        return catalogName;
+    }
+
+    public void setCatalogName(String catalogName) {
+        this.catalogName = catalogName;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+
     @Override
     public String toString() {
         return "ReadRecord{" +
                 "id=" + id +
                 ", localCatalogId=" + localCatalogId +
+                ", bookName='" + bookName + '\'' +
+                ", catalogName='" + catalogName + '\'' +
                 ", localBookId=" + localBookId +
                 ", updateTime=" + updateTime +
                 '}';

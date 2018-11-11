@@ -23,12 +23,9 @@ public abstract class BookSearchCallback extends ObjectHttpCallback<SearchResult
         SearchSelector searchSelector = SelectorManager.get().getSelectSelector().getSearch();
         final SearchResult searchResult = BookSearchUtil.getSearchResult(body, searchSelector);
         searchResult.setKeyword(keyword);
-        AppExecutor.get().mainThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                onSuccess(searchResult);
-                onFinish();
-            }
+        AppExecutor.get().mainThread().execute(() -> {
+            onSuccess(searchResult);
+            onFinish();
         });
     }
 

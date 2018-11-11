@@ -82,8 +82,4 @@ public class CatalogDBManager {
                 .findFirst();
     }
 
-    public Catalog findNextCatalog(Catalog currentCatalog) {
-        
-        return null;
-    }
 }

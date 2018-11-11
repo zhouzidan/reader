@@ -1,5 +1,7 @@
 package com.zhou.reader.db;
 
+import android.text.TextUtils;
+
 import com.zhou.reader.App;
 
 import java.util.List;
@@ -9,11 +11,13 @@ import io.objectbox.Box;
 public class ShelfDBManager {
     Box<Book> lBookBox;
     private static ShelfDBManager shelfDBManager;
-    private ShelfDBManager(){
+
+    private ShelfDBManager() {
         lBookBox = App.getBoxStore().boxFor(Book.class);
     }
-    public static ShelfDBManager get(){
-        if (shelfDBManager == null){
+
+    public static ShelfDBManager get() {
+        if (shelfDBManager == null) {
             shelfDBManager = new ShelfDBManager();
         }
         return shelfDBManager;
@@ -22,31 +26,30 @@ public class ShelfDBManager {
     /**
      * 保存书籍到书架
      */
-    public long save(Book book){
-        if (book != null){
-            long id = lBookBox.put(book);
-            book.id = id;
-        }
+    public long save(Book book) {
+        long id = lBookBox.put(book);
+        book.id = id;
         return book.getId();
     }
 
     /**
      * 删除
      */
-    public void delete(Book book){
-        if (book != null && book.id > 0){
+    public void delete(Book book) {
+        if (book != null && book.id > 0) {
             lBookBox.remove(book.id);
         }
     }
 
     /**
      * 获取书架上的所有书籍 onshelf = true
+     *
      * @return
      */
-    public List<Book> getAll(){
+    public List<Book> getAll() {
         return lBookBox
                 .query()
-                .equal(Book_.onShelf,true)
+                .equal(Book_.onShelf, true)
                 .orderDesc(Book_.updateTime)
                 .build()
                 .find();
@@ -57,16 +60,31 @@ public class ShelfDBManager {
     }
 
     public Book findByBookName(String title) {
-        return lBookBox.query().equal(Book_.title,title).build().findFirst();
+        return lBookBox.query().equal(Book_.title, title).build().findFirst();
     }
 
     public void deleteById(long localBookId) {
-        if (localBookId > 0){
+        if (localBookId > 0) {
             lBookBox.remove(localBookId);
         }
     }
 
+    // 删除
+    public void delete(String bookName) {
+        if (!TextUtils.isEmpty(bookName)) {
+            lBookBox.query().equal(Book_.title, bookName).build().remove();
+        }
+    }
+
     public Book findOnShelfById(long id) {
-        return lBookBox.query().equal(Book_.id,id).equal(Book_.onShelf,true).build().findFirst();
+        return lBookBox.query().equal(Book_.id, id).equal(Book_.onShelf, true).build().findFirst();
+    }
+
+    public Book find(String bookName) {
+        if (TextUtils.isEmpty(bookName)) {
+            return null;
+        } else {
+            return lBookBox.query().equal(Book_.title, bookName).build().findFirst();
+        }
     }
 }

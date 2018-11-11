@@ -95,7 +95,7 @@ public class BookSearchUtil {
 
     private static void pickDataForBook(Book book, String name, String value) {
         if (book != null && !isEmpty(name) && !isEmpty(value)) {
-            XLog.d("name:" + name + " value:" + value);
+//            XLog.d("name:" + name + " value:" + value);
             for (String authorName : NAME_AUTHOR) {
                 if (name.contains(authorName)) {
                     book.setAuthor(value);

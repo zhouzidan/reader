@@ -13,6 +13,7 @@ import com.zhou.reader.R;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.ReadRecordDBManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,13 +21,16 @@ import butterknife.ButterKnife;
 
 public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.CatalogViewHolder> {
 
-    private List<Catalog> catalogs;
+    private List<Catalog> catalogs = new ArrayList<>();
     private LayoutInflater inflater;
     private CatalogAdapter.ClickCallback clickCallback;
 
-    public CatalogAdapter(Context context, List<Catalog> catalogs) {
-        this.catalogs = catalogs;
+    public CatalogAdapter(Context context) {
         inflater = LayoutInflater.from(context);
+    }
+
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
     }
 
     @NonNull
@@ -56,7 +60,7 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
 
     @Override
     public int getItemCount() {
-        return catalogs.size();
+        return catalogs != null ? catalogs.size() : 0;
     }
 
     public void setClickCallback(CatalogAdapter.ClickCallback clickCallback) {
@@ -64,7 +68,7 @@ public class CatalogAdapter  extends RecyclerView.Adapter<CatalogAdapter.Catalog
     }
 
     public int getPosition(Catalog catalog) {
-        return catalogs.indexOf(catalog);
+        return catalogs != null ? catalogs.indexOf(catalog) : -1;
     }
 
     public static class CatalogViewHolder extends RecyclerView.ViewHolder{

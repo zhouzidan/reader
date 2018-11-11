@@ -31,6 +31,13 @@ public class CatalogListActivity extends BaseActivity {
     protected void initData() {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        catalogAdapter = new CatalogAdapter(this,catalogs);
+        catalogAdapter = new CatalogAdapter(this);
+        recyclerView.setAdapter(catalogAdapter);
+    }
+
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
+        catalogAdapter.setCatalogs(catalogs);
+        catalogAdapter.notifyDataSetChanged();
     }
 }

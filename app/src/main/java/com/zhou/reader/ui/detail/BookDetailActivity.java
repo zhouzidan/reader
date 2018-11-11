@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,8 +16,10 @@ import com.zhou.reader.R;
 import com.zhou.reader.base.BaseActivity;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.Catalog;
+import com.zhou.reader.db.ShelfDBManager;
 import com.zhou.reader.ui.read.ReadActivity;
 import com.zhou.reader.util.DateUtil;
+import com.zhou.reader.util.JsonUtil;
 import com.zhou.reader.util.SafeToast;
 
 import java.util.ArrayList;
@@ -56,8 +59,6 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @BindView(R.id.tv_download_all)
     TextView downloadAllTextView;
 
-
-    private long localBookId = 0 ;
     private Book mBook;
     List<Catalog> catalogs = new ArrayList<>();
     private boolean existInShelf = false;
@@ -75,18 +76,26 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     protected void initData() {
         presenter = new BookDetailPresenter(this);
         Intent intent = getIntent();
-        localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
-        if (localBookId == 0) {
-            finish();
+        long localBookId = intent.getLongExtra(CONST.EXTRA_BOOK_ID,0);
+        mBook = ShelfDBManager.get().findById(localBookId);
+        if (mBook == null){
+            String bookJson = intent.getStringExtra(CONST.EXTRA_BOOK);
+            if (!TextUtils.isEmpty(bookJson)){
+                mBook = JsonUtil.fromJson(bookJson,Book.class);
+            }
         }
-
+        if (localBookId == 0 && mBook == null) {
+            finish();
+            return;
+        }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mCatalogAdapter = new CatalogAdapter(this, catalogs);
+        mCatalogAdapter = new CatalogAdapter(this);
+        mCatalogAdapter.setCatalogs(catalogs);
         mCatalogAdapter.setClickCallback(this);
         mRecyclerView.setAdapter(mCatalogAdapter);
 
-        presenter.loadBookAndCatalog(localBookId);
+        presenter.loadBookAndCatalog(mBook);
 
     }
 
@@ -130,11 +139,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
     @Override
     public void call(Catalog catalog) {
         XLog.d(catalog.toString());
-        presenter.saveBookToCache(mBook,catalogs);
-        Intent intent = new Intent(this, ReadActivity.class);
-        intent.putExtra(CONST.EXTRA_BOOK_ID,catalog.bookId);
-        intent.putExtra(CONST.EXTRA_BOOK_CATALOG_ID,catalog.id);
-        startActivity(intent);
+        ReadActivity.start(this,mBook,catalogs,catalog);
     }
 
     // 加入到书架，或者移除
@@ -153,15 +158,13 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
 
     @OnClick(R.id.tv_start_read)
     public void onStartReadAction(){
-        presenter.saveBookToCache(mBook,catalogs);
-        Intent intent = new Intent(this,ReadActivity.class);
         Log.d(TAG, "onStartReadAction: " + mBook.toString());
-        intent.putExtra(CONST.EXTRA_BOOK_ID,mBook.id);
-        startActivity(intent);
+        ReadActivity.start(this,mBook,catalogs,null);
     }
 
     @OnClick(R.id.tv_download_all)
     public void onDownloadAllAction(){
+        presenter.addBookToShelf(mBook,catalogs);
         // TODO
     }
 
