@@ -6,6 +6,7 @@ import com.zhou.reader.db.Search;
 import com.zhou.reader.db.SearchDBManager;
 import com.zhou.reader.entity.SearchResult;
 import com.zhou.reader.http.BookSearchCallback;
+import com.zhou.reader.util.ListUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import static android.text.TextUtils.isEmpty;
 public class SearchPresenter implements SearchContract.Presenter {
 
     private int page = 1;
-    private String keyword ;
+    private String keyword;
 
     SearchContract.View view;
 
@@ -36,10 +37,10 @@ public class SearchPresenter implements SearchContract.Presenter {
         BookSearchUtil.search(keyword, page, new BookSearchCallback() {
             @Override
             public void onSuccess(SearchResult searchResult) {
-                if (searchResult.getBooks().size() == 0){
+                if (searchResult == null || ListUtil.isEmpty(searchResult.getBooks())) {
                     view.showMessage("没有搜索到结果");
                     showHistory();
-                }else {
+                } else {
                     view.showData(searchResult);
                 }
             }
@@ -58,13 +59,13 @@ public class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void loadMore() {
-        page ++ ;
+        page++;
         BookSearchUtil.search(keyword, page, new BookSearchCallback() {
             @Override
             public void onSuccess(SearchResult searchResult) {
-                if (searchResult.getBooks().size() == 0){
+                if (searchResult == null || ListUtil.isEmpty(searchResult.getBooks())) {
                     view.showMessage("已经没有更多了");
-                }else {
+                } else {
                     view.showMessage("已经完成更多加载");
                     view.showData(searchResult);
                 }

@@ -1,12 +1,12 @@
 package com.zhou.reader.ui.detail;
 
 import com.zhou.reader.db.Book;
-import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
 import com.zhou.reader.db.ShelfDBManager;
 import com.zhou.reader.ui.search.BookSearchUtil;
 import com.zhou.reader.util.AppExecutor;
+import com.zhou.reader.util.ListUtil;
 
 import java.util.List;
 
@@ -24,10 +24,10 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
         AppExecutor.get().networkIO().execute(() -> {
             List<Catalog> localCatalogList = null;
             if (book != null) {
-                if (book.getId() > 0){
+                if (book.getId() > 0) {
                     localCatalogList = CatalogDBManager.get().getAll(book.getId());
                 }
-                if (localCatalogList == null || localCatalogList.size() == 0) {
+                if (ListUtil.isEmpty(localCatalogList)) {
                     localCatalogList = BookSearchUtil.getCatalog(book);
                 }
             }
@@ -60,7 +60,7 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
 
     @Override
     public void addBookToShelf(Book book, List<Catalog> catalogs) {
-        if (book != null){
+        if (book != null) {
             book.onShelf = true;
             long localBookId = ShelfDBManager.get().save(book);
             for (Catalog catalog : catalogs) {
@@ -77,7 +77,7 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
         if (book != null && book.getId() <= 0) {
             ShelfDBManager.get().save(book);
         }
-        if (catalogs != null && catalogs.size() > 0) {
+        if (!ListUtil.isEmpty(catalogs)) {
             for (Catalog catalog : catalogs) {
                 if (catalog.getId() <= 0) {
                     CatalogDBManager.get().save(catalog);

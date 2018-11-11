@@ -3,7 +3,6 @@ package com.zhou.reader.ui.read;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.zhou.reader.App;
 import com.zhou.reader.CONST;
 import com.zhou.reader.db.Book;
 import com.zhou.reader.db.BookDBManager;
@@ -15,7 +14,6 @@ import com.zhou.reader.util.AppExecutor;
 import com.zhou.reader.util.JsonUtil;
 import com.zhou.reader.util.ListUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReadPresenter implements ReadContact.Presenter {
@@ -45,7 +43,7 @@ public class ReadPresenter implements ReadContact.Presenter {
 
                 String catalogListJson = intent.getStringExtra(CONST.EXTRA_CATALOGS);
                 catalogs = JsonUtil.fromJsonToList(catalogListJson, Catalog.class);
-                if (ListUtil.isEmpty(catalogs) && book != null && book.getId() > 0){
+                if (ListUtil.isEmpty(catalogs) && book != null && book.getId() > 0) {
                     catalogs = CatalogDBManager.get().getAll(book.getId());
                 }
 
@@ -68,13 +66,13 @@ public class ReadPresenter implements ReadContact.Presenter {
     }
 
     // 根据阅读记录，获取当前正在阅读的章节信息
-    public Catalog getCurrentCatalog(){
-        if (currentCatalog == null){
-            if (book.getId() > 0){
+    public Catalog getCurrentCatalog() {
+        if (currentCatalog == null) {
+            if (book.getId() > 0) {
                 ReadRecord readRecord = ReadRecordDBManager.get().getLeast(book.getId());
                 currentCatalog = CatalogDBManager.get().findById(readRecord.getLocalCatalogId());
             }
-            if (currentCatalog == null && catalogs.size() > 0){
+            if (currentCatalog == null && !ListUtil.isEmpty(catalogs)) {
                 currentCatalog = catalogs.get(0);
             }
         }
@@ -90,10 +88,10 @@ public class ReadPresenter implements ReadContact.Presenter {
 
     @Override
     public void loadLastContent() {
-        Catalog catalog = getLastCatalog() ;
-        if (catalog != null){
+        Catalog catalog = getLastCatalog();
+        if (catalog != null) {
             loadContent(catalog);
-        }else {
+        } else {
             view.showMessage("未找到上一章节");
         }
 
@@ -107,7 +105,7 @@ public class ReadPresenter implements ReadContact.Presenter {
         view.showLoading();
         AppExecutor.get().networkIO().execute(() -> {
             this.currentCatalog = CatalogDBManager.get().findById(catalog.id);
-            if (this.currentCatalog != null && TextUtils.isEmpty(this.currentCatalog.getContent())){
+            if (this.currentCatalog != null && TextUtils.isEmpty(this.currentCatalog.getContent())) {
                 BookContentUtil.loadBookContent(this.currentCatalog);
                 catalog.setContent(this.currentCatalog.getContent());
             }
@@ -124,7 +122,7 @@ public class ReadPresenter implements ReadContact.Presenter {
 
     private void downloadAndSave(Catalog catalog, boolean forceUpdate) {
         if (catalog != null) {
-            if (TextUtils.isEmpty(catalog.getContent()) || forceUpdate){
+            if (TextUtils.isEmpty(catalog.getContent()) || forceUpdate) {
                 AppExecutor.get().networkIO().execute(() -> {
                     BookContentUtil.loadBookContent(catalog);
                     CatalogDBManager.get().save(catalog);
@@ -133,7 +131,7 @@ public class ReadPresenter implements ReadContact.Presenter {
         }
     }
 
-    private Catalog getNextCatalog(){
+    private Catalog getNextCatalog() {
         Catalog nextCatalog = null;
         if (catalogs != null) {
             Catalog catalog = getCurrentCatalog();
@@ -145,7 +143,7 @@ public class ReadPresenter implements ReadContact.Presenter {
         return nextCatalog;
     }
 
-    private Catalog getLastCatalog(){
+    private Catalog getLastCatalog() {
         Catalog lastCatalog = null;
         if (catalogs != null) {
             Catalog catalog = getCurrentCatalog();

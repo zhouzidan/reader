@@ -1,6 +1,7 @@
 package com.zhou.reader.db;
 
 import com.zhou.reader.App;
+import com.zhou.reader.util.ListUtil;
 
 import java.util.List;
 
@@ -9,11 +10,13 @@ import io.objectbox.Box;
 public class CatalogDBManager {
     Box<Catalog> lCatalogBox;
     private static CatalogDBManager catalogDBManager;
-    private CatalogDBManager(){
+
+    private CatalogDBManager() {
         lCatalogBox = App.getBoxStore().boxFor(Catalog.class);
     }
-    public static CatalogDBManager get(){
-        if (catalogDBManager == null){
+
+    public static CatalogDBManager get() {
+        if (catalogDBManager == null) {
             catalogDBManager = new CatalogDBManager();
         }
         return catalogDBManager;
@@ -22,8 +25,8 @@ public class CatalogDBManager {
     /**
      * 保存书籍到书架
      */
-    public long save(Catalog catalog){
-        if (catalog != null){
+    public long save(Catalog catalog) {
+        if (catalog != null) {
             long id = lCatalogBox.put(catalog);
             catalog.id = id;
         }
@@ -33,20 +36,21 @@ public class CatalogDBManager {
     /**
      * 删除
      */
-    public void delete(Catalog catalog){
-        if (catalog != null && catalog.id > 0){
+    public void delete(Catalog catalog) {
+        if (catalog != null && catalog.id > 0) {
             lCatalogBox.remove(catalog.id);
         }
     }
 
     /**
      * 获取书架上的所有书籍 onshelf = true
+     *
      * @return
      */
-    public List<Catalog> getAll(long localBookId){
+    public List<Catalog> getAll(long localBookId) {
         return lCatalogBox
                 .query()
-                .equal(Catalog_.bookId,localBookId)
+                .equal(Catalog_.bookId, localBookId)
                 .build()
                 .find();
     }
@@ -56,20 +60,20 @@ public class CatalogDBManager {
     }
 
     public Catalog findByBookName(String title) {
-        return lCatalogBox.query().equal(Catalog_.title,title).build().findFirst();
+        return lCatalogBox.query().equal(Catalog_.title, title).build().findFirst();
     }
 
     public void deleteById(long localCatalogId) {
         lCatalogBox.remove(localCatalogId);
     }
 
-    public void deleteByBookId(long localBookId){
-        List<Catalog> catalogs = lCatalogBox.find(Catalog_.bookId,localBookId);
+    public void deleteByBookId(long localBookId) {
+        List<Catalog> catalogs = lCatalogBox.find(Catalog_.bookId, localBookId);
         lCatalogBox.remove(catalogs);
     }
 
     public void save(List<Catalog> catalogs) {
-        if (catalogs != null && catalogs.size() > 0){
+        if (!ListUtil.isEmpty(catalogs)) {
             lCatalogBox.put(catalogs);
         }
     }
@@ -77,7 +81,7 @@ public class CatalogDBManager {
     public Catalog getFirst(long localBookId) {
         return lCatalogBox
                 .query()
-                .equal(Catalog_.bookId,localBookId)
+                .equal(Catalog_.bookId, localBookId)
                 .build()
                 .findFirst();
     }
