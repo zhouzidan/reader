@@ -45,6 +45,7 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
         holder.introTextView.setText(desc);
         holder.authorTextView.setText(book.getAuthor());
         holder.lastUpdateTimeTextView.setText(DateUtil.date2String(book.getUpdateTime()));
+        holder.hasNewTextView.setVisibility(book.isHasNew() ? View.VISIBLE : View.GONE);
 
         String imgUrl = book.getCoverPic();
         GlideApp.with(holder.itemView)
@@ -91,6 +92,9 @@ public class ShelfBookListAdapter extends RecyclerView.Adapter<ShelfBookListAdap
 
         @BindView(R.id.lastUpdateTime)
         TextView lastUpdateTimeTextView;
+
+        @BindView(R.id.hasNew)
+        TextView hasNewTextView;
 
 
         public BookViewHolder(View itemView) {

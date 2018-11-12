@@ -19,7 +19,7 @@ public abstract class BookCatalogCallback extends ObjectHttpCallback<Catalog> {
     public void onResponse(Call call, Response response) throws IOException {
         final String body = response.body().string();
         CatalogSelector catalogSelector = SelectorManager.get().getSelectSelector().getCatalog();
-//        final List<Catalog> catalogs = BookSearchUtil.getCatalog(body, catalogSelector);
+//        final List<Catalog> catalogs = BookSearchUtil.getAllCatalogFromServer(body, catalogSelector);
 //        for (Catalog catalog : catalogs) {
 //            System.out.println(catalog.toString());
 //        }

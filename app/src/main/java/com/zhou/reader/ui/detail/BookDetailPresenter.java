@@ -1,6 +1,7 @@
 package com.zhou.reader.ui.detail;
 
 import com.zhou.reader.db.Book;
+import com.zhou.reader.db.BookDBManager;
 import com.zhou.reader.db.Catalog;
 import com.zhou.reader.db.CatalogDBManager;
 import com.zhou.reader.db.ShelfDBManager;
@@ -20,6 +21,14 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
 
 
     @Override
+    public void updateBookStatus(Book book) {
+        if (book != null){
+            book.setHasNew(false);
+            BookDBManager.get().save(book);
+        }
+    }
+
+    @Override
     public void loadBookAndCatalog(Book book) {
         AppExecutor.get().networkIO().execute(() -> {
             List<Catalog> localCatalogList = null;
@@ -28,7 +37,7 @@ public class BookDetailPresenter implements BookDetailContract.Presenter {
                     localCatalogList = CatalogDBManager.get().getAll(book.getId());
                 }
                 if (ListUtil.isEmpty(localCatalogList)) {
-                    localCatalogList = BookSearchUtil.getCatalog(book);
+                    localCatalogList = BookSearchUtil.getAllCatalogFromServer(book);
                 }
             }
             List<Catalog> finalLocalCatalogList = localCatalogList;

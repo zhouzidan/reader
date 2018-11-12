@@ -18,6 +18,7 @@ public class Book {
     public boolean onShelf; // 在书架上
     public String updateTo; // 更新至
     public int defaultSource; //默认来源 编号
+    public boolean hasNew ; //有新章节
 
 
     public long getId() {
@@ -114,5 +115,13 @@ public class Book {
 
     public void setDefaultSource(int defaultSource) {
         this.defaultSource = defaultSource;
+    }
+
+    public boolean isHasNew() {
+        return hasNew;
+    }
+
+    public void setHasNew(boolean hasNew) {
+        this.hasNew = hasNew;
     }
 }

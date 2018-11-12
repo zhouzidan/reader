@@ -6,11 +6,11 @@
 
     <ImageView
         android:id="@+id/img"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/title"
@@ -48,11 +48,23 @@
         android:id="@+id/lastUpdateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/img"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         tools:text="更新时间" />
+
+    <TextView
+        android:id="@+id/hasNew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:padding="2dp"
+        android:text="已更新"
+        android:textColor="@color/colorPrimary"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

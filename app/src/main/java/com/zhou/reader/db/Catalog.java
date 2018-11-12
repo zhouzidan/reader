@@ -82,16 +82,17 @@ public class Catalog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Catalog catalog = (Catalog) o;
-        return id == catalog.id &&
-                bookId == catalog.bookId;
+        return title.equals(catalog.title) && url.equals(catalog.url);
+//        return id == catalog.id &&
+//                bookId == catalog.bookId;
     }
 
     @Override
     public int hashCode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return Objects.hash(id, bookId);
+            return Objects.hash(title, url);
         } else {
-            return String.valueOf(id + "" + bookId).hashCode();
+            return String.valueOf(title + "" + url).hashCode();
         }
     }
 

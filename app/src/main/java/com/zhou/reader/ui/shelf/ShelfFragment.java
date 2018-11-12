@@ -63,6 +63,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
         bookListAdapter.registerAdapterDataObserver(adapterDataObserver);
         bookListAdapter.setClickCallback(clickCallback);
         recyclerView.setAdapter(bookListAdapter);
+        refreshLayout.setRefreshing(true);
     }
 
     private void initToolBar() {
@@ -96,6 +97,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
 
     @Override
     public void showBooks(List<Book> books) {
+        refreshLayout.setRefreshing(false);
         mBooks.clear();
         mBooks.addAll(books);
         bookListAdapter.notifyDataSetChanged();
@@ -173,8 +175,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
     };
 
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
-        //TODO
         XLog.e("刷新操作");
-        refreshLayout.setRefreshing(false);
+        presenter.refresh();
     };
 }

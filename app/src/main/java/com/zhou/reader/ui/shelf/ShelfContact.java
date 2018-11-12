@@ -11,5 +11,7 @@ public class ShelfContact {
 
     public static interface Presenter {
         void loadShelfBooks();
+
+        void refresh();
     }
 }

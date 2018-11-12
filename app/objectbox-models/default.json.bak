@@ -49,7 +49,7 @@
     },
     {
       "id": "5:5074077957726523642",
-      "lastPropertyId": "4:3744079763049367586",
+      "lastPropertyId": "6:5498401449736159062",
       "name": "ReadRecord",
       "properties": [
         {
@@ -67,6 +67,14 @@
         {
           "id": "4:3744079763049367586",
           "name": "updateTime"
+        },
+        {
+          "id": "5:2754195441832070018",
+          "name": "bookName"
+        },
+        {
+          "id": "6:5498401449736159062",
+          "name": "catalogName"
         }
       ],
       "relations": []

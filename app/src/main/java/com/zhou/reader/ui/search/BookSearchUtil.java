@@ -35,9 +35,9 @@ public class BookSearchUtil {
         HttpUtil.doGet(searchUrl, searchCallback);
     }
 
-    public static void getCatalog(String url, BookCatalogCallback bookCatalogCallback) {
-        HttpUtil.doGet(url, bookCatalogCallback);
-    }
+//    public static void getCatalog(String url, BookCatalogCallback bookCatalogCallback) {
+//        HttpUtil.doGet(url, bookCatalogCallback);
+//    }
 
 
     public static SearchResult getSearchResult(String html, SearchSelector selector) {
@@ -82,6 +82,7 @@ public class BookSearchUtil {
                     }
                 }
             }
+            book.setDefaultSource(SelectorManager.get().getSelectSelector().getId());;
             books.add(book);
         }
         searchResult.setBooks(books);
@@ -124,26 +125,25 @@ public class BookSearchUtil {
         }
     }
 
-    public static List<Catalog> getCatalog(Book book) {
+    public static List<Catalog> getAllCatalogFromServer(Book book) {
         String url = book.getLink();
         long localBookId = book.getId();
         CatalogSelector selector = SelectorManager.get().getSelectSelector().getCatalog();
         List<Catalog> catalogs = new ArrayList<>();
-        Document document = null;
         try {
-            document = Jsoup.parse(new URL(url).openStream(), "GBK", "");
+            Document document = Jsoup.parse(new URL(url).openStream(), "GBK", "");
+            Elements elements = document.select(selector.getSelector());
+            for (int i = 0; i < elements.size(); i++) {
+                Element element = elements.get(i);
+                Catalog catalog = new Catalog();
+                catalog.setIndex(i);
+                catalog.setTitle(element.text());
+                catalog.setUrl(element.attr("href"));
+                catalog.setBookId(localBookId);
+                catalogs.add(catalog);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        Elements elements = document.select(selector.getSelector());
-        for (int i = 0; i < elements.size(); i++) {
-            Element element = elements.get(i);
-            Catalog catalog = new Catalog();
-            catalog.setIndex(i);
-            catalog.setTitle(element.text());
-            catalog.setUrl(element.attr("href"));
-            catalog.setBookId(localBookId);
-            catalogs.add(catalog);
         }
         return catalogs;
     }

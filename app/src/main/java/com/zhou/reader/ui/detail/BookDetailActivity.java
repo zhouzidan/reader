@@ -95,6 +95,7 @@ public class BookDetailActivity extends BaseActivity implements BookDetailContra
         mCatalogAdapter.setClickCallback(this);
         mRecyclerView.setAdapter(mCatalogAdapter);
 
+        presenter.updateBookStatus(mBook);
         presenter.loadBookAndCatalog(mBook);
 
     }

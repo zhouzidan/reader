@@ -15,6 +15,9 @@ public class BookDetailContract {
     }
 
     public static interface Presenter {
+
+        void updateBookStatus(Book book);
+
         void loadBookAndCatalog(Book book);
 
         void loadBookShelfStatus(Book book);
