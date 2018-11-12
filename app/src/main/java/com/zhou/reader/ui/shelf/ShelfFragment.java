@@ -2,6 +2,7 @@ package com.zhou.reader.ui.shelf;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,9 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
 
     private final int REQUEST_CODE_ADD_MORE_BOOK = 111;
 
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refreshLayout;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -52,6 +56,7 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
     protected void initView(View view) {
         initToolBar();
         view.setBackgroundColor(Color.WHITE);
+        refreshLayout.setOnRefreshListener(onRefreshListener);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         bookListAdapter = new ShelfBookListAdapter(getContext(), mBooks);
@@ -165,5 +170,11 @@ public class ShelfFragment extends BaseFragment implements ShelfContact.View {
                     .create();
             alertDialog.show();
         }
+    };
+
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
+        //TODO
+        XLog.e("刷新操作");
+        refreshLayout.setRefreshing(false);
     };
 }
