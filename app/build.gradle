@@ -16,10 +16,10 @@ android {
     }
     signingConfigs {
         release {//发布版本的签名配置
-            storeFile file(signFilePath)
-            keyAlias signAlias
-            storePassword signKeyPassword
-            keyPassword signKeyPassword
+            storeFile file(testSignFilePath)
+            keyAlias testSignAlias
+            storePassword testSignStorePassword
+            keyPassword testSignKeyPassword
         }
     }
     buildTypes {

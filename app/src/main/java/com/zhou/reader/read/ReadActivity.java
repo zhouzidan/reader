@@ -123,7 +123,6 @@ public class ReadActivity extends BaseActivity implements ReadContact.View {
     protected void initData() {
         setSupportActionBar(toolbar);
         headerTitleTextView.setHeight(StatusBarManager.getStatusBarHeight());
-        updateStatusBar(false);
         initCatalogPage();
         initReadRecyclerView();
         //禁止滑动展示DrawerLayout
@@ -244,12 +243,12 @@ long lastItemTouchTime = 0 ;
     }
 
     private void updateStatusBar(boolean isShow){
-        if (isShow){
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        headerTitleTextView.setVisibility(isShow ? View.GONE : View.VISIBLE);
+//        if (isShow){
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        }else {
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        }
+//        headerTitleTextView.setVisibility(isShow ? View.GONE : View.VISIBLE);
         toolbar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 

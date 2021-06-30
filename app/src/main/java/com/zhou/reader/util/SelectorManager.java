@@ -38,8 +38,9 @@ public class SelectorManager {
     }
 
     public Selector getSelectSelector(){
-        int selectIndex = SPUtil.getInt(CONST.SELECTED_SELECTOR);
-        return selectors.get(selectIndex);
+//        int selectIndex = SPUtil.getInt(CONST.SELECTED_SELECTOR);
+//        return selectors.get(selectIndex);
+        return selectors.get(1);
     }
 
     public void setSelectSeletor(SelectorEnum selectorEnum){

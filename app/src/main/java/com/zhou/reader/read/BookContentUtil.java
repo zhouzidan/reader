@@ -20,10 +20,9 @@ public class BookContentUtil {
         XLog.d(catalog.toString());
         ContentSelector selector = SelectorManager.get().getSelectSelector().getContent();
         XLog.d(SelectorManager.get().getBaseUrl());
-        String url = SelectorManager.get().getBaseUrl() + catalog.getUrl();
         Document document = null;
         try {
-            document = Jsoup.parse(new URL(url).openStream(),"GBK","");
+            document = Jsoup.connect(catalog.getUrl()).get();
         } catch (IOException e) {
             e.printStackTrace();
         }

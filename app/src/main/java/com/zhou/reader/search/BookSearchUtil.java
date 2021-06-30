@@ -30,6 +30,7 @@ public class BookSearchUtil {
         String searchUrl = String.format(selectorUrl,keyword);
         if (searchCallback != null){
             searchCallback.setKeyword(keyword);
+            searchCallback.setBaseUrl(SelectorManager.get().getBaseUrl());
         }
         HttpUtil.doGet(searchUrl,searchCallback);
     }
@@ -39,9 +40,9 @@ public class BookSearchUtil {
     }
 
 
-    public static SearchResult getSearchResult(String html,SearchSelector selector){
+    public static SearchResult getSearchResult(String html,SearchSelector selector, String baseUrl){
         SearchResult searchResult = new SearchResult();
-        Document document = Jsoup.parse(html);
+        Document document = Jsoup.parse(html, baseUrl);
         Elements elements = document.select(selector.getItem());
         List<Book> books = new ArrayList<>();
         for (Element element : elements) {
@@ -70,16 +71,26 @@ public class BookSearchUtil {
 
             Elements tagElements = element.select(selector.getTag());
             for (Element tagElement : tagElements) {
-                List<Element> nameAndValueElement = tagElement.children();
-                if (nameAndValueElement != null && nameAndValueElement.size() == 2){
-                    Element nameElement = nameAndValueElement.get(0);
-                    Element valueElement = nameAndValueElement.get(1);
-                    if (nameElement != null && valueElement != null){
-                        String name = nameElement.text();
-                        String value = valueElement.text();
+                if (tagElement.childNodeSize() > 1){
+                    List<Element> nameAndValueElement = tagElement.children();
+                    if (nameAndValueElement != null && nameAndValueElement.size() == 2){
+                        Element nameElement = nameAndValueElement.get(0);
+                        Element valueElement = nameAndValueElement.get(1);
+                        if (nameElement != null && valueElement != null){
+                            String name = nameElement.text();
+                            String value = valueElement.text();
+                            pickDataForBook(book,name,value);
+                        }
+                    }
+                }else {
+                    String[] tagValue = tagElement.text().trim().split(":");
+                    if (tagValue.length > 1){
+                        String name = tagValue[0];
+                        String value = tagValue[1];
                         pickDataForBook(book,name,value);
                     }
                 }
+
             }
             books.add(book);
         }
@@ -130,7 +141,8 @@ public class BookSearchUtil {
         List<Catalog> catalogs = new ArrayList<>();
         Document document = null;
         try {
-            document = Jsoup.parse(new URL(url).openStream(),"GBK","");
+            document = Jsoup.connect(url).get();
+//            document = Jsoup.parse(new URL(url).openStream(),"UTF-8","");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,7 +152,7 @@ public class BookSearchUtil {
             Catalog catalog = new Catalog();
             catalog.setIndex(i);
             catalog.setTitle(element.text());
-            catalog.setUrl(element.attr("href"));
+            catalog.setUrl(element.attr("abs:href"));
             catalog.setBookId(localBookId);
             catalogs.add(catalog);
         }

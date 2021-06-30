@@ -35,6 +35,7 @@ public class ReadPresenter implements ReadContact.Presenter {
     public void loadCurrentContent(long localCatalogId) {
         Catalog catalog = getDefaultCatalog(localCatalogId);
         view.showBookContent(catalog);
+        view.showCurrentCatalogTitle(catalog);
     }
 
 

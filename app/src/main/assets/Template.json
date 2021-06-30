@@ -17,6 +17,25 @@
     "content": {
       "content": "content"
     }
+  },
+  {
+    "id": 2,
+    "baseUrl": "https://www.biquge7.com",
+    "searchUrl": "/s?q=%s",
+    "search": {
+      "item": "body > div.wrap > div.bookcase > div.type_show > div.bookbox",
+      "title": "div.p10 > div.bookinfo > h4.bookname > a",
+      "link": "div.p10 > div.bookinfo > h4.bookname > a",
+      "coverPic": "div.p10 > div.bookimg > a > img",
+      "desc": "div.p10 > div.bookinfo > p",
+      "tag": "div.p10 > div.bookinfo > div"
+    },
+    "catalog": {
+      "selector": "body > div.listmain > dl > dd > a"
+    },
+    "content": {
+      "content": "content"
+    }
   }
 
 ]
